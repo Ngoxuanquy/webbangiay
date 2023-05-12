@@ -1,0 +1,37 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    margin-bottom: 200px;
+    .icon{
+        font-size: 16px;
+        color: #b2b2b2;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+    .blog{
+        width: 350px;
+        height: 300px;
+        h3{
+            font-size: 18px;
+            color: #1c1c1c;
+            font-weight: 700;
+        }
+        p{
+            font-size: 13px;
+            opacity: 0.8;
+            font-family: "Cairo", sans-serif;
+            line-height: 26px;
+        }
+        button {
+            display: inline-block;
+            font-size: 14px;
+            letter-spacing: 1px;
+            padding: 14px 20px 12px;
+            border-radius: 25px;
+            border: 1px solid #b2b2b2;
+        }
+    }
+}
