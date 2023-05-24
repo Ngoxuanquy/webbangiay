@@ -15,8 +15,7 @@ import { faFacebook, faTwitter, faInstagram, faBluetooth } from '@fortawesome/fr
 import { Link, useNavigate } from 'react-router-dom';
 
 import Card from '../../../Components/Card/Card';
-
-
+import Cookies from 'js-cookie';
 
 // import { FaStar } from "react-icons/fa";
 
@@ -24,7 +23,7 @@ const cx = classNames.bind(styles);
 
 function ChiTiet() {
 
-    let slug = useParams();
+    const { productId } = useParams()
 
     let soluong = useRef();
     let Hine = useRef();
@@ -35,7 +34,6 @@ function ChiTiet() {
 
     const [lists, setList] = useState([]);
     const [so, setSo] = useState(1)
-    const [products, setProducts] = useState([]);
 
 
     const settings = {
@@ -46,55 +44,6 @@ function ChiTiet() {
         autoplaySpeed: 2000,
     };
 
-    useEffect(() => {
-        if (slug.slug == "Người Lớn") {
-            fetch('http://localhost:4000/api/products/' + slug.id)
-                .then(res => res.json())
-                .then(res => {
-                    setProducts(res)
-                })
-                .catch(err => console.log(err))
-                .finally(() => {
-                })
-        }
-        else if (slug.slug == 'Baby') {
-            fetch('http://localhost:4000/api/product_tre_em/' + slug.id)
-                .then(res => res.json())
-                .then(res => {
-                    setProducts(res)
-                })
-                .catch(err => console.log(err))
-                .finally(() => {
-                })
-        }
-    }, [])
-
-    console.log(products)
-
-    useEffect(() => {
-        fetch('http://localhost:4000/api/products/')
-            .then(res => res.json())
-            .then(res => {
-                setList(res)
-            })
-            .catch(err => console.log(err))
-            .finally(() => {
-            })
-    }, [])
-
-
-    function handerCong() {
-        setSo(so + 1);
-    }
-
-    function handerTru() {
-        setSo(so - 1);
-        if (so <= 1) {
-            alert('Sản Phẩm Phải Lớn Hớn 1')
-            setSo(1)
-        }
-    }
-
     function Description() {
         Hine.current.style.display = 'block';
         Hine1.current.style.display = 'block';
@@ -102,8 +51,6 @@ function ChiTiet() {
         Description1.current.style.color = "#495057"
         Information1.current.style.color = "#999999"
         Reviews1.current.style.color = "#999999"
-
-
     }
 
     function Information() {
@@ -124,49 +71,54 @@ function ChiTiet() {
 
     const [id, setId] = useState('')
 
-    const email = localStorage.getItem('email')
+    const name = localStorage.getItem('name')
+    // const [product, setproduct] = useState()
+    const [products, setProduct] = useState([])
+
+    const URL = 'http://localhost:3056/v1/api';
 
     useEffect(() => {
-        fetch('http://localhost:4000/api/users/')
-            .then(res => res.json())
-            .then(res => res.map(re => {
-                if (re.email == email) {
-                    setId(re.id)
-                }
-            }))
+
+        const token = Cookies.get('accessToken');
+        const id = Cookies.get('id');
+        const cleanedJwtString = token.replace(/^"|"$/g, '');
+        const cleanId = id.replace(/^"|"$/g, '');
+
+        const requestOptions = {
+            method: 'Get',
+            headers: {
+                "Content-Type": "application/json",
+                "x-api-key": "025ce9a805c109871ed8664bea8a8e5403f162daf9d7bfd220b4aee6683993350483959b54538db3dc220fa426f334c9e740c66e068cc9ab03318ab4426f606b",
+                "authorization": cleanedJwtString,
+                "x-client-id": cleanId
+            },
+        };
+
+        // Lấy dữ liệu của khách hàng
+        fetch(URL + '/product/byId/' + productId, requestOptions)
+            .then((data) => {
+                return data.json()
+            })
+            .then((data) => {
+                console.log(data)
+                setProduct([data.metadata])
+
+            })
     }, [])
 
+    const handerTru = () => {
 
-    const handerAdd = (id1) => {
-        if (email == null) {
-            const a = window.confirm("Vui Lòng Đăng Nhập Để Mua Hàng!")
-            if (a == true) {
-                window.location = "/login";
-            } else {
-                window.location = "/";
-
-            }
-        }
-        else {
-            products.map(list => {
-                if (list.id == id1) {
-                    fetch('http://localhost:4000/api/orders/create', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            id: id,
-                            img: list.img,
-                            price: list.price,
-                            tenhang: list.name,
-                            name: email,
-                            soluong: so
-                            // number: number
-                        })
-                    })
-                }
-            })
-        }
     }
+
+    const handerCong = () => {
+
+    }
+
+    const handerAdd = () => {
+
+    }
+
+    console.log(products)
 
 
     return (
@@ -183,13 +135,14 @@ function ChiTiet() {
                 <img src="https://technext.github.io/ogani/img/breadcrumb.jpg" />
             </div>
             <div className={cx('phu')}>
-                {products.map((list) => (
+                {products.map(product => (
+
                     <div className={cx('box')}>
                         <div className={cx('left')}>
-                            <img src={list.img} />
+                            <img src={product.product_thumb} />
                         </div>
                         <div className={cx('right')}>
-                            <h1>{list.name}</h1>
+                            <h1>{product.product_name}</h1>
                             <div className={cx('icon')}>
                                 <FontAwesomeIcon icon={faFacebook} />&nbsp;
                                 <FontAwesomeIcon icon={faFacebook} />&nbsp;
@@ -198,7 +151,7 @@ function ChiTiet() {
                                 <FontAwesomeIcon icon={faFacebook} />
                             </div>
                             <h1>
-                                {list.Price}
+                                {product.product_price}
                             </h1>
                             <p className={cx('conten')}>
                                 Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Sed porttitor lectus nibh. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Proin eget tortor risus.
@@ -213,11 +166,12 @@ function ChiTiet() {
                                 <div className={cx('AddCard')}>
 
                                     <button
-                                        onClick={() => handerAdd(list.id)}
+                                        onClick={() => handerAdd(product._id)}
                                     >ADD TO CARD</button>
 
                                 </div>
                             </div>
+
 
                             <hr />
 
@@ -259,13 +213,13 @@ function ChiTiet() {
                                     </td>
                                 </tr>
                             </table>
-
                         </div>
                     </div>
+
                 ))}
                 <div className={cx('slick')}>
                     <Slider {...settings}>
-                        {lists.map((list, index) => (
+                        {products.map((list, index) => (
                             <div>
                                 <Card props={list} />
                             </div>
@@ -305,7 +259,7 @@ function ChiTiet() {
                 </div>
 
                 <div className={cx('SanPhamTuongTu')}>
-                    {lists.map((list, index) => (
+                    {products.map((list, index) => (
                         <div>
                             <Card props={list} />
                         </div>

@@ -18,7 +18,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import * as noUiSlider from 'nouislider';
 import 'nouislider/dist/nouislider.css';
 import Cookies from 'js-cookie';
-
+import InputRange from 'react-input-range';
+import 'react-input-range/lib/css/index.css';
 
 
 const cx = classNames.bind(styles);
@@ -28,7 +29,7 @@ const ShopPage = () => {
     const ref_valueMin = useRef();
     const ref_valueMax = useRef();
     const [products, setProducts] = useState([]);
-    const URL = 'http://localhost:4000/v1/api';
+    const URL = 'http://localhost:3056/v1/api';
 
 
     const list = [
@@ -95,33 +96,45 @@ const ShopPage = () => {
 
     }, []);
 
+    //khai báo inout range
+    const [value, setValue] = useState({ min: 0, max: 100 });
+
+    const handleRangeChange = (newValue) => {
+        setValue(newValue);
+    };
+
+
 
     const [apiproduct, setApiProduct] = useState([])
 
-    const getApis = async () => {
+    //apis đã puclic
 
-        const token = Cookies.get('accessToken');
-        const id = Cookies.get('id');
-        const cleanedJwtString = token.replace(/^"|"$/g, '');
+    const [apipublic, setPublic] = useState([])
 
-        const header = {
-            method: 'POST',
+    useEffect(() => {
+
+        const requestOptions = {
+            method: 'Get',
             headers: {
                 "Content-Type": "application/json",
-                "x-api-key": "450327199bec52acb64e4cb06e10bd31ac0dd0ea13607023f98e2148d9bee7a3c18267b6d5840b4ae62bc2ca706aa6333b8d82e39a30501a3a96a868cae4e9a1",
-                "authorization": cleanedJwtString,
-                "x-client-id": id
+                "x-api-key": "025ce9a805c109871ed8664bea8a8e5403f162daf9d7bfd220b4aee6683993350483959b54538db3dc220fa426f334c9e740c66e068cc9ab03318ab4426f606b",
+                // "authorization": cleanedJwtString,
+                // "x-client-id": cleanId
             },
         };
 
-        fetch(URL + '/product/get', header)
-            .then((data) => data.json())
-            .then((data) => setApiProduct(data.metadata))
-    }
-
-    useEffect(() => {
-        getApis()
+        // Lấy dữ liệu của khách hàng
+        fetch(URL + '/product', requestOptions)
+            .then((data) => {
+                return data.json()
+            })
+            .then((data) => {
+                console.log(data)
+                setApiProduct(data.metadata.reverse())
+            })
     }, [])
+
+    console.log(apiproduct)
 
 
     function unique(arr) {
@@ -134,15 +147,21 @@ const ShopPage = () => {
         return newArr;
     }
 
+    console.log(apiproduct)
+
 
     const b = unique(apiproduct).filter(function (item) {
         return (
-            item.price <= Number(ref_valueMax.current.innerText) && item.price >= Number(ref_valueMin.current.innerText)
+            item.product_price >= Number(value.max) && item.product_price >= Number(value.min)
         );
     });
 
-    
     console.log(b)
+
+
+
+
+
 
     function handerColor(color) {
         alert('click  ' + color);
@@ -175,8 +194,18 @@ const ShopPage = () => {
                     <h4 className={cx('Price')}>Price</h4>
 
                     <div>
+                        <div>
+                            <InputRange
+                                minValue={0}
+                                maxValue={100}
+                                value={value}
+                                onChange={handleRangeChange}
+                            />
+                            <p>Giá trị nhỏ nhất: {value.min}</p>
+                            <p>Giá trị lớn nhất: {value.max}</p>
+                        </div>
                         {/* <input type="range" min='0' max='100'  className={cx('range')} /> */}
-                        <div id="slider" className={cx('range')} ref={ref_slider}></div>
+                        <div id="slider" className={cx('range')} ref={ref_slider} ></div>
                         <div class={cx('text')}>
                             $
                             <span id="kt_slider_basic_min" ref={ref_valueMin}>
@@ -235,13 +264,13 @@ const ShopPage = () => {
                 </div>
                 <div className={cx('row-right')}>
                     <h2>Sale Off</h2>
-                    {/* <Slider {...settings}>
+                    <Slider {...settings}>
                         {products.map((list, index) => (
                             <div>
                                 <Card props={list} />
                             </div>
                         ))}
-                    </Slider> */}
+                    </Slider>
                     <hr />
                     <div className={cx('test')}>
                         <div> Sort By </div>

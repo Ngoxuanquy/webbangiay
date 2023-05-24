@@ -8,22 +8,27 @@
 
     .img-bia {
         position: relative;
+
         img {
             width: 100%;
             height: 160px;
         }
     }
+
     .text-bia {
         position: absolute;
         width: 100%;
+
         h2 {
             color: #ffffff;
             font-size: 46px;
         }
+
         p {
             color: #ffffff;
             font-size: 16px;
         }
+
         div {
             width: 100%;
             text-align: center;
@@ -31,17 +36,21 @@
             margin-top: 30px;
         }
     }
+
     .row {
         margin-top: 50px;
         display: grid;
         grid-template-columns: 30% 70%;
+
         .fake-button {
             display: grid;
             grid-template-columns: 25% 25%;
+
             div {
                 padding: 8px 0px 0px;
                 // background-color: #f5f5f5;
                 display: inline-block;
+
                 input {
                     width: 80px;
                     height: 40px;
@@ -51,20 +60,24 @@
                 }
             }
         }
+
         .row-left {
             width: 100%;
             margin-left: 120px;
+
             h2 {
                 color: #1c1c1c;
                 font-weight: 700;
                 margin-bottom: 25px;
                 font-size: 23px;
             }
+
             ul li {
                 font-size: 16px;
                 line-height: 39px;
                 display: block;
             }
+
             .ul-color {
                 width: 100%;
                 height: 100px;
@@ -74,12 +87,14 @@
                 position: relative;
                 margin-left: 20px;
             }
+
             .Price {
                 margin-top: 40px;
                 font-size: 24px;
                 margin-bottom: 25px;
+
                 #slider {
-                    height: 4px;
+                    height: 2px;
                 }
             }
 
@@ -89,8 +104,9 @@
                 font-size: 0.7em;
                 display: block;
                 background-color: red;
+
                 .noUi-horizontal .noUi-handle {
-                    width: 10px;
+                    width: 6px;
                     height: 10px;
                 }
             }
@@ -105,19 +121,22 @@
         .row-right {
             margin-left: 0px;
             width: 85%;
+
             .test {
                 display: grid;
                 grid-template-columns: 10% 10% 60% 20%;
                 font-size: 16px;
                 text-align: center;
                 margin-top: 30px;
-                div {
-                }
+
+                div {}
             }
+
             h2 {
                 font-size: 36px;
                 position: relative;
                 margin-bottom: 80px;
+
                 &:after {
                     position: absolute;
                     height: 4px;
@@ -128,10 +147,12 @@
                     left: 0;
                 }
             }
+
             hr {
                 margin-top: 70px;
                 opacity: 0.3;
             }
+
             span {
                 font-size: 16px;
                 color: #6f6f6f;
@@ -143,6 +164,7 @@
                 flex-wrap: wrap;
                 margin-top: 50px;
                 margin-bottom: 60px;
+
                 input {
                     width: 30px;
                     height: 30px;
@@ -153,6 +175,7 @@
             }
         }
     }
+
     .list-card {
         margin-top: 50px;
         display: grid;
@@ -161,8 +184,184 @@
         grid-row-gap: 0px;
         margin-bottom: 0px;
     }
+
     .fake-color {
         width: '100px';
         height: '10px';
+    }
+}
+
+body {
+    &.ui-slider-active {
+        cursor: grabbing;
+    }
+}
+
+.box {
+    --primary: #275efe;
+    --headline: #3F4656;
+    --text: #99A3BA;
+    width: 100%;
+    max-width: 312px;
+    padding: 36px 32px 48px 32px;
+    background: #fff;
+    border-radius: 9px;
+    box-shadow: 0 1px 4px rgba(18, 22, 33, .12);
+
+    h3 {
+        font-family: inherit;
+        font-size: 32px;
+        font-weight: 700;
+        margin: 0 0 20px 0;
+        color: var(--headline);
+
+        span {
+            font-weight: 500;
+        }
+    }
+
+    .values,
+    small {
+        div {
+            display: inline-block;
+            vertical-align: top;
+        }
+    }
+
+    .values {
+        margin: 0;
+        font-weight: 500;
+        color: var(--primary);
+
+        &>div {
+            &:first-child {
+                margin-right: 2px;
+            }
+
+            &:last-child {
+                margin-left: 2px;
+            }
+        }
+    }
+
+    small {
+        color: var(--text);
+        display: block;
+        margin-top: 8px;
+        font-size: 14px;
+    }
+
+    .slider {
+        margin-top: 40px;
+    }
+}
+
+.slider {
+    --primary: #275efe;
+    --handle: #fff;
+    --handle-active: #{mix(white, #275efe, 70%)};
+    --handle-hover: #{mix(white, #275efe, 90%)};
+    --handle-border: 2px solid var(--primary);
+    --line: #cdd9ed;
+    --line-active: var(--primary);
+    height: 23px;
+    width: 100%;
+    position: relative;
+    pointer-events: none;
+
+    .ui-slider-handle {
+        --y: 0;
+        --background: var(--handle);
+        cursor: grab;
+        -webkit-tap-highlight-color: transparent;
+        top: 0;
+        width: 23px;
+        height: 23px;
+        transform: translateX(-50%);
+        position: absolute;
+        outline: none;
+        display: block;
+        pointer-events: auto;
+
+        div {
+            width: 23px;
+            height: 23px;
+            border-radius: 50%;
+            transition: background .4s ease;
+            transform: translateY(calc(var(--y) * 1px));
+            border: var(--handle-border);
+            background: var(--background);
+        }
+
+        &:hover {
+            --background: var(--handle-hover);
+        }
+
+        &:active {
+            --background: var(--handle-active);
+            cursor: grabbing;
+        }
+    }
+
+    svg {
+        --stroke: var(--line);
+        display: block;
+        height: 83px;
+
+        path {
+            fill: none;
+            stroke: var(--stroke);
+            stroke-width: 1;
+        }
+    }
+
+    .active,
+    &>svg {
+        position: absolute;
+        top: -30px;
+        height: 83px;
+    }
+
+    &>svg {
+        left: 0;
+        width: 100%;
+    }
+
+    .active {
+        position: absolute;
+        overflow: hidden;
+        left: calc(var(--l) * 1px);
+        right: calc(var(--r) * 1px);
+
+        svg {
+            --stroke: var(--line-active);
+            position: relative;
+            left: calc(var(--l) * -1px);
+            right: calc(var(--r) * -1px);
+
+            path {
+                stroke-width: 2;
+            }
+        }
+    }
+}
+
+
+
+
+// Center & dribbble
+body {
+
+
+    .dribbble {
+        position: fixed;
+        display: block;
+        right: 20px;
+        bottom: 20px;
+
+        img {
+            display: block;
+            height: 28px;
+        }
     }
 }

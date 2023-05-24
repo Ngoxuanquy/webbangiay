@@ -55,8 +55,8 @@ function Left() {
                     <details>
 
                         <summary>
-                            <Link >
-                                Trang Chủ
+                            <Link to='/api/select/product' >
+                                Danh Sách Sản Phẩm
 
                             </Link>
                         </summary>
@@ -77,7 +77,7 @@ function Left() {
                         <i class="fa-solid fa-table-cells"></i>
                     </div>
                     <div className={cx('conten')} id='name' >
-                        <Link style={{ color: '#fff' }}   >
+                        <Link to="/api/create/product" style={{ color: '#fff' }}   >
                             <p >Create</p>
                         </Link>
                     </div>

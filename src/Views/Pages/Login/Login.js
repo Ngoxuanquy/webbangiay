@@ -10,7 +10,7 @@ const cx = classNames.bind(styles);
 
 function Login() {
 
-    const URL = 'http://localhost:4000/v1/api';
+    const URL = 'http://localhost:3056/v1/api/shop';
 
     const [email, setEmail] = useState([])
     const [matkhau, setMatKhau] = useState([])
@@ -38,10 +38,10 @@ function Login() {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
-                "x-api-key": "450327199bec52acb64e4cb06e10bd31ac0dd0ea13607023f98e2148d9bee7a3c18267b6d5840b4ae62bc2ca706aa6333b8d82e39a30501a3a96a868cae4e9a1",
+                "x-api-key": "025ce9a805c109871ed8664bea8a8e5403f162daf9d7bfd220b4aee6683993350483959b54538db3dc220fa426f334c9e740c66e068cc9ab03318ab4426f606b",
             },
             body: JSON.stringify({
-                username: email,
+                email: email,
                 password: matkhau
             },)
         };
@@ -56,6 +56,8 @@ function Login() {
                 console.log(data)
                 if (data.message === 'Success') {
                     const token = data.metadata.tokens.accessToken
+                    const name = data.metadata.shop.name
+
 
                     // Khóa bí mật (secret key) - cần được bảo mật cẩn thận
                     const secretKey = 'my-secret-key';
@@ -64,9 +66,11 @@ function Login() {
                     // const encryptedCookie = CryptoJS.AES.encrypt(token, secretKey).toString();
 
                     Cookies.set('accessToken', JSON.stringify(token), { expires: 7 });
+                    Cookies.set('name', JSON.stringify(name), { expires: 7 });
+
 
                     // console.log('aa')
-                    Cookies.set('id', JSON.stringify(data.metadata.shop.id), { expires: 7 });
+                    Cookies.set('id', JSON.stringify(data.metadata.shop._id), { expires: 7 });
                     Cookies.set('timeeexp', JSON.stringify(data.metadata.tokens.timeExp), { expires: 7 });
                     window.location = "/";
 

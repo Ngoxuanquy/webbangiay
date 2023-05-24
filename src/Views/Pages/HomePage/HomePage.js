@@ -22,7 +22,7 @@ import Utf8 from 'crypto-js/enc-utf8';
 const cx = classNames.bind(styles);
 const HomePage = () => {
 
-    const URL = 'http://localhost:4000/v1/api';
+    const URL = 'http://localhost:3056/v1/api';
 
     const navigate = useNavigate();
     const buttonRef = useRef();
@@ -63,32 +63,32 @@ const HomePage = () => {
 
     const [apiproduct, setApiProduct] = useState([])
 
-    const getId = async () => {
+    //apis đã puclic
 
-        const token = Cookies.get('accessToken');
-        const id = Cookies.get('id');
-        const cleanedJwtString = token.replace(/^"|"$/g, '');
+    const [apipublic, setPublic] = useState([])
 
-        const header = {
-            method: 'POST',
+    useEffect(() => {
+
+        const requestOptions = {
+            method: 'Get',
             headers: {
                 "Content-Type": "application/json",
-                "x-api-key": "450327199bec52acb64e4cb06e10bd31ac0dd0ea13607023f98e2148d9bee7a3c18267b6d5840b4ae62bc2ca706aa6333b8d82e39a30501a3a96a868cae4e9a1",
+                "x-api-key": "025ce9a805c109871ed8664bea8a8e5403f162daf9d7bfd220b4aee6683993350483959b54538db3dc220fa426f334c9e740c66e068cc9ab03318ab4426f606b",
                 // "authorization": cleanedJwtString,
-                // "x-client-id": id
+                // "x-client-id": cleanId
             },
         };
 
-        fetch(URL + '/product/get', header)
-            .then((data) => data.json())
-            .then((data) => setApiProduct(data.metadata))
-    }
-
-    useEffect(() => {
-        getId()
+        // Lấy dữ liệu của khách hàng
+        fetch(URL + '/product', requestOptions)
+            .then((data) => {
+                return data.json()
+            })
+            .then((data) => {
+                console.log(data)
+                setApiProduct(data.metadata.reverse())
+            })
     }, [])
-
-    // console.log(product)
 
 
     const [product, setProduct] = useState(apiproduct);
@@ -141,8 +141,8 @@ const HomePage = () => {
                     <Slider {...settings}>
                         {product.map((item) => {
                             return (
-                                <div key={item.id} className={cx('list-product__item')}>
-                                    <img src={item.image} alt="Product Item" />
+                                <div key={item._id} className={cx('list-product__item')}>
+                                    <img src={item.product_thumb} alt="Product Item" />
                                     {/* <div className={cx('name-product')}>{item.name}</div> */}
                                 </div>
                             );

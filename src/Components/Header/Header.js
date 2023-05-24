@@ -9,11 +9,13 @@ import { Search } from "../../Components"
 
 import classNames from "classnames/bind"
 import styles from "./header.module.scss"
+import Cookies from 'js-cookie';
 
 const cx = classNames.bind(styles)
 const Header = () => {
 
     const [isActive, setIsActive] = useState(true)
+    const [isLoading, setIsLoading] = useState(false)
     // const [selected, setSelected] = useState('')
 
     const handleSelectDepartments = (item) => {
@@ -37,7 +39,13 @@ const Header = () => {
     }
 
     function handerLogin() {
-        localStorage.clear();
+        // Xóa dữ liệu trong localStorage khi component được tải
+        const cookies = document.cookie.split(";");
+
+        cookies.forEach(cookie => {
+            const cookieName = cookie.trim().split("=")[0];
+            document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+        });
         window.location = '/login'
     }
 
@@ -47,6 +55,18 @@ const Header = () => {
         setIsActive(false)
         window.location = '/shop'
     }
+
+    const handerProfile = () => {
+        setIsLoading(!isLoading)
+        // window.location = '/profile'
+        console.log(isLoading)
+    }
+
+
+
+    const name = Cookies.get('name');
+
+    console.log(name)
 
     return (
         <div className={cx('container')}>
@@ -86,21 +106,81 @@ const Header = () => {
                             <div className={cx('authentication')}>
                                 <FontAwesomeIcon icon={faUser} />
 
-                                <button
-                                    style={{
-                                        border: "none",
-                                        backgroundColor: "var(--primary-grey-color)"
-                                    }}
-                                    onClick={() => handerLogin()}
-                                >
-                                    {email == null ?
+                                {name == null ?
+                                    <button
+                                        style={{
+                                            border: "none",
+                                            backgroundColor: "var(--primary-grey-color)"
+                                        }}
+                                        onClick={() => handerLogin()}
+                                    >
                                         "Login"
-                                        :
-                                        "Logout"
-                                    }
-                                </button>
+                                    </button>
+                                    :
+                                    <button
+                                        style={{
+                                            border: "none",
+                                            backgroundColor: "var(--primary-grey-color)"
+                                        }}
+                                        className={cx('name_hover')}
+                                        onClick={() => handerProfile()}
 
+                                    >
+                                        {name}
+                                    </button>
+                                }
                             </div>
+
+                            {isLoading == false ? null :
+                                <div className={cx('menu_an')}>
+                                    <div>
+                                        <Link to="/profile">
+
+                                            <div style={{
+                                                fontSize: 15,
+                                                textAlign: 'center',
+                                                // marginBottom: 10,
+                                                marginTop: 10
+                                            }}>
+                                                Thông Tin Cá Nhân
+                                            </div>
+                                            /</Link>
+                                        <div style={{
+                                            fontSize: 15,
+                                            textAlign: 'center',
+                                            marginBottom: 10,
+                                        }}>
+                                            Đặt Lại Mật Khẩu
+                                        </div>
+                                        <div style={{
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            fontSize: 15,
+                                            textAlign: 'center',
+                                            marginBottom: 10,
+                                        }}>
+                                            <button
+                                                onClick={() => handerLogin()}
+                                                style={{
+                                                    border: 'none',
+                                                    width: 200
+                                                }}
+                                            >
+                                                <div style={{
+                                                    fontSize: 15,
+                                                    textAlign: 'center',
+                                                    marginBottom: 10,
+                                                }}
+
+                                                >
+                                                    Đăng Xuất
+                                                </div>
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>

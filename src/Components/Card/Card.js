@@ -27,9 +27,9 @@ const Card = (props) => {
                 <div className={cx('box')}>
                     <div className={cx('card')}>
                         <div className={cx('icon-card')}>
-                            <Link to={`/chitiet/${props.props.TheLoai}/${props.props.id}`} >
+                            <Link to={`/chitiet/${props.props.product_type}/${props.props._id}`} >
 
-                                <img className={cx('img_card')} src={props.props.image} />
+                                <img className={cx('img_card')} src={props.props.product_thumb} />
                             </Link >
 
                             <div className={cx('icon1')}>
@@ -44,10 +44,10 @@ const Card = (props) => {
                         </div>
                         <div className={cx('text-card')} >
                             <span className={cx('title')} > Dried Fruit </span>
-                            <h5 className={cx('name')} >{props.props.name}</h5>
+                            <h5 className={cx('name')} >{props.props.product_name}</h5>
                             <div className={cx('Gia')}>
-                                {props.props.Price}
-                                <span> ${props.props.price} </span>
+                                {props.props.product_price}
+                                <span> ${props.props.product_price} </span>
                             </div>
                         </div>
                     </div>

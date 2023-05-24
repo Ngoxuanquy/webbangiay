@@ -6,6 +6,9 @@ import styles from './ChiTietDonHang.module.scss';
 import { useParams } from 'react-router-dom';
 
 import Left from '../../../Components/Left';
+import Cookies from 'js-cookie';
+
+
 const cx = classNames.bind(styles);
 
 
