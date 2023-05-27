@@ -1,4 +1,8 @@
-import { HomePage, ShopPage, ChiTiet, AddCard, Login, DangKy, Index, ChiTietDonHang, Profile, CreateProduct, SelectProduct, UpdateProduct } from "../Views"
+import {
+    HomePage, ShopPage, ChiTiet, AddCard, Login, DangKy,
+    Index, ChiTietDonHang, Profile, CreateProduct, SelectProduct,
+    UpdateProduct, ListKhachHang
+} from "../Views"
 
 
 
@@ -23,4 +27,6 @@ export const privateRoute = [
     { path: "/api/create/product", component: <CreateProduct /> },
     { path: "/api/select/product", component: <SelectProduct /> },
     { path: "/api/update/product/:productId", component: <UpdateProduct /> },
+    { path: "/api/listkhachhang", component: <ListKhachHang /> },
+
 ]

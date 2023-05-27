@@ -12,6 +12,8 @@ export { default as Profile } from './Pages/Profile/Profile';
 export { default as CreateProduct } from './Pages/Seller/CreateProduct/index';
 export { default as SelectProduct } from './Pages/Seller/SelectProduct/index';
 export { default as UpdateProduct } from './Pages/Seller/UpdateProduct/index';
+export { default as ListKhachHang } from './Pages/Seller/ListKhachHang/index';
+
 
 
 

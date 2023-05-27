@@ -6,6 +6,7 @@ import styles from './index.module.scss';
 import { Link } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import Cookies from 'js-cookie';
+import { firebase } from '../../../../config/config'
 
 const cx = classNames.bind(styles);
 
@@ -32,14 +33,49 @@ function Index() {
 
     const [selectedOption, setSelectedOption] = useState('');
 
+
     const handleChange = (event) => {
         setSelectedOption(event.target.value);
     };
 
     const name_local = Cookies.get('name');
 
+    // Chuyển ảnh thành đường dẫn
+    const [img, setImg] = useState('');
 
-    //khai báo biến 
+
+    const uploadImage = async () => {
+        try {
+            const response = await fetch(uploadedImage);
+            const blob = await response.blob();
+            const filename = uploadedImage.substring(uploadedImage.lastIndexOf('/') + 1);
+            const storageRef = firebase.storage().ref().child(`photo/${filename}`);
+
+            const uploadTaskSnapshot = await storageRef.put(blob);
+            const downloadURL = await uploadTaskSnapshot.ref.getDownloadURL();
+
+
+            return downloadURL;
+        } catch (error) {
+            throw error;
+        }
+    };
+
+    useEffect(() => {
+        uploadImage()
+            .then(downloadURL => {
+                console.log(downloadURL);
+                setImg(downloadURL);
+
+                // Thực hiện các thao tác khác với đường dẫn tải xuống ở đây
+            })
+            .catch(error => {
+                console.log(error);
+                // Xử lý lỗi nếu có
+            });
+    }, [uploadedImage]);
+
+    // Khai báo biến
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState('');
@@ -48,20 +84,25 @@ function Index() {
     const [color, setColor] = useState('')
     const [size, setSize] = useState('')
 
-    const handerSubmit = () => {
 
+
+    const handerSubmit = async () => {
+        // ...
         const token = Cookies.get('accessToken');
         const id = Cookies.get('id');
         const cleanedJwtString = token.replace(/^"|"$/g, '');
         const cleanId = id.replace(/^"|"$/g, '');
 
+        // Call the uploadImage function and get the image URL
+        // const test = await uploadImage()
+
         const requestOptions = {
             method: 'POST',
             headers: {
-                "Content-Type": "application/json",
-                "x-api-key": "025ce9a805c109871ed8664bea8a8e5403f162daf9d7bfd220b4aee6683993350483959b54538db3dc220fa426f334c9e740c66e068cc9ab03318ab4426f606b",
-                "authorization": cleanedJwtString,
-                "x-client-id": cleanId
+                'Content-Type': 'application/json',
+                'x-api-key': '025ce9a805c109871ed8664bea8a8e5403f162daf9d7bfd220b4aee6683993350483959b54538db3dc220fa426f334c9e740c66e068cc9ab03318ab4426f606b',
+                authorization: cleanedJwtString,
+                'x-client-id': cleanId,
             },
             body: JSON.stringify({
                 product_name: name,
@@ -69,7 +110,7 @@ function Index() {
                 product_description: description,
                 product_type: selectedOption,
                 product_quantity: Number(quantity),
-                product_thumb: uploadedImage,
+                product_thumb: img,
                 product_attributes: {
                     manufacturer: 'quy',
                     color: color,
@@ -78,19 +119,22 @@ function Index() {
             })
         };
 
-        // Lấy dữ liệu của khách hàng
         fetch(URL + '/product', requestOptions)
+            .then((response) => response.json())
             .then((data) => {
-
-                console.log(requestOptions)
-
-                return data.json()
+                console.log(data);
+                window.location = '/api/select/product';
             })
-            .then((data) => {
-                console.log(data)
-                window.location = '/api/select/product'
-            })
-    }
+            .catch((error) => {
+                console.log(error);
+            });
+
+    };
+
+    // Call the uploadImage function when uploadedImage changes
+    useEffect(() => {
+        uploadImage();
+    }, [uploadedImage]);
 
 
     return (
@@ -228,8 +272,8 @@ function Index() {
                     <select value={selectedOption} onChange={handleChange}>
                         <option value="">--- Chọn ---</option>
                         <option value="Electronics">Giày Thể Thao</option>
-                        <option value="Electronics">Giày Đi Bộ</option>
-                        <option value="Electronics">Giày Đị Chơi</option>
+                        <option value="Clothing">Giày Đi Bộ</option>
+                        <option value="Furniture">Giày Đị Chơi</option>
                     </select>
                 </div>
 

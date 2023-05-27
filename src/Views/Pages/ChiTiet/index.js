@@ -100,25 +100,76 @@ function ChiTiet() {
                 return data.json()
             })
             .then((data) => {
-                console.log(data)
                 setProduct([data.metadata])
 
             })
     }, [])
 
-    const handerTru = () => {
+    // const [so, setSo] = useState(1);
 
+    function handerCong() {
+        console.log('aaa')
+        setSo(so + 1);
     }
 
-    const handerCong = () => {
-
+    function handerTru() {
+        if (so > 1) {
+            setSo(so - 1);
+        }
+        else {
+            alert('Sản Phẩm Phải Lớn hơn 1')
+        }
     }
 
-    const handerAdd = () => {
+    // console.log(products[0].product_shop)
+    const handerAdd = (productId, userId) => {
+        const token = Cookies.get('accessToken');
+        const id = Cookies.get('id');
+        const cleanedJwtString = token.replace(/^"|"$/g, '');
+        const cleanId = id.replace(/^"|"$/g, '');
 
+
+        let updatedProducts = products.map(product => ({
+            ...product,
+            quantity: so,
+            productId: products[0]._id,
+        }));
+
+
+        if (cleanId == userId) {
+            alert('Sản Phẩm này của bạn, không mua được')
+        }
+        else {
+
+            const requestOptions = {
+                method: 'post',
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-api-key": "025ce9a805c109871ed8664bea8a8e5403f162daf9d7bfd220b4aee6683993350483959b54538db3dc220fa426f334c9e740c66e068cc9ab03318ab4426f606b",
+                    "authorization": cleanedJwtString,
+                    "x-client-id": cleanId
+                },
+                body: JSON.stringify({
+                    userId: cleanId,
+                    shopId: products[0].product_shop,
+                    product: updatedProducts[0]
+                })
+            };
+
+            // Lấy dữ liệu của khách hàng
+            fetch(URL + '/cart', requestOptions)
+                .then((data) => {
+                    window.location = "/card";
+
+                    // return data.json()
+                })
+
+
+        }
     }
 
     console.log(products)
+
 
 
     return (
@@ -166,7 +217,7 @@ function ChiTiet() {
                                 <div className={cx('AddCard')}>
 
                                     <button
-                                        onClick={() => handerAdd(product._id)}
+                                        onClick={() => handerAdd(product._id, product.product_shop)}
                                     >ADD TO CARD</button>
 
                                 </div>

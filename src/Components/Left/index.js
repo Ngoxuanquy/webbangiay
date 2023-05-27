@@ -61,7 +61,11 @@ function Left() {
                             </Link>
                         </summary>
                         <ul>
-                            <li>Dashboard 1</li>
+                            <li>  <div className={cx('conten')} id='name' >
+                                <Link to="/api/create/product" style={{ color: '#fff' }}   >
+                                    <p >Create</p>
+                                </Link>
+                            </div></li>
                             <li>Dashboard 2</li>
                             <Link to='/' >
                                 <li>Dashboard 3</li>
@@ -76,21 +80,19 @@ function Left() {
                     <div className={cx('icon')}>
                         <i class="fa-solid fa-table-cells"></i>
                     </div>
-                    <div className={cx('conten')} id='name' >
-                        <Link to="/api/create/product" style={{ color: '#fff' }}   >
-                            <p >Create</p>
-                        </Link>
-                    </div>
+
                     <div></div>
                 </div>
 
 
                 <div className={cx('dropdown_Layout')}>
                     <details>
-
                         <summary>
-                            Lớp
+                            <Link to={'/api/listkhachhang'}>
+                                DS Người Mua Hàng
+                            </Link >
                         </summary>
+
                         <ul>
                             <Link to={'/admin'}>
                                 <li >

@@ -105,10 +105,11 @@ const UserInformation = () => {
                             border: "none",
                             width: "100%",
                             borderBottom: '0.4px solid #ccc'
-                            // border: "1px solid #ccc"
-
                         }}
+                            formAction={{
+                                borderBottom: 'none'
 
+                            }}
                             className={cx('input')}
                         />
                     </div>
@@ -234,14 +235,16 @@ function Profile() {
                 <div>
                     <div style={{
                         fontSize: 20,
-                        padding: 10
+                        padding: 15,
+                        fontWeight: 600,
                     }}>
                         Sản Phẩm Khách Hàng Nhìn Thấy
 
                     </div>
                     <div style={{
                         display: 'flex',
-                        flexDirection: 'row'
+                        flexDirection: 'row',
+                        marginLeft: 70
                     }}>
                         {apipublic.map((api) => {
                             return <Card props={api} />;

@@ -103,8 +103,28 @@ function Index() {
 
 
 
-    const handerDelete = () => {
+    const handerDelete = (productId) => {
+        const token = Cookies.get('accessToken');
+        const id = Cookies.get('id');
+        const cleanedJwtString = token.replace(/^"|"$/g, '');
+        const cleanId = id.replace(/^"|"$/g, '');
 
+        const requestOptions = {
+            method: 'post',
+            headers: {
+                "Content-Type": "application/json",
+                "x-api-key": "025ce9a805c109871ed8664bea8a8e5403f162daf9d7bfd220b4aee6683993350483959b54538db3dc220fa426f334c9e740c66e068cc9ab03318ab4426f606b",
+                "authorization": cleanedJwtString,
+                "x-client-id": cleanId
+            },
+        };
+
+        // Lấy dữ liệu của khách hàng
+        fetch(URL + '/product/delete/' + productId, requestOptions)
+            .then((data) => {
+                alert('Xóa thành công!!')
+                window.location.reload();
+            })
     }
 
     const handerPublic = (productId) => {
@@ -262,7 +282,7 @@ function Index() {
                                             fontSize: '17px'
                                         }}>
                                             <button
-                                                onClick={() => handerDelete()}
+                                                onClick={() => handerDelete(api._id)}
                                             >
                                                 Xóa
                                             </button>

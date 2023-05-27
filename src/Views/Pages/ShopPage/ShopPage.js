@@ -25,7 +25,7 @@ import 'react-input-range/lib/css/index.css';
 const cx = classNames.bind(styles);
 
 const ShopPage = () => {
-    const ref_slider = useRef();
+    // const ref_slider = useRef();
     const ref_valueMin = useRef();
     const ref_valueMax = useRef();
     const [products, setProducts] = useState([]);
@@ -84,17 +84,17 @@ const ShopPage = () => {
         { id: 1, item: 'Tiny' },
     ];
 
-    useEffect(() => {
-        noUiSlider.create(document.getElementById('slider'), {
-            start: [100, 400],
-            connect: true,
-            range: {
-                min: 100,
-                max: 400,
-            },
-        });
+    // useEffect(() => {
+    //     noUiSlider.create(document.getElementById('slider'), {
+    //         start: [100, 400],
+    //         connect: true,
+    //         range: {
+    //             min: 100,
+    //             max: 400,
+    //         },
+    //     });
 
-    }, []);
+    // }, []);
 
     //khai báo inout range
     const [value, setValue] = useState({ min: 0, max: 100 });
@@ -194,18 +194,28 @@ const ShopPage = () => {
                     <h4 className={cx('Price')}>Price</h4>
 
                     <div>
-                        <div>
+                        <div style={{
+                            width: '170px'
+                        }}>
                             <InputRange
                                 minValue={0}
                                 maxValue={100}
                                 value={value}
                                 onChange={handleRangeChange}
+                                style={{
+                                    width: '100px',
+                                    height: '15px',
+                                    backgroundColor: 'red',
+                                    outline: 'none',
+                                    border: 'none',
+                                    borderRadius: '5px',
+                                }}
+
                             />
-                            <p>Giá trị nhỏ nhất: {value.min}</p>
-                            <p>Giá trị lớn nhất: {value.max}</p>
+
                         </div>
                         {/* <input type="range" min='0' max='100'  className={cx('range')} /> */}
-                        <div id="slider" className={cx('range')} ref={ref_slider} ></div>
+                        {/* <div id="slider" className={cx('range')}></div> */}
                         <div class={cx('text')}>
                             $
                             <span id="kt_slider_basic_min" ref={ref_valueMin}>
@@ -265,7 +275,7 @@ const ShopPage = () => {
                 <div className={cx('row-right')}>
                     <h2>Sale Off</h2>
                     <Slider {...settings}>
-                        {products.map((list, index) => (
+                        {apiproduct.map((list, index) => (
                             <div>
                                 <Card props={list} />
                             </div>

@@ -28,7 +28,18 @@ const HomePage = () => {
     const buttonRef = useRef();
     const [products, setProducts] = useState([]);
     const [product_Tre_Em, setProductTreEm] = useState([]);
+    const [isLoading, setIsLoading] = useState(true)
 
+    //xử lý hiệu ứng loadinh đầu vào 
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setIsLoading(false);
+        }, 3000);
+
+        return () => {
+            clearInterval(timer);
+        };
+    }, []);
 
     //setting slick slider
     const settings = {
@@ -87,6 +98,8 @@ const HomePage = () => {
             .then((data) => {
                 console.log(data)
                 setApiProduct(data.metadata.reverse())
+                // setIsLoading(false);
+
             })
     }, [])
 
@@ -115,6 +128,19 @@ const HomePage = () => {
 
     return (
         <div className={cx('container')}>
+            {isLoading &&
+                <div style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    zIndex: 1
+                }}>
+                    <iframe src="https://embed.lottiefiles.com/animation/144353" style={{
+                        height: "100vh", /* Set the height to 100% of the viewport height */
+                        width: "98.9vw",
+                    }}></iframe>
+                </div>
+            }
             <div className="container">
                 {/* banner */}
                 <div className={cx('banner-box')}>
@@ -133,7 +159,10 @@ const HomePage = () => {
                                 Shop now
                             </div>
                         </div>
-                        <img src="https://www.elleman.vn/wp-content/uploads/2018/08/13/gi%C3%A0y-sneakers-2-elle-man-8.jpg" alt="Banner" />
+                        <img src="https://photo-cms-tpo.epicdn.me/w890/Uploaded/2023/zatmzz/2015_11_12/1_NBBR.jpg" style={{
+                            width: 1000,
+                            height: 470
+                        }} alt="Banner" />
                     </div>
                 </div>
                 {/* slider products */}
@@ -151,7 +180,22 @@ const HomePage = () => {
                 </div>
                 {/* featured products */}
                 <div className={cx('featured-product-box')} >
-                    <h2 className={cx('featured-product__heading')}>Giày Thể Thao :)))</h2>
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}>
+                        <h2 className={cx('featured-product__heading')}>Sản Phẩm Bán Chạy</h2>
+                        {/* <iframe src="https://embed.lottiefiles.com/animation/144238"
+                            style={{
+                                height: '70px',
+                                width: '100px',
+                                position: 'absolute',
+                                right: '30%'
+                            }}
+                        ></iframe> */}
+                    </div>
                     <div className={cx('choose-product')} >
                         <ul className={cx('tag-product')} >
                             {select.map((item) => {
@@ -186,7 +230,7 @@ const HomePage = () => {
 
                 {/* featured products */}
                 <div className={cx('featured-product-box')}>
-                    <h2 className={cx('featured-product__heading')}>Quần Áo Trẻ Em</h2>
+                    <h2 className={cx('featured-product__heading')}>Sản Phẩm Giảm Giá</h2>
                     <div className={cx('choose-product')}>
                         <ul className={cx('tag-product')}>
                             {select.map((item) => {
@@ -203,7 +247,17 @@ const HomePage = () => {
                             })}
                         </ul>
                         <div className={cx('featured-list')}>
-
+                            {product ? (
+                                <>
+                                    {product.map((product) => {
+                                        return <Card props={product} />;
+                                    })}
+                                </>
+                            ) : (
+                                <>
+                                    <h1 style={{ margin: '0 auto' }}>Not Found This Product or Sold Out</h1>
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -211,11 +265,20 @@ const HomePage = () => {
 
                 {/* sub - banner */}
                 <div className={cx('sub-banner')}>
-                    <div className={cx('sub-banner__item')}>
-                        <img src="https://technext.github.io/ogani/img/banner/banner-1.jpg" alt="Sub Banner" />
+                    <div className={cx('sub-banner__item')} data-aos="zoom-out-right">
+                        {/* <img src="https://lottiefiles.com/145040-dinosaur-sticker" alt="Sub Banner" /> */}
+                        <iframe src="https://embed.lottiefiles.com/animation/144943"></iframe>
+
+                    </div>
+                    <div className={cx('sub-banner__item')} data-aos="zoom-out-down">
+                        {/* <img src="https://lottiefiles.com/144943-walking-chicken" alt="Sub Banner" /> */}
+                        <iframe src="https://embed.lottiefiles.com/animation/144749"></iframe>
+
                     </div>
                     <div className={cx('sub-banner__item')}>
-                        <img src="https://technext.github.io/ogani/img/banner/banner-2.jpg" alt="Sub Banner" />
+                        {/* <img src="https://lottiefiles.com/144943-walking-chicken" alt="Sub Banner" /> */}
+                        <iframe src="https://embed.lottiefiles.com/animation/145040" data-aos="zoom-out-left"></iframe>
+
                     </div>
                 </div>
                 {/* list content */}
@@ -233,6 +296,8 @@ const HomePage = () => {
                     </div>
                 </div>
             </div>
+
+
         </div>
     );
 };

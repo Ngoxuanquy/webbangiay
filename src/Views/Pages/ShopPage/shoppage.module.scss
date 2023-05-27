@@ -365,3 +365,26 @@ body {
         }
     }
 }
+
+.custom-input-range {
+    /* Thiết lập chiều rộng và chiều cao */
+    width: 300px;
+    height: 5px;
+
+    /* Màu nền của thanh trượt */
+    background-color: #ddd;
+}
+
+.custom-input-range .input-range__slider {
+    /* Tùy chỉnh giao diện điểm trượt */
+    width: 20px;
+    height: 20px;
+    background-color: #555;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.custom-input-range .input-range__slider:active {
+    /* Màu sắc khi thanh trượt được kéo */
+    background-color: #000;
+}

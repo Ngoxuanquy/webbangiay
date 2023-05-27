@@ -189,35 +189,52 @@ const Header = () => {
                 <div className="container">
                     <div className={cx('header__mid-box')}>
                         <div className={cx('logo')}>
-                            <h1>QT SHOP</h1>
+                            <h1 style={{
+                                color: "white"
+                            }}>QT SHOP</h1>
                         </div>
                         <div className={cx('menu')}>
                             <ul>
-                                <li>
-                                    <Link to="/">
+                                <li >
+                                    <Link to="/" style={{
+                                        color: "white"
+                                    }}>
                                         <p>HOME</p>
                                     </Link>
                                 </li>
-                                <li>
+                                <li style={{
+                                    border: "none",
+                                    fontWeight: 700,
+                                    fontSize: "15px",
+                                    color: "white",
+
+                                }}>
                                     <button
                                         style={{
                                             border: "none",
                                             fontWeight: 700,
-                                            backgroundColor: 'white',
-                                            fontSize: "15px"
+                                            backgroundColor: 'transparent',
+                                            fontSize: "15px",
+
                                         }}
                                         onClick={() => handerClickShop()}
                                     >
-                                        <p>SHOP</p>
+                                        <p style={{
+                                            color: "white"
+                                        }}>SHOP</p>
                                     </button>
                                 </li>
                                 <li>
-                                    <Link to="/card">
+                                    <Link to="/card" style={{
+                                        color: "white"
+                                    }}>
                                         <p>Cart</p>
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to="/contact">
+                                    <Link to="/contact" style={{
+                                        color: "white"
+                                    }}>
                                         <p>CONTACT</p>
                                     </Link>
                                 </li>
@@ -227,7 +244,7 @@ const Header = () => {
                             className={cx('cart')}
                             onClick={() => handleCart()}
                         >
-                            <FontAwesomeIcon icon={faBagShopping} />
+                            <FontAwesomeIcon icon={faBagShopping} color="white" />
                             <div className={cx('amount-product')}>
                                 <p>6</p>
                             </div>
@@ -239,7 +256,7 @@ const Header = () => {
                 <div className="container">
                     <div className={cx('header__bot-box')}>
                         <div className={cx('department')}>
-                            <FontAwesomeIcon icon={faBars} />
+                            <FontAwesomeIcon icon={faBars} color="white" />
                             <p>All department</p>
                             <div
                                 className={cx('evt-down')}
@@ -262,7 +279,9 @@ const Header = () => {
                         <div className={cx('search')}>
                             <Search />
                         </div>
-                        <div className={cx('contact')}>
+                        <div className={cx('contact')} style={{
+                            color: "white"
+                        }}>
                             <div className={cx('contact-icon')}>
                                 <FontAwesomeIcon className={cx('phone-icon')} icon={faPhone} />
                             </div>
