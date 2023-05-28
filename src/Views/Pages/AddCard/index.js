@@ -135,6 +135,43 @@ function AddCard() {
         setIsOpen(false);
     }
 
+    const handerSubmit = () => {
+
+        const token = Cookies.get('accessToken');
+        const id = Cookies.get('id');
+        const cleanedJwtString = token.replace(/^"|"$/g, '');
+        const cleanId = id.replace(/^"|"$/g, '');
+
+        const user = {
+            userId: cleanId,
+            name: 'a',
+            number: "0123",
+            adrees: 'Haf Nooij'
+        }
+
+        const requestOptions = {
+            method: 'post',
+            headers: {
+                "Content-Type": "application/json",
+                "x-api-key": "025ce9a805c109871ed8664bea8a8e5403f162daf9d7bfd220b4aee6683993350483959b54538db3dc220fa426f334c9e740c66e068cc9ab03318ab4426f606b",
+                "authorization": cleanedJwtString,
+                "x-client-id": cleanId
+            },
+            body: JSON.stringify({
+                user: user,
+                product: apis,
+                shopId: apis[0].product_shop
+            })
+        };
+
+        // Lấy dữ liệu của khách hàng
+        fetch(URL + `/transaction`, requestOptions)
+            .then((res) => res.json())
+            .then(res => window.location.reload()
+            )
+    }
+
+
     return (
         <div className={cx('container')}>
             <div className={cx('img-bia')}>
@@ -148,7 +185,7 @@ function AddCard() {
                 </div>
                 <img src="https://technext.github.io/ogani/img/breadcrumb.jpg" />
             </div>
-            <button onClick={openModal}>Open Modal</button>
+            {/* <button onClick={openModal}>Open Modal</button> */}
             <Modal
                 isOpen={modalIsOpen}
                 onAfterOpen={afterOpenModal}
@@ -350,7 +387,17 @@ function AddCard() {
                                             <label htmlFor="comments">Node</label>
                                             <textarea name="comments" id="comments" cols="30" rows="5" placeholder="Enter your suggestions here"></textarea>
 
-                                            <input type="submit" id="submit" className={cx('submit')} value="Submit" />
+                                            <div style={{
+                                                justifyContent: 'center',
+                                                alignItems: 'center'
+                                            }}>
+                                                <button type="submit" id="submit" className={cx('submit')} value="Submit" style={{
+                                                }}
+                                                    onClick={() => handerSubmit()}
+                                                >
+                                                    Submit
+                                                </button>
+                                            </div>
                                         </form>
 
                                         <footer>
@@ -524,7 +571,7 @@ function AddCard() {
 
 
                         </table>
-                        <button>PROCEED TO CHECKOUT</button>
+                        <button onClick={() => openModal()}>PROCEED TO CHECKOUT</button>
                     </div>
                 </div>
             </div>

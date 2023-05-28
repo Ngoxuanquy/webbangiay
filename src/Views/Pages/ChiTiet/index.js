@@ -209,9 +209,14 @@ function ChiTiet() {
                             </p>
 
                             <div className={cx('Amount')}>
-                                <div>
+                                <div style={{
+                                    display: 'flex',
+                                    flexDirection: 'row'
+                                }}>
                                     <button onClick={() => handerTru()}>-</button>
-                                    <input type="text" value={so} ref={soluong} />
+                                    <input type="text" value={so} ref={soluong} style={{
+                                        marginTop: "0px"
+                                    }} />
                                     <button onClick={() => handerCong()}>+</button>
                                 </div>
                                 <div className={cx('AddCard')}>

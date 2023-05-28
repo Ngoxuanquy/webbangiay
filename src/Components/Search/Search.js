@@ -20,7 +20,9 @@ const Search = () => {
 
     return (
         <div className={cx('container')}>
-            <input className={cx('input')} type="text" placeholder="Enter something..." value={value} onChange={e => handleValue(e)} />
+            <input className={cx('input')} type="text" placeholder="Enter something..." value={value} onChange={e => handleValue(e)} style={{
+                marginTop: 0
+            }} />
             <div
                 className={cx('btn-search')}
                 onClick={() => handleSearch()}
