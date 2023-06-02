@@ -10,7 +10,7 @@ const cx = classNames.bind(styles);
 
 function Login() {
 
-    const URL = process.env.REACT_APP_URL
+    const URL = process.env.REACT_APP_URL;
     // const URL = process.env.REACT_APP_URL
 
     console.log(URL + '/login')
