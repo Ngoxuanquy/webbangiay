@@ -244,9 +244,11 @@ function Profile() {
                     <div style={{
                         display: 'flex',
                         flexDirection: 'row',
-                        marginLeft: 70
+                        marginLeft: 70,
+                        flexWrap: 'wrap',
+                        width: '100%'
                     }}>
-                        {apipublic.map((api) => {
+                        {apipublic && apipublic.map((api) => {
                             return <Card props={api} />;
                         })}
                     </div>
