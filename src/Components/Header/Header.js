@@ -14,7 +14,7 @@ import Cookies from 'js-cookie';
 const cx = classNames.bind(styles)
 const Header = () => {
 
-    const [isActive, setIsActive] = useState(true)
+    const [isActive, setIsActive] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     // const [selected, setSelected] = useState('')
 
@@ -189,9 +189,11 @@ const Header = () => {
                 <div className="container">
                     <div className={cx('header__mid-box')}>
                         <div className={cx('logo')}>
-                            <h1 style={{
-                                color: "white"
-                            }}>QT SHOP</h1>
+                            <Link to="/">
+                                <h1 style={{
+                                    color: "white"
+                                }}> SHOP</h1>
+                            </Link>
                         </div>
                         <div className={cx('menu')}>
                             <ul>
@@ -286,7 +288,7 @@ const Header = () => {
                                 <FontAwesomeIcon className={cx('phone-icon')} icon={faPhone} />
                             </div>
                             <div className={cx('contact-detail')}>
-                                <p className={cx('phone-num')}>+65 11.188.888</p>
+                                <p className={cx('phone-num')}>+84 590.401.978</p>
                                 <p className={cx('time-contact')}>support 24/7 time</p>
                             </div>
                         </div>

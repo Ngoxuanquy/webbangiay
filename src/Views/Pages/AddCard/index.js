@@ -11,7 +11,7 @@ const cx = classNames.bind(styles);
 
 function AddCard() {
 
-    const URL = process.env.URL;
+    const URL = process.env.REACT_APP_URL;
 
     let slug = useParams();
     const [so, setSo] = useState(1);
@@ -207,7 +207,7 @@ function AddCard() {
                                 Thông tin thanh toán
                             </div>
                         </div>
-                        <div className={cx('table')} style={{
+                        <div className={cx('table_mode')} style={{
                             justifyContent: 'center',
                             alignItems: 'center',
                             marginLeft: "100px"
@@ -445,10 +445,7 @@ function AddCard() {
                             alignItems: 'center'
                         }}>
                             <td>
-                                <img src={api.product_thumb} style={{
-                                    width: '150px',
-                                    height: '150px'
-                                }} />
+                                <img src={api.product_thumb} className={cx('img_cart')} />
 
                             </td>
 
@@ -468,25 +465,26 @@ function AddCard() {
                                     flexDirection: 'row'
                                 }}>
                                     <button onClick={handerTru} style={{
-                                        width: 40,
-                                        height: 40,
                                         backgroundColor: 'none',
                                         border: 'none'
 
-                                    }}>-</button>
+                                    }}
+                                        className={cx('button')}
+                                    >-</button>
                                     <input type="text" value={api.quantity} readOnly style={{
-                                        width: 40,
-                                        height: 40,
                                         textAlign: 'center',
 
-                                    }} />
+                                    }}
+                                        className={cx('button')}
+
+                                    />
                                     <button onClick={handerCong} style={{
-                                        width: 40,
-                                        height: 40,
+
                                         border: 'none'
+                                    }}
+                                        className={cx('button')}
 
-
-                                    }}>+</button>
+                                    >+</button>
                                 </p>
                             </td>
                             <td>
@@ -551,26 +549,28 @@ function AddCard() {
                         </div>
                     </div>
                     <div className={cx('right')}>
-                        <h1>
-                            Cart Total
-                        </h1>
-                        <table>
-                            <tr>
-                                <td>
-                                    Subtotal
-                                </td>
-                                <td>${total}</td>
-                            </tr>
-                            <hr />
-                            <tr>
-                                <td>
-                                    Total
-                                </td>
-                                <td>${total}</td>
-                            </tr>
+                        <div>
+                            <h1>
+                                Cart Total
+                            </h1>
+                            <table>
+                                <tr>
+                                    <td>
+                                        Subtotal
+                                    </td>
+                                    <td>${total}</td>
+                                </tr>
+                                <hr />
+                                <tr>
+                                    <td>
+                                        Total
+                                    </td>
+                                    <td>${total}</td>
+                                </tr>
 
 
-                        </table>
+                            </table>
+                        </div>
                         <button onClick={() => openModal()}>PROCEED TO CHECKOUT</button>
                     </div>
                 </div>

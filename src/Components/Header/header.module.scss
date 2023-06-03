@@ -90,9 +90,14 @@
             }
 
             .menu {
+                justify-content: center;
+                align-items: center;
+
                 & ul {
                     display: flex;
                     list-style: none;
+                    justify-content: center;
+                    align-items: center;
 
                     & li {
                         font-size: 1.5rem;
@@ -276,4 +281,32 @@
 
 .authentication:hover menu_an {
     display: block;
+}
+
+@media only screen and (max-width: 600px) {
+    body {
+        width: 100%;
+
+    }
+
+    .header__bot {
+        display: none;
+    }
+
+    .cart {
+        display: none;
+
+    }
+
+    .contact {
+        display: none;
+    }
+
+    .menu {
+        width: 100%;
+        // display: flex;
+        // display: none;
+        margin-left: -30px;
+        margin-top: 15px;
+    }
 }

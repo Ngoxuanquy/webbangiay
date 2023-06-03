@@ -91,13 +91,14 @@ const HomePage = () => {
         };
 
         // Lấy dữ liệu của khách hàng
-        fetch(URL + '/product', requestOptions)
+        fetch(URL + '/product/1', requestOptions)
             .then((data) => {
                 return data.json()
             })
             .then((data) => {
                 console.log(data)
                 setApiProduct(data.metadata.reverse())
+                setPublic(data.metadata)
                 // setIsLoading(false);
 
             })
@@ -159,16 +160,13 @@ const HomePage = () => {
                                 Shop now
                             </div>
                         </div>
-                        <img src="https://photo-cms-tpo.epicdn.me/w890/Uploaded/2023/zatmzz/2015_11_12/1_NBBR.jpg" style={{
-                            width: 1000,
-                            height: 470
-                        }} alt="Banner" />
+                        <img src="https://photo-cms-tpo.epicdn.me/w890/Uploaded/2023/zatmzz/2015_11_12/1_NBBR.jpg" className={cx('img_home')} alt="Banner" />
                     </div>
                 </div>
                 {/* slider products */}
                 <div className={cx('product-box')}>
                     <Slider {...settings}>
-                        {product.map((item) => {
+                        {apipublic.map((item) => {
                             return (
                                 <div key={item._id} className={cx('list-product__item')}>
                                     <img src={item.product_thumb} alt="Product Item" />

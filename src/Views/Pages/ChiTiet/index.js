@@ -190,7 +190,7 @@ function ChiTiet() {
 
                     <div className={cx('box')}>
                         <div className={cx('left')}>
-                            <img src={product.product_thumb} />
+                            <img src={product.product_thumb} className={cx('img')} />
                         </div>
                         <div className={cx('right')}>
                             <h1>{product.product_name}</h1>

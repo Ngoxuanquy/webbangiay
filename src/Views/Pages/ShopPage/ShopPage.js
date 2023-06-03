@@ -68,6 +68,17 @@ const ShopPage = () => {
     const [hande, setHande] = useState([]);
     const [datas, setData] = useState(products);
 
+    //khai báo phân trang 
+    const pagings = [
+        { id: 1, value: "1" },
+        { id: 2, value: "2" },
+        { id: 3, value: "3" },
+        { id: 4, value: "4" },
+        { id: 5, value: "5" },
+        { id: 6, value: "6" }
+
+    ]
+
     const colors = [
         { id: 1, color: 'white' },
         { id: 2, color: 'Red' },
@@ -124,17 +135,16 @@ const ShopPage = () => {
         };
 
         // Lấy dữ liệu của khách hàng
-        fetch(URL + '/product', requestOptions)
+        fetch(URL + '/product/1', requestOptions)
             .then((data) => {
                 return data.json()
             })
             .then((data) => {
-                console.log(data)
+                // console.log(data)
                 setApiProduct(data.metadata.reverse())
             })
     }, [])
 
-    console.log(apiproduct)
 
 
     function unique(arr) {
@@ -147,7 +157,7 @@ const ShopPage = () => {
         return newArr;
     }
 
-    console.log(apiproduct)
+    // console.log(apiproduct)
 
 
     const b = unique(apiproduct).filter(function (item) {
@@ -156,10 +166,28 @@ const ShopPage = () => {
         );
     });
 
-    console.log(b)
+    //xử lý phân trang 
+    const handerPaging = (value) => {
+        console.log(value)
+        const requestOptions = {
+            method: 'Get',
+            headers: {
+                "Content-Type": "application/json",
+                "x-api-key": "30929e75539a12a71ea783896b3b99f6d93e78ab41a820ae7e5a3477c520b1fbc6205681dd9f3c2f5950177c233ce246d1df8579f2ba091a303f19cb66c99282"
+            },
 
+        };
 
-
+        // Lấy dữ liệu của khách hàng
+        fetch(URL + '/product/' + value, requestOptions)
+            .then((data) => {
+                return data.json()
+            })
+            .then((data) => {
+                // console.log(data)
+                setApiProduct(data.metadata.reverse())
+            })
+    }
 
 
 
@@ -273,15 +301,17 @@ const ShopPage = () => {
                     </div>
                 </div>
                 <div className={cx('row-right')}>
-                    <h2>Sale Off</h2>
-                    <Slider {...settings}>
-                        {apiproduct.map((list, index) => (
-                            <div>
-                                <Card props={list} />
-                            </div>
-                        ))}
-                    </Slider>
-                    <hr />
+                    <div className={cx('slide')}>
+                        <h2>Sale Off</h2>
+                        <Slider {...settings}>
+                            {apiproduct.map((list, index) => (
+                                <div>
+                                    <Card props={list} />
+                                </div>
+                            ))}
+                        </Slider>
+                        <hr />
+                    </div>
                     <div className={cx('test')}>
                         <div> Sort By </div>
                         <div className={cx('Default')}> Default </div>
@@ -308,18 +338,27 @@ const ShopPage = () => {
                     </div>
 
                     <div className={cx('btn-slide')}>
-                        <div>
-                            <input type="button" value="1" />
-                        </div>
-                        <div>
-                            <input type="button" value="2" />
-                        </div>{' '}
-                        <div>
-                            <input type="button" value="3" />
-                        </div>
-                        <div>
-                            <input type="button" value="->" />
-                        </div>
+                        {pagings.map(paging => (
+                            <div key={paging.id}>
+                                <div style={{
+                                    width: "40px",
+                                    height: '40px',
+                                    border: '1px solid black',
+                                    marginLeft: '10px'
+                                }}
+                                    onClick={() => handerPaging(paging.value)}
+
+                                >
+                                    <div style={{
+                                        padding: 9,
+                                        fontSize: '18px',
+                                    }}
+                                    >
+                                        {paging.value}
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
