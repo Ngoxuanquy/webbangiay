@@ -235,6 +235,10 @@
 
 
 @media only screen and (max-width: 600px) {
+    .banner-description {
+        display: none;
+    }
+
     .sub-banner {
         display: flex;
         flex-direction: column;

@@ -82,7 +82,7 @@ const Header = () => {
                             </div>
                             <div className={cx('separate')}></div>
                             <div className={cx('slogan')}>
-                                <p>Free Shipping for all Order of $99</p>
+                                <p>Free Shipping for all Order </p>
                             </div>
                         </div>
                         <div className={cx('right-side')}>

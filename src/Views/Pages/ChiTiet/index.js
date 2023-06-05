@@ -25,6 +25,8 @@ function ChiTiet() {
 
     const { productId } = useParams()
 
+    console.log(productId)
+
     let soluong = useRef();
     let Hine = useRef();
     let Hine1 = useRef();
@@ -81,16 +83,17 @@ function ChiTiet() {
 
         const token = Cookies.get('accessToken');
         const id = Cookies.get('id');
-        const cleanedJwtString = token.replace(/^"|"$/g, '');
-        const cleanId = id.replace(/^"|"$/g, '');
+        // const cleanedJwtString = token ? token.replace(/^"|"$/g, '') : "";
+        const cleanId = id ? id.replace(/^"|"$/g, '') : "";
+        setId(cleanId)
 
         const requestOptions = {
             method: 'Get',
             headers: {
                 "Content-Type": "application/json",
                 "x-api-key": "30929e75539a12a71ea783896b3b99f6d93e78ab41a820ae7e5a3477c520b1fbc6205681dd9f3c2f5950177c233ce246d1df8579f2ba091a303f19cb66c99282",
-                "authorization": cleanedJwtString,
-                "x-client-id": cleanId
+                // "authorization": cleanedJwtString,
+                // "x-client-id": cleanId
             },
         };
 
@@ -107,6 +110,7 @@ function ChiTiet() {
 
     // const [so, setSo] = useState(1);
 
+
     function handerCong() {
         console.log('aaa')
         setSo(so + 1);
@@ -122,11 +126,9 @@ function ChiTiet() {
     }
 
     // console.log(products[0].product_shop)
-    const handerAdd = (productId, userId) => {
+    const handerAdd = (productId, userId, event) => {
         const token = Cookies.get('accessToken');
         const id = Cookies.get('id');
-        const cleanedJwtString = token.replace(/^"|"$/g, '');
-        const cleanId = id.replace(/^"|"$/g, '');
 
 
         let updatedProducts = products.map(product => ({
@@ -134,12 +136,22 @@ function ChiTiet() {
             quantity: so,
             productId: products[0]._id,
         }));
+        const cleanId = id ? id.replace(/^"|"$/g, '') : '';
 
-
-        if (cleanId == userId) {
+        // if (cleanId == userId) {
+        //     alert('Sản Phẩm này của bạn, không mua được')
+        // }
+        if (!token) {
+            alert('Bạn phải đăng nhập để mua hàng!!');
+            window.location = '/login';
+        }
+        else if (cleanId == userId) {
+            event.preventDefault();
             alert('Sản Phẩm này của bạn, không mua được')
         }
         else {
+            const cleanedJwtString = token ? token.replace(/^"|"$/g, '') : '';
+            const cleanId = id ? id.replace(/^"|"$/g, '') : '';
 
             const requestOptions = {
                 method: 'post',
@@ -219,13 +231,37 @@ function ChiTiet() {
                                     }} />
                                     <button onClick={() => handerCong()}>+</button>
                                 </div>
-                                <div className={cx('AddCard')}>
+                                {id == product.product_shop ? <>
+                                    <div style={{
+                                        opacity: 0.5,
+                                        cursor: "not-allowed",
+                                        marginLeft: 20
+                                    }}
+                                        title="Sản phẩm của bạn, không thể mua!!!"
+                                    >
+                                        <button style={{
+                                            opacity: 1,
+                                            cursor: "not-allowed",
+                                            width: 120,
+                                            backgroundColor: "#28a745",
+                                            color: "#fff"
+                                        }}
+                                        >ADD TO CARD</button>
 
-                                    <button
-                                        onClick={() => handerAdd(product._id, product.product_shop)}
-                                    >ADD TO CARD</button>
+                                    </div>
+                                </> :
+                                    <div className={cx('AddCard')}>
 
-                                </div>
+                                        <button
+                                            onClick={(event) => handerAdd(product._id, product.product_shop, event)}
+                                            style={{
+                                                color: "#fff"
+
+                                            }}
+                                        >ADD TO CARD</button>
+
+                                    </div>
+                                }
                             </div>
 
 
@@ -322,7 +358,7 @@ function ChiTiet() {
                     ))}
                 </div>
             </div>
-        </div>
+        </div >
 
 
 

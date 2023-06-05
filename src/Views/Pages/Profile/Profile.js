@@ -37,9 +37,23 @@ const UserProfileCard = () => {
                 <p className="text-muted mb-1">Full Stack Developer</p>
                 <p className="text-muted mb-4">Bay Area, San Francisco, CA</p>
                 <div className="d-flex justify-content-center mb-2">
-                    <button type="button" className="btn btn-primary"
+                    {/* <button type="button" className="btn btn-primary"
                         onClick={() => window.location = "/api/create/product"}
-                    >Đăng Sản Phẩm</button>
+                    >Đăng Sản Phẩm</button> */}
+                    <button
+                        onClick={() => window.location = "/api/create/product"}
+                        className={cx('button1')}
+                    >
+                        Đăng Sản Phẩm
+                        <div id="clip" className={cx('clip')}>
+                            <div id="leftTop" className={cx("corner1")}></div>
+                            <div id="rightBottom" className={cx("corner2")}></div>
+                            <div id="rightTop" className={cx("corner3")}></div>
+                            <div id="leftBottom" className={cx("corner4")}></div>
+                        </div>
+                        <span id="rightArrow" className={cx("arrow1")}></span>
+                        <span id="leftArrow" className={cx("arrow2")}></span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -101,17 +115,18 @@ const UserInformation = () => {
                     <div className="col-sm-9" style={{
                         marginTop: 10
                     }}>
-                        <input style={{
-                            border: "none",
-                            width: "100%",
-                            borderBottom: '0.4px solid #ccc'
-                        }}
-                            formAction={{
-                                borderBottom: 'none'
+                        <div className={cx("input-container")}>
+                            <input
+                                // placeholder="Full Name"
+                                className={cx("input-field")}
+                                type="text"
 
-                            }}
-                            className={cx('input')}
-                        />
+                            />
+                            <label htmlFor="input-field" className={cx("input-label")}>
+                                Full Name
+                            </label>
+                            <span className={cx("input-highlight")}></span>
+                        </div>
                     </div>
                 </div>
                 <hr />
@@ -123,7 +138,18 @@ const UserInformation = () => {
                         <p className="mb-0">Email</p>
                     </div>
                     <div className="col-sm-9">
-                        <p className="text-muted mb-0">example@example.com</p>
+                        <div className={cx("input-container")}>
+                            <input
+                                // placeholder="Full Name"
+                                className={cx("input-field")}
+                                type="text"
+
+                            />
+                            <label htmlFor="input-field" className={cx("input-label")}>
+                                Email
+                            </label>
+                            <span className={cx("input-highlight")}></span>
+                        </div>
                     </div>
                 </div>
                 <hr />
@@ -135,7 +161,18 @@ const UserInformation = () => {
                         <p className="mb-0">Phone</p>
                     </div>
                     <div className="col-sm-9">
-                        <p className="text-muted mb-0">(097) 234-5678</p>
+                        <div className={cx("input-container")}>
+                            <input
+                                // placeholder="Full Name"
+                                className={cx("input-field")}
+                                type="text"
+
+                            />
+                            <label htmlFor="input-field" className={cx("input-label")}>
+                                Phone
+                            </label>
+                            <span className={cx("input-highlight")}></span>
+                        </div>
                     </div>
                 </div>
                 <hr />
@@ -147,7 +184,18 @@ const UserInformation = () => {
                         <p className="mb-0">Mobile</p>
                     </div>
                     <div className="col-sm-9">
-                        <p className="text-muted mb-0">(098) 765-4321</p>
+                        <div className={cx("input-container")}>
+                            <input
+                                // placeholder="Full Name"
+                                className={cx("input-field")}
+                                type="text"
+
+                            />
+                            <label htmlFor="input-field" className={cx("input-label")}>
+                                Mobile
+                            </label>
+                            <span className={cx("input-highlight")}></span>
+                        </div>
                     </div>
                 </div>
                 <hr />
@@ -159,7 +207,18 @@ const UserInformation = () => {
                         <p className="mb-0">Address</p>
                     </div>
                     <div className="col-sm-9">
-                        <p className="text-muted mb-0">Bay Area, San Francisco, CA</p>
+                        <div className={cx("input-container")}>
+                            <input
+                                // placeholder="Full Name"
+                                className={cx("input-field")}
+                                type="text"
+
+                            />
+                            <label htmlFor="input-field" className={cx("input-label")}>
+                                Địa Chỉ
+                            </label>
+                            <span className={cx("input-highlight")}></span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -242,12 +301,10 @@ function Profile() {
 
                     </div>
                     <div style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        marginLeft: 70,
-                        flexWrap: 'wrap',
-                        width: '100%'
-                    }}>
+
+                    }}
+                        className={cx('cart')}
+                    >
                         {apipublic && apipublic.map((api) => {
                             return <Card props={api} />;
                         })}

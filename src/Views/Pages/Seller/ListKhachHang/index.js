@@ -93,6 +93,7 @@ function ListKhachHang() {
 
     }
 
+    console.log(apiUsers)
     // console.log(apis)
 
     return (
@@ -164,9 +165,7 @@ function ListKhachHang() {
                                     <td>
                                         Total
                                     </td>
-                                    <td>
-                                        Xóa
-                                    </td>
+
                                 </tr>
 
                                 {apiProduct.map(api => (
@@ -195,36 +194,17 @@ function ListKhachHang() {
                                         </td>
 
                                         <td>
-                                            <p style={{
-                                                alignItems: 'center',
-                                                justifyContent: 'center',
-                                            }}>
-
-                                                <input type="text" value={api.quantity} readOnly style={{
-                                                    width: 40,
-                                                    height: 40,
-                                                    textAlign: 'center',
-
-                                                }} />
-
-                                            </p>
+                                            {api.quantity}
                                         </td>
-                                        <td>
-                                            <p>
-                                                ${api.quantity * api.product_price}
-                                                {/* <faInstagram /> */}
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <button style={{
-                                                border: 'none'
-                                            }}
-                                            // onClick={() => handerDelete(api._id)}
-                                            >
-                                                <ion-icon name="trash-outline" style={{
-                                                    width: 30
-                                                }}></ion-icon>
-                                            </button>
+                                        <td style={{
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            marginLeft: 40
+                                        }}>
+
+                                            ${api.quantity * api.product_price}
+                                            {/* <faInstagram /> */}
+
                                         </td>
                                     </tr>
                                 ))}
@@ -241,70 +221,42 @@ function ListKhachHang() {
                 marginTop: 100
             }}>
                 <div className={cx('table')}>
+
                     <table>
-                        <tr style={{
-                            justifyItems: 'center',
-                            alignItems: 'center'
-                        }}>
-                            <td style={{
-                                textAlign: 'center'
-                            }}>
-                                STT
-                            </td>
-                            <td style={{
-                                textAlign: 'center'
-                            }}>
-                                Tên
-                            </td>
-                            <td>
-                                Số Điện Thoại
-                            </td>
-                            <td>
-                                Địa Chỉ
-                            </td>
+                        <thead>
+                            <tr>
+                                <th scope="col">STT</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Số Điện Thoại</th>
+                                <th scope="col" rowspan="2">Địa Chỉ</th>
+                                <th scope="col" rowspan="1">#</th>
 
-                            <td>
-                                #
-                            </td>
-                        </tr>
-
-                        {apiUsers.map((api, index) => (
-                            <tr key={api._id} style={{
-                                justifyItems: 'center',
-                                alignItems: 'center'
-                            }}>
-                                <td style={{
-                                    textAlign: 'center'
-                                }}>
-                                    {index + 1}
-
-                                </td>
-
-                                <td style={{
-                                    textAlign: 'center'
-                                }}>
-                                    {api.transaction_userId[0].name}
-                                </td>
-
-                                <td>
-                                    {api.transaction_userId[0].number}
-                                </td>
-                                <td>
-                                    {api.transaction_userId[0].adrees}
-                                    {/* <faInstagram /> */}
-                                </td>
-                                <td>
-                                    <button style={{
-                                        border: 'none'
-                                    }}
-                                        onClick={() => handerChiTiet(index)}
-                                    >
-                                        Xem Chi Tiết
-                                    </button>
-                                </td>
                             </tr>
-                        ))}
+                        </thead>
+                        <tbody>
+                            {apiUsers.map((apiUser, index) => (
+                                <tr onClick={() => handerChiTiet(index)}>
+                                    <td data-style="bold">{index + 1}</td>
+                                    <td data-style="bold">{apiUser.transaction_userId[0].name}</td>
+                                    <td data-style="bold">{apiUser.transaction_userId[0].number}</td>
+                                    <td data-style="bold">
+                                        {apiUser.transaction_userId[0].adrees}
+                                    </td>
+                                    <td style={{
+                                        fontSize: 16
+                                    }} >
+                                        <button style={{
+                                            backgroundColor: "none"
+                                        }}
+                                            onClick={() => handerChiTiet(index)}
+                                        >
+                                            Xem Chi Tiết
 
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
                     </table>
 
                 </div>

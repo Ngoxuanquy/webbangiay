@@ -10,37 +10,36 @@ const cx = classNames.bind(styles);
 
 function DangKy() {
 
+    const URL = process.env.REACT_APP_URL;
+
+
     const [email, setEmail] = useState('')
     const [pass, setPass] = useState('')
     const [re_Pass, setRe_Passs] = useState('')
     const [number, setNumber] = useState('')
 
-
-    const options = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            email: email,
-            pass: pass,
-        })
-    };
-
     function handerSubmit() {
         if (pass === re_Pass) {
-            fetch('http://localhost:4000/api/users/create', options)
-                .then(() => {
-                    fetch('http://localhost:4000/api/thanhtoan/create', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            email: email,
-                            number: number
-                        })
-                    })
-
+            const requestOptions = {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-api-key": "30929e75539a12a71ea783896b3b99f6d93e78ab41a820ae7e5a3477c520b1fbc6205681dd9f3c2f5950177c233ce246d1df8579f2ba091a303f19cb66c99282",
+                },
+                body: JSON.stringify({
+                    email: email,
+                    pass: pass,
                 })
-                .finally(() => {
-                    window.location = "/login";
+            };
+
+
+            // Lấy dữ liệu của khách hàng
+            fetch(URL + '/shop/signup', requestOptions)
+                .then((data) => {
+                    return data.json()
+                })
+                .then((data) => {
+                    console.log(data)
                 })
 
         }

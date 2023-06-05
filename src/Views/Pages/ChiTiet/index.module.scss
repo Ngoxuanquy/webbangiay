@@ -306,6 +306,17 @@
                             }
                         }
 
+                        .AddCard_noclick {
+                            opacity: 0.5;
+                            cursor: not-allowed;
+
+                            button {
+                                width: 180px;
+                                background-color: #28a745;
+
+                            }
+                        }
+
                         .AddCard {
                             margin-left: 0px;
                             margin-bottom: 50px;

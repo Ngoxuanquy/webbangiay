@@ -137,22 +137,38 @@ function Index() {
                     <div style={{
                         display: 'flex',
                         flexDirection: 'row',
-                        marginTop: 20
+                        marginTop: 10
                     }}>
                         <div style={{
                             fontSize: 16,
-                            width: 130
+                            width: 150,
+                            marginTop: 30,
+                            fontWeight: 700
+
                         }}>
                             Tên Sản Phẩm
 
                         </div>
-                        <input style={{
+                        {/* <input style={{
                             width: 300,
                             height: 30,
                             // marginLeft: 20
                         }}
                             onChange={(e) => setName(e.target.value)}
-                        />
+                        /> */}
+                        <div className={cx("wave-group")}>
+                            <input required type="text" className={cx("input")}
+                                onChange={(e) => setName(e.target.value)}
+
+                            />
+                            <span className={cx("bar")}></span>
+                            <label className={cx("label")}>
+                                <span className={cx("label-char")} style={{ '--index': 0 }}>N</span>
+                                <span className={cx("label-char")} style={{ '--index': 1 }}>a</span>
+                                <span className={cx("label-char")} style={{ '--index': 2 }}>m</span>
+                                <span className={cx("label-char")} style={{ '--index': 3 }}>e</span>
+                            </label>
+                        </div>
                     </div>
 
                 </div>
@@ -160,47 +176,70 @@ function Index() {
                 <div style={{
                     display: 'flex',
                     flexDirection: 'row',
+                    marginTop: -10
+
                 }}>
                     <div style={{
                         fontSize: 16,
-                        width: 130,
-                        marginLeft: 10
+                        width: 150,
+                        marginLeft: 10,
+                        marginTop: 30,
+                        fontWeight: 700
+
                     }}>
                         Giá
 
                     </div>
-                    <input style={{
-                        width: 300,
-                        height: 30,
-                        // marginLeft: 20
-                    }}
-                        onChange={(e) => setPrice(e.target.value)}
 
-                    />
+                    <div className={cx("wave-group")}>
+                        <input required type="text" className={cx("input")}
+                            onChange={(e) => setPrice(e.target.value)}
+                        />
+                        <span className={cx("bar")}></span>
+                        <label className={cx("label")}>
+                            <span className={cx("label-char")} style={{ '--index': 0 }}>G</span>
+                            <span className={cx("label-char")} style={{ '--index': 1 }}>i</span>
+                            <span className={cx("label-char")} style={{ '--index': 2 }}>á</span>
+                        </label>
+                    </div>
                 </div>
 
                 <div style={{
                     display: 'flex',
                     flexDirection: 'row',
-                    marginTop: 10
-
+                    marginTop: -10
                 }}>
                     <div style={{
                         fontSize: 16,
-                        width: 130,
+                        width: 150,
                         marginLeft: 10,
+                        marginTop: 30,
+                        fontWeight: 700
+
                     }}>
-                        Hình Ảnh
+                        Hình ảnh
 
                     </div>
-                    <input style={{
+                    {/* <input style={{
                         width: 300,
                         height: 30,
                         // marginLeft: 20
                     }}
                         onChange={(e) => setImg(e.target.value)}
 
-                    />
+                    /> */}
+                    <div className={cx("wave-group")}>
+                        <input required type="text" className={cx("input")}
+                            onChange={(e) => setImg(e.target.value)}
+
+                        />
+                        <span className={cx("bar")}></span>
+                        <label className={cx("label")}>
+                            <span className={cx("label-char")} style={{ '--index': 0 }}>Ả</span>
+                            <span className={cx("label-char")} style={{ '--index': 1 }}>n</span>
+                            <span className={cx("label-char")} style={{ '--index': 2 }}>h</span>
+                        </label>
+                    </div>
                     {/* <div {...getRootProps()}>
                         <input {...getInputProps()} />
                         <p style={{
@@ -220,19 +259,28 @@ function Index() {
                 }}>
                     <div style={{
                         fontSize: 16,
-                        width: 130,
-                        marginLeft: 10
+                        width: 150,
+                        marginLeft: 10,
+                        fontWeight: 700,
+                        marginTop: 30
+
                     }}>
                         Ghi Chú
 
                     </div>
-                    <input style={{
-                        width: 300,
-                        height: 30,
-                    }}
-                        onChange={(e) => setDescription(e.target.value)}
+                    <div className={cx("wave-group")}>
+                        <input required type="text" className={cx("input")}
+                            onChange={(e) => setDescription(e.target.value)}
+                        />
+                        <span className={cx("bar")}></span>
+                        <label className={cx("label")}>
+                            <span className={cx("label-char")} style={{ '--index': 0 }}>N</span>
+                            <span className={cx("label-char")} style={{ '--index': 1 }}>o</span>
+                            <span className={cx("label-char")} style={{ '--index': 2 }}>t</span>
+                            <span className={cx("label-char")} style={{ '--index': 2 }}>e</span>
 
-                    />
+                        </label>
+                    </div>
                 </div>
 
                 (
@@ -240,16 +288,22 @@ function Index() {
                     display: 'flex',
                     flexDirection: 'row',
                     fontSize: 18,
-                    marginBottom: 10
+                    marginBottom: 10,
+                    marginTop: -10
 
                 }}>
                     <div style={{
-                        width: 130,
+                        width: 150,
                         marginLeft: 10,
+                        marginTop: 20,
+                        fontWeight: 700
+
                     }}>
                         Thể Loại
                     </div>
-                    <select value={selectedOption} onChange={handleChange}>
+                    <select value={selectedOption} onChange={handleChange} style={{
+                        width: 200
+                    }}>
                         <option value="">--- Chọn ---</option>
                         <option value="Electronics">Giày Thể Thao</option>
                         <option value="Clothing">Giày Đi Bộ</option>
@@ -260,45 +314,68 @@ function Index() {
                 <div style={{
                     display: 'flex',
                     flexDirection: 'row',
-                    marginBottom: 10
+                    marginBottom: 10,
+                    marginTop: -10
                 }}>
                     <div style={{
                         fontSize: 16,
-                        width: 130,
-                        marginLeft: 10
+                        width: 150,
+                        marginLeft: 10,
+                        fontWeight: 700,
+                        marginTop: 30,
+
+
                     }}>
                         Size
 
                     </div>
-                    <input style={{
-                        width: 300,
-                        height: 30,
-                    }}
-                        onChange={(e) => setSize(e.target.value)}
+                    <div className={cx("wave-group")}>
+                        <input required type="text" className={cx("input")}
+                            onChange={(e) => setSize(e.target.value)}
 
-                    />
+                        />
+                        <span className={cx("bar")}></span>
+                        <label className={cx("label")}>
+                            <span className={cx("label-char")} style={{ '--index': 0 }}>S</span>
+                            <span className={cx("label-char")} style={{ '--index': 1 }}>i</span>
+                            <span className={cx("label-char")} style={{ '--index': 2 }}>z</span>
+                            <span className={cx("label-char")} style={{ '--index': 2 }}>e</span>
+
+                        </label>
+                    </div>
                 </div>
 
                 <div style={{
                     display: 'flex',
                     flexDirection: 'row',
-                    marginBottom: 10
+                    marginBottom: 10,
+                    marginTop: -10
+
                 }}>
                     <div style={{
                         fontSize: 16,
-                        width: 130,
-                        marginLeft: 10
+                        width: 150,
+                        marginLeft: 10,
+                        marginTop: 30,
+                        fontWeight: 700
+
                     }}>
                         Màu
 
                     </div>
-                    <input style={{
-                        width: 300,
-                        height: 30,
-                    }}
-                        onChange={(e) => setColor(e.target.value)}
 
-                    />
+                    <div className={cx("wave-group")}>
+                        <input required type="text" className={cx("input")}
+                            onChange={(e) => setColor(e.target.value)}
+
+                        />
+                        <span className={cx("bar")}></span>
+                        <label className={cx("label")}>
+                            <span className={cx("label-char")} style={{ '--index': 0 }}>M</span>
+                            <span className={cx("label-char")} style={{ '--index': 1 }}>à</span>
+                            <span className={cx("label-char")} style={{ '--index': 2 }}>u</span>
+                        </label>
+                    </div>
                 </div>
 
                 <div style={{
@@ -306,19 +383,32 @@ function Index() {
                     flexDirection: 'row',
                 }}>
                     <div style={{
-                        fontSize: 16
+                        fontSize: 16,
+                        marginTop: 30,
+                        fontWeight: 700,
+                        width: 170
                     }}>
                         Số Lượng Trong Kho
 
                     </div>
-                    <input style={{
-                        width: 300,
-                        height: 30,
-                        marginLeft: 20
-                    }}
-                        onChange={(e) => setQuantity(e.target.value)}
 
-                    />
+                    <div className={cx("wave-group")}>
+                        <input required type="text" className={cx("input")}
+                            onChange={(e) => setQuantity(e.target.value)}
+                        />
+                        <span className={cx("bar")}></span>
+                        <label className={cx("label")}>
+                            <span className={cx("label-char")} style={{ '--index': 0 }}>S</span>
+                            <span className={cx("label-char")} style={{ '--index': 1 }}>ố</span>
+                            <span className={cx("label-char")} style={{ '--index': 2 }}>-</span>
+                            <span className={cx("label-char")} style={{ '--index': 2 }}>l</span>
+                            <span className={cx("label-char")} style={{ '--index': 2 }}>ư</span>
+                            <span className={cx("label-char")} style={{ '--index': 2 }}>ợ</span>
+                            <span className={cx("label-char")} style={{ '--index': 2 }}>n</span>
+                            <span className={cx("label-char")} style={{ '--index': 2 }}>g</span>
+
+                        </label>
+                    </div>
                 </div>
 
                 <div style={{
@@ -326,14 +416,12 @@ function Index() {
                     padding: 10
                 }}>
                     <div>
-                        <button style={{
-                            padding: 5,
-                            fontSize: 18
-                        }}
+                        <button className={cx("learn-more")}
                             onClick={() => handerSubmit()}
-                        >
-                            Xác Nhận
+
+                        > Xác Nhận
                         </button>
+
                     </div>
                 </div>
             </div>

@@ -14,6 +14,8 @@ const SlideContent = (props) => {
 
     const { isSmall } = props
 
+    console.log(props)
+
     const [index, setIndex] = useState(0)
     const refCard = useRef()
     const refContent = useRef()

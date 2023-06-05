@@ -30,58 +30,61 @@
     }
 }
 
-
 .table {
-    font-size: 20px;
-    text-align: center;
     display: flex;
     justify-content: center;
-    margin-top: 100px;
+    align-items: center;
+}
 
-    table {
-        width: 95%;
+table {
+    border-collapse: collapse;
+    border: .5px solid #E8F1F2;
+    font-family: Prompt;
+    text-align: center;
+    margin: 0 auto;
+    width: 100%;
+    font-size: 20px;
+    justify-content: center;
 
-        tr {
-            display: flex;
-            justify-content: space-between;
-            flex: 1;
-            border-bottom: 1px solid rgb(171, 171, 171);
+}
 
-            div {
-                flex: 1;
-                position: relative;
+table>caption {
+    text-transform: uppercase;
+    font-weight: bolder;
+}
 
-                td {
-                    padding: 20px 50px;
+th {
+    text-transform: uppercase;
+    background-color: #172A3A;
+    color: #A4C8CB;
+    padding: 8px;
+    text-align: center;
 
-                    p {
-                        margin-top: 30px;
-                        display: flex;
-                        justify-content: center;
+}
 
-                        button {
-                            width: 30px;
-                            height: 30px;
-                            border: none;
-                        }
+tr:nth-child(even) {
+    background-color: #E5EFF0;
+}
 
-                        input {
-                            width: 40px;
-                            height: 30px;
-                            border: none;
-                            background-color: rgb(234, 234, 234);
-                            text-align: center;
+td[data-style="bold"] {
+    font-weight: bold;
+    color: #11202C;
+    border-right: 1px solid #C5C7D3;
+}
 
-                        }
-                    }
+td {
+    padding: 12px;
+    text-align: center;
+    color: #11202C;
+    border-bottom: 1px solid #C5C7D3;
+}
 
-                    label {
-                        position: absolute;
-                        top: 35%;
-                        left: 30%;
-                    }
-                }
-            }
-        }
-    }
+tfoot {
+    background-color: #172A3A;
+    text-align: center;
+    color: #A4C8CB;
+}
+
+tbody>tr:hover {
+    background-color: #8DE2E2;
 }

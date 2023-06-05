@@ -126,6 +126,22 @@ const HomePage = () => {
         setProduct(data);
     };
 
+    //khai báo dữ liệu blog
+    const blogs = [
+        { id: 1, img: "https://vapa.vn/wp-content/uploads/2022/12/anh-3d-thien-nhien.jpeg" },
+        { id: 1, img: "https://images.pexels.com/photos/9304329/pexels-photo-9304329.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" },
+        { id: 1, img: "https://images.pexels.com/photos/3654869/pexels-photo-3654869.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" },
+
+    ]
+
+    //khai báo dữ liệu slider
+    const sliders = [
+        { id: 1, img: "https://vapa.vn/wp-content/uploads/2022/12/anh-3d-thien-nhien.jpeg" },
+        { id: 1, img: "https://images.pexels.com/photos/9304329/pexels-photo-9304329.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" },
+        { id: 1, img: "https://images.pexels.com/photos/3654869/pexels-photo-3654869.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" },
+
+    ]
+
 
     return (
         <div className={cx('container')}>
@@ -262,6 +278,14 @@ const HomePage = () => {
 
 
                 {/* sub - banner */}
+                <div style={{
+                    fontSize: 25,
+                    textAlign: 'center',
+                    fontWeight: 700
+                }}>
+                    Những con vật
+
+                </div>
                 <div className={cx('sub-banner')}>
                     <div className={cx('sub-banner__item')} data-aos="zoom-out-right">
                         {/* <img src="https://lottiefiles.com/145040-dinosaur-sticker" alt="Sub Banner" /> */}
@@ -281,16 +305,17 @@ const HomePage = () => {
                 </div>
                 {/* list content */}
                 <div className={cx('list-content__box')}>
-                    <SlideContent />
-                    <SlideContent />
-                    <SlideContent />
+                    {sliders.map(slider => (
+                        <SlideContent props={slider} />
+                    ))}
                 </div>
                 <div className={cx('blog')}>
                     <h2 className={cx('blog-heading')}>From The Blog</h2>
                     <div className={cx('list-blog')} data-aos="zoom-out-down">
-                        <Blog />
-                        <Blog />
-                        <Blog />
+                        {blogs.map(blog => (
+                            <Blog blog={blog} />
+
+                        ))}
                     </div>
                 </div>
             </div>

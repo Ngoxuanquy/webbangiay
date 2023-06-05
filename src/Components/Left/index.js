@@ -30,7 +30,7 @@ function Left() {
                             <img src="https://adminlte.io/themes/v3/dist/img/AdminLTELogo.png" />
                         </div>
                         <div>
-                            <h1>QlBH</h1>
+                            <h1>Home</h1>
                         </div>
                     </div>
                 </Link>

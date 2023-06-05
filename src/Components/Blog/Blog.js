@@ -12,14 +12,18 @@ import { faFacebook, faTwitter, faInstagram } from "@fortawesome/free-brands-svg
 
 const cx = classNames.bind(styles)
 
-const Blog = (props) => {
+const Blog = (blog) => {
 
+    console.log(blog)
     return (
         <div className={cx('container')}>
             <div className="container">
                 <div className={cx('box')}>
                     <div className={cx('blog')}>
-                        <img className={cx('img-blog')} src="https://technext.github.io/ogani/img/blog/blog-1.jpg" />
+                        <img className={cx('img-blog')} src={blog.blog.img} style={{
+                            width: 300,
+                            height: 300
+                        }} />
                         <div className={cx('icon')}>
                             <FontAwesomeIcon icon={faCalendar} />May 4,2019 &ensp;&ensp;
                             <FontAwesomeIcon icon={faComment} /> 5
