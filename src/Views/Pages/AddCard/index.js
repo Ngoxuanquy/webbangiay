@@ -31,8 +31,8 @@ function AddCard() {
 
         const token = Cookies.get('accessToken');
         const id = Cookies.get('id');
-        const cleanedJwtString = token.replace(/^"|"$/g, '');
-        const cleanId = id.replace(/^"|"$/g, '');
+        const cleanedJwtString = token?.replace(/^"|"$/g, '');
+        const cleanId = id?.replace(/^"|"$/g, '');
 
         const requestOptions = {
             method: 'get',
@@ -72,8 +72,8 @@ function AddCard() {
 
         const token = Cookies.get('accessToken');
         const id = Cookies.get('id');
-        const cleanedJwtString = token.replace(/^"|"$/g, '');
-        const cleanId = id.replace(/^"|"$/g, '');
+        const cleanedJwtString = token?.replace(/^"|"$/g, '');
+        const cleanId = id?.replace(/^"|"$/g, '');
 
 
         console.log(cleanId)
@@ -139,8 +139,8 @@ function AddCard() {
 
         const token = Cookies.get('accessToken');
         const id = Cookies.get('id');
-        const cleanedJwtString = token.replace(/^"|"$/g, '');
-        const cleanId = id.replace(/^"|"$/g, '');
+        const cleanedJwtString = token?.replace(/^"|"$/g, '');
+        const cleanId = id?.replace(/^"|"$/g, '');
 
         const user = {
             userId: cleanId,
@@ -195,7 +195,6 @@ function AddCard() {
             >
                 <div style={{
                     width: '100%',
-
                 }}>
                     <div>
                         <div>

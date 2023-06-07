@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import Cookies from 'js-cookie';
 import { firebase } from '../../../../config/config'
+import axios from 'axios'
+import { ClimbingBoxLoader } from 'react-spinners';
 
 const cx = classNames.bind(styles);
 
@@ -64,7 +66,39 @@ function Index() {
     //     }
     // };
 
+    const [img_test, setImgTest] = useState([])
+
+    const uploadImage = async () => {
+        setIsLoading(true)
+
+        const CLOUD_NAME = "dvqmndx5j";
+        const PRESET_NAME = "upload";
+        const FOLDER_NAME = "banhang"
+        const url = [];
+        const api = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`
+
+        const formData = new FormData();
+        formData.append("upload_preset", PRESET_NAME)
+        formData.append("folder", FOLDER_NAME)
+
+        formData.append('file', uploadedImage)
+
+        const res = await axios.post(api, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data"
+            },
+
+        })
+        return res.data.secure_url;
+    }
+
+
     const handerSubmit = async () => {
+
+        const imgages = await uploadImage()
+
+        console.log(imgages)
+        // console.log(await uploadImage())
         try {
             const token = Cookies.get('accessToken');
             const id = Cookies.get('id');
@@ -88,7 +122,7 @@ function Index() {
                     product_description: description,
                     product_type: selectedOption,
                     product_quantity: Number(quantity),
-                    product_thumb: img,
+                    product_thumb: imgages,
                     product_attributes: {
                         manufacturer: 'quy',
                         color: color,
@@ -99,15 +133,23 @@ function Index() {
 
             fetch(URL + '/product', requestOptions)
                 .then(() => {
+                    setIsLoading(false)
+
                     window.location = '/api/select/product';
                 })
                 .catch((error) => {
                     console.log(error);
                 });
+
         } catch (error) {
             console.log(error);
         }
     };
+
+    //khai báo loaidng
+    const [isLoading, setIsLoading] = useState(false);
+
+
 
     return (
         <div className={cx('container')}>
@@ -123,7 +165,28 @@ function Index() {
                     <Left />
                 </div>
             </div>
-
+            {
+                isLoading == true ?
+                    <div
+                        style={{
+                            position: 'fixed',
+                            top: 0,
+                            left: 0,
+                            width: '100vw',
+                            height: '100vh',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            backgroundColor: 'white',
+                            zIndex: 100
+                        }}
+                    >
+                        <div >
+                            <ClimbingBoxLoader color="#36d7b7" />
+                        </div>
+                    </div>
+                    : null
+            }
             <div className={cx('rigth')}>
                 <div style={{
                     padding: 10
@@ -228,7 +291,7 @@ function Index() {
                         onChange={(e) => setImg(e.target.value)}
 
                     /> */}
-                    <div className={cx("wave-group")}>
+                    {/* <div className={cx("wave-group")}>
                         <input required type="text" className={cx("input")}
                             onChange={(e) => setImg(e.target.value)}
 
@@ -239,15 +302,16 @@ function Index() {
                             <span className={cx("label-char")} style={{ '--index': 1 }}>n</span>
                             <span className={cx("label-char")} style={{ '--index': 2 }}>h</span>
                         </label>
-                    </div>
-                    {/* <div {...getRootProps()}>
+                    </div> */}
+
+                    <div {...getRootProps()}>
                         <input {...getInputProps()} />
                         <p style={{
                             fontSize: 16,
                             padding: 2
                         }}>Thả file ảnh vào đây hoặc nhấp để chọn file</p>
-                    </div> */}
-                    {img && <img src={img} alt="Uploaded" style={{
+                    </div>
+                    {uploadImage && <img src={uploadImage} alt="Uploaded" style={{
                         width: 200,
                         height: 200
                     }} />}

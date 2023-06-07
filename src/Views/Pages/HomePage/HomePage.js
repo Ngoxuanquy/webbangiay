@@ -17,10 +17,15 @@ import Cookies from 'js-cookie';
 import CryptoJS from 'crypto-js';
 import Base64 from 'crypto-js/enc-base64';
 import Utf8 from 'crypto-js/enc-utf8';
-
+import { useLocation } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 const HomePage = () => {
+
+    const location = useLocation();
+    const data = location.state?.data;
+
+    // console.log(data)
 
     const URL = process.env.REACT_APP_URL
 
@@ -97,8 +102,8 @@ const HomePage = () => {
             })
             .then((data) => {
                 console.log(data)
-                setApiProduct(data.metadata.reverse())
-                setPublic(data.metadata)
+                setApiProduct(data.metadata?.reverse())
+                setPublic(data?.metadata)
                 // setIsLoading(false);
 
             })

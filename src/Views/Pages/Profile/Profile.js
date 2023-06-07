@@ -44,7 +44,7 @@ const UserProfileCard = () => {
                         onClick={() => window.location = "/api/create/product"}
                         className={cx('button1')}
                     >
-                        Đăng Sản Phẩm
+                        Quản Lý
                         <div id="clip" className={cx('clip')}>
                             <div id="leftTop" className={cx("corner1")}></div>
                             <div id="rightBottom" className={cx("corner2")}></div>
@@ -238,8 +238,8 @@ function Profile() {
 
         const token = Cookies.get('accessToken');
         const id = Cookies.get('id');
-        const cleanedJwtString = token.replace(/^"|"$/g, '');
-        const cleanId = id.replace(/^"|"$/g, '');
+        const cleanedJwtString = token?.replace(/^"|"$/g, '');
+        const cleanId = id?.replace(/^"|"$/g, '');
 
         const requestOptions = {
             method: 'Get',

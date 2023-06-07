@@ -28,7 +28,7 @@ function DangKy() {
                 },
                 body: JSON.stringify({
                     email: email,
-                    pass: pass,
+                    password: pass,
                 })
             };
 
@@ -39,7 +39,14 @@ function DangKy() {
                     return data.json()
                 })
                 .then((data) => {
+                    alert(data.metadata.msg || "Đăng ký thành công!!")
                     console.log(data)
+                    if (data.metadata.msg != "Error: Shop already registered") {
+                        window.location = "/login"
+                    }
+                    else {
+                        return;
+                    }
                 })
 
         }

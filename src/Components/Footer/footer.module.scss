@@ -44,13 +44,20 @@
 
     }
 
+    .footer__widget table {
+        border: none;
+    }
+
     .footer__widget table tr td {
         width: 70%;
-
+        border: none;
+        border: 0px solid #fff;
     }
 
     .footer__widget table tr td ul li {
         list-style: none;
+        border: none;
+
 
     }
 
@@ -60,7 +67,8 @@
         text-decoration: none;
         line-height: 32px;
         color: white;
-
+        margin-left: -200px;
+        border: none;
 
         &:hover {
             color: #706f6f;

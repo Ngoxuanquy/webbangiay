@@ -14,7 +14,7 @@ const cx = classNames.bind(styles)
 
 const Blog = (blog) => {
 
-    console.log(blog)
+    // console.log(blog)
     return (
         <div className={cx('container')}>
             <div className="container">

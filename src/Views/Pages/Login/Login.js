@@ -5,10 +5,16 @@ import classNames from 'classnames/bind';
 import styles from './Login.module.scss';
 import Cookies from 'js-cookie';
 // import CryptoJS from 'crypto-js';
+// import { useNavigate } from 'react-router-dom';
+import firebase, { auth } from '../config/index'
+
+const authProvider = new firebase.auth.FacebookAuthProvider();
 
 const cx = classNames.bind(styles);
 
 function Login() {
+
+    const navigate = useNavigate();
 
     const URL = process.env.REACT_APP_URL;
     // const URL = process.env.REACT_APP_URL
@@ -21,22 +27,7 @@ function Login() {
 
 
     function handerSubmit() {
-
-        // const user = apis.find(user => user.email === email && user.pass == matkhau)
-
-
-        // if (email == "admin" && matkhau == "123") {
-        //     window.location = "/api/admin";
-        //     return;
-        // }
-
-        // if (!user) return alert('sai tk hoặc mk');
-
-        // window.location = "/";
-        // localStorage.setItem('email', email)
-
-        console.log('a')
-
+        // const history = useHistory();
         const requestOptions = {
             method: 'POST',
             headers: {
@@ -57,9 +48,13 @@ function Login() {
             })
             .then((data) => {
                 console.log(data)
-                if (data.message === 'Success') {
+                if (data.metadata.msg !== 'Shop not registered') {
+                    if (data.metadata.status == "Tài Khoản Bạn Đã Bị Khóa!!") {
+                        alert(data.metadata.status)
+                        return;
+                    }
                     const token = data.metadata.tokens.accessToken
-                    const name = data.metadata.shop.name
+                    const name = data.metadata.shop.email
 
 
                     // Khóa bí mật (secret key) - cần được bảo mật cẩn thận
@@ -75,16 +70,53 @@ function Login() {
                     // console.log('aa')
                     Cookies.set('id', JSON.stringify(data.metadata.shop._id), { expires: 7 });
                     Cookies.set('timeeexp', JSON.stringify(data.metadata.tokens.timeExp), { expires: 7 });
-                    window.location = "/";
+                    // window.location = "/";
+                    if (data.metadata.shop.roles[0] == "SHOP") {
+                        // alert(data.metadata.status)
+                        navigate('/')
+                    }
+                    else {
+                        navigate('/api/admin')
 
+                    }
+                    // navigate('/', { state: { data: data.metadata.shop.roles[0] } });
                 }
                 else {
-                    alert(data.message)
+                    alert("Sai mật khẩu hoặc tài khoản!!")
                 }
+
+            });
+    }
+
+    const handleFacebookLogin = () => {
+        // Xử lý đăng nhập bằng Facebook
+        auth.signInWithPopup(authProvider)
+            .then((result) => {
+                // Handle successful login
+                console.log("Successfully logged in:", result.user);
+            })
+            .catch((error) => {
+                // Handle login error
+                console.log("Error occurred during login:", error);
             });
 
+    };
 
-    }
+    auth.onAuthStateChanged((user) => {
+        console.log(user._delegate)
+        if (user) {
+            Cookies.set('accessToken', JSON.stringify(user._delegate.accessToken), { expires: 7 });
+            Cookies.set('name', JSON.stringify(user._delegate.displayName), { expires: 7 });
+            Cookies.set('img', JSON.stringify(user._delegate.photoURL), { expires: 7 });
+
+            navigate('/');
+
+        }
+    })
+
+    const handleGoogleLogin = () => {
+        // Xử lý đăng nhập bằng Google
+    };
 
 
     return (
@@ -108,6 +140,13 @@ function Login() {
                                         </span>
                                     </Link>
                                 </div>
+                                <button className={cx("loginBtn")} onClick={handleFacebookLogin}>
+                                    Login with Facebook
+                                </button>
+
+                                <button className={cx("loginBtn1")} onClick={handleGoogleLogin}>
+                                    Login with Google
+                                </button>
                             </div>
                             <div className={cx('rigth')}>
                                 <div>
@@ -146,7 +185,7 @@ function Login() {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 

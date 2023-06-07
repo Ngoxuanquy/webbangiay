@@ -10,6 +10,7 @@ import { Search } from "../../Components"
 import classNames from "classnames/bind"
 import styles from "./header.module.scss"
 import Cookies from 'js-cookie';
+import { auth } from '../../Views/Pages/config/index'
 
 const cx = classNames.bind(styles)
 const Header = () => {
@@ -40,6 +41,7 @@ const Header = () => {
 
     function handerLogin() {
         // Xóa dữ liệu trong localStorage khi component được tải
+        auth.signOut()
         const cookies = document.cookie.split(";");
 
         cookies.forEach(cookie => {
@@ -50,6 +52,7 @@ const Header = () => {
     }
 
     const email = localStorage.getItem('email')
+    // console.log(img)
 
     function handerClickShop() {
         setIsActive(false)
@@ -63,10 +66,10 @@ const Header = () => {
     }
 
 
-
     const name = Cookies.get('name');
+    const img = Cookies.get('img');
 
-    console.log(name)
+    console.log(img)
 
     return (
         <div className={cx('container')}>
@@ -104,7 +107,12 @@ const Header = () => {
                             </div>
                             <div className={cx('separate')}></div>
                             <div className={cx('authentication')}>
-                                <FontAwesomeIcon icon={faUser} />
+                                {img ?
+                                    <img src={img} />
+                                    :
+                                    <FontAwesomeIcon icon={faUser} />
+
+                                }
 
                                 {name == null ?
                                     <button

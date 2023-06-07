@@ -88,12 +88,9 @@ function ListKhachHang() {
 
     const handerChiTiet = (index) => {
         openModal()
-
-        setApiProduct(apis[index].transaction_products[0])
-
+        setApiProduct([apis[index].transaction_products[0]])
     }
 
-    console.log(apiUsers)
     // console.log(apis)
 
     return (

@@ -166,12 +166,14 @@
 .button1:hover .arrow1 {
     background-color: #27c39f;
     left: -15%;
+    color: #ccc;
     animation: 0.6s ease-in-out both infinite alternate rightArrow8;
 }
 
 .button1:hover .arrow2 {
     background-color: #27c39f;
     left: 103%;
+    color: #ccc;
     animation: 0.6s ease-in-out both infinite alternate leftArrow8;
 }
 
@@ -282,6 +284,8 @@
 .button1:hover .clip {
     animation: 0.2s ease-in-out 0.55s both greenLight8;
     --color: #27c39f;
+    color: #ccc;
+
 }
 
 @keyframes changeColor8 {
@@ -291,16 +295,22 @@
 
     to {
         background-color: #27c39f;
+        color: #ccc;
+
     }
 }
 
 @keyframes lightEffect8 {
     from {
         box-shadow: 1px 1px 5px #27c39f;
+        color: #ccc;
+
     }
 
     to {
         box-shadow: 0 0 2px #27c39f;
+        color: #ccc;
+
     }
 }
 
@@ -309,6 +319,8 @@
 
     to {
         box-shadow: inset 0px 0px 32px #27c39f;
+        color: #ccc;
+
     }
 }
 
