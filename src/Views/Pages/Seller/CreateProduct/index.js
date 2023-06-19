@@ -20,8 +20,10 @@ function Index() {
     const [apis, setApi] = useState([]);
     const [uploadedImage, setUploadedImage] = useState(null);
 
-    const onDrop = (acceptedFiles) => {
-        const file = acceptedFiles[0];
+    const [selectedFile, setSelectedFile] = useState(null);
+
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
         const reader = new FileReader();
 
         reader.onload = () => {
@@ -31,12 +33,30 @@ function Index() {
         reader.readAsDataURL(file);
     };
 
+    const onDrop = (acceptedFiles) => {
+        console.log({ acceptedFiles });
+        const file = acceptedFiles[0];
+        const reader = new FileReader();
+
+        reader.onload = () => {
+            const fileURL = URL.createObjectURL(file);
+            console.log(fileURL);
+
+            setUploadedImage(fileURL);
+        };
+
+        reader.readAsDataURL(file);
+        // console.log(uploadedImage)
+    };
+
     const { getRootProps, getInputProps } = useDropzone({ onDrop });
     const [selectedOption, setSelectedOption] = useState('');
 
     const handleChange = (event) => {
         setSelectedOption(event.target.value);
     };
+
+    console.log({ uploadedImage })
 
     const name_local = Cookies.get('name');
 
@@ -65,6 +85,8 @@ function Index() {
     //         throw error;
     //     }
     // };
+
+    // console.log(img)
 
     const [img_test, setImgTest] = useState([])
 
@@ -149,7 +171,26 @@ function Index() {
     //khai báo loaidng
     const [isLoading, setIsLoading] = useState(false);
 
+    const [imageSrc, setImageSrc] = useState('');
+    const [showImagePreview, setShowImagePreview] = useState(false);
 
+    const handleImageChange = (event) => {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+
+        reader.onload = () => {
+            setImageSrc(reader.result);
+            setShowImagePreview(true);
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const handleImageReset = () => {
+
+    }
 
     return (
         <div className={cx('container')}>
@@ -304,7 +345,31 @@ function Index() {
                         </label>
                     </div> */}
 
-                    <div {...getRootProps()}>
+                    <div className={cx("image-input")}>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            id="imageInput"
+                            onChange={handleFileChange}
+
+                        />
+                        <label htmlFor="imageInput" className={cx("image-button")}>
+                            <i className="far fa-image"></i> Choose image
+                        </label>
+
+                        {/* {imageSrc && (
+                            <span className={cx("change-image")} onClick={handleImageReset}>
+                                Choose different image
+                            </span>
+                        )} */}
+                    </div>
+                    {uploadedImage && <img src={uploadedImage} alt="Uploaded" style={{
+                        width: 100,
+                        height: 100,
+                        opacity: 0.9,
+                        marginLeft: 20
+                    }} />}
+                    {/* <div {...getRootProps()}>
                         <input {...getInputProps()} />
                         <p style={{
                             fontSize: 16,
@@ -314,7 +379,7 @@ function Index() {
                     {uploadImage && <img src={uploadImage} alt="Uploaded" style={{
                         width: 200,
                         height: 200
-                    }} />}
+                    }} />} */}
                 </div>
 
                 <div style={{

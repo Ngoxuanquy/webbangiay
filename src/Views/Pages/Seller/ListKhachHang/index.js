@@ -226,6 +226,7 @@ function ListKhachHang() {
                                 <th scope="col">Name</th>
                                 <th scope="col">Số Điện Thoại</th>
                                 <th scope="col" rowspan="2">Địa Chỉ</th>
+                                <th scope="col" rowspan="2">Trạng Thái</th>
                                 <th scope="col" rowspan="1">#</th>
 
                             </tr>
@@ -238,6 +239,24 @@ function ListKhachHang() {
                                     <td data-style="bold">{apiUser.transaction_userId[0].number}</td>
                                     <td data-style="bold">
                                         {apiUser.transaction_userId[0].adrees}
+                                    </td>
+                                    <td data-style="bold">
+                                        {apiUser.status == "Đang nhận đơn"
+                                            ?
+                                            <div style={{
+                                                color: 'white',
+                                                backgroundColor: 'green'
+                                            }}>
+                                                {apiUser.status}
+                                            </div>
+                                            :
+                                            <div style={{
+                                                color: 'white',
+                                                backgroundColor: 'red'
+                                            }}>
+                                                {apiUser.status}
+                                            </div>
+                                        }
                                     </td>
                                     <td style={{
                                         fontSize: 16

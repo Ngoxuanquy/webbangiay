@@ -56,12 +56,7 @@ function Login() {
                     const token = data.metadata.tokens.accessToken
                     const name = data.metadata.shop.email
 
-
-                    // Khóa bí mật (secret key) - cần được bảo mật cẩn thận
                     const secretKey = 'my-secret-key';
-
-                    //mã hóa token
-                    // const encryptedCookie = CryptoJS.AES.encrypt(token, secretKey).toString();
 
                     Cookies.set('accessToken', JSON.stringify(token), { expires: 7 });
                     Cookies.set('name', JSON.stringify(name), { expires: 7 });
@@ -103,13 +98,13 @@ function Login() {
     };
 
     auth.onAuthStateChanged((user) => {
-        console.log(user._delegate)
+        // console.log(user._delegate)
         if (user) {
             Cookies.set('accessToken', JSON.stringify(user._delegate.accessToken), { expires: 7 });
             Cookies.set('name', JSON.stringify(user._delegate.displayName), { expires: 7 });
             Cookies.set('img', JSON.stringify(user._delegate.photoURL), { expires: 7 });
 
-            navigate('/');
+            // navigate('/');
 
         }
     })

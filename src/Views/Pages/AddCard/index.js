@@ -75,11 +75,6 @@ function AddCard() {
         const cleanedJwtString = token?.replace(/^"|"$/g, '');
         const cleanId = id?.replace(/^"|"$/g, '');
 
-
-        console.log(cleanId)
-        console.log(productId)
-
-
         const requestOptions = {
             method: 'delete',
             headers: {
@@ -144,9 +139,9 @@ function AddCard() {
 
         const user = {
             userId: cleanId,
-            name: 'a',
-            number: "0123",
-            adrees: 'Haf Nooij'
+            name: names,
+            number: phone,
+            adrees: adrees
         }
 
         const requestOptions = {
@@ -171,6 +166,13 @@ function AddCard() {
             )
     }
 
+    //khai báo biến
+    const [names, setName] = useState("");
+    const [emails, setEmails] = useState("");
+    const [adrees, setAdrees] = useState("");
+    const [phone, setPhone] = useState("");
+
+    console.log(names)
 
     return (
         <div className={cx('container')}>
@@ -332,15 +334,32 @@ function AddCard() {
 
                                         <form action="#" method="post" id="survey-form" className={cx('survey-form')}>
                                             <label htmlFor="name" id="name-label">Name<span className={cx('required')}>*</span></label>
-                                            <input type="text" name="name" id="name" className={cx('name')} placeholder="Enter your full name" required />
+                                            <input
+                                                type="text" name="name" id="name" className={cx('name')}
+                                                placeholder="Enter your full name"
+                                                required
+                                                onChange={(e) => setName(e.target.value)}
+                                            />
 
                                             <label htmlFor="email" id="email-label">Email<span className={cx('required')}>*</span></label>
-                                            <input type="email" name="email" id="email" className={cx('email')} placeholder="Enter your email" required />
+                                            <input type="email" name="email" id="email" className={cx('email')} placeholder="Enter your email" required
+                                                onChange={(e) => setEmails(e.target.value)}
+
+                                            />
 
                                             <label htmlFor="number" id="number-label">Phone-Number</label>
-                                            <input type="number" name="age" id="number" className={cx('age')} min="13" max="110" placeholder="Enter your Number" />
+                                            <input type="number" name="age" id="number" className={cx('age')} min="13" max="110" placeholder="Enter your Number"
+                                                onChange={(e) => setPhone(e.target.value)}
 
-                                            <label htmlFor="dropdown" id="dropdown-label">How often did you use our product?<span className={cx('required')}>*</span></label>
+                                            />
+
+                                            <label htmlFor="number" id="number-label">Địa chỉ</label>
+                                            <input type="text" name="age" id="number" className={cx('age')} min="13" max="110" placeholder="Enter your Number"
+                                                onChange={(e) => setAdrees(e.target.value)}
+
+                                            />
+
+                                            {/* <label htmlFor="dropdown" id="dropdown-label">How often did you use our product?<span className={cx('required')}>*</span></label>
                                             <select name="dropdown" id="dropdown" className={cx('dropdown')} required>
                                                 <option value="">Select an option</option>
                                                 <option value="1">Regularly</option>
@@ -381,7 +400,7 @@ function AddCard() {
 
                                             <label className={cx('checkbox-label')} htmlFor="website-ui">
                                                 <input type="checkbox" name="website-ui" id="website-ui" value="website-ui" /> Improve website UI
-                                            </label>
+                                            </label> */}
 
                                             <label htmlFor="comments">Node</label>
                                             <textarea name="comments" id="comments" cols="30" rows="5" placeholder="Enter your suggestions here"></textarea>
