@@ -173,24 +173,24 @@ function ChiTiet() {
             fetch(URL + '/cart', requestOptions)
                 .then((data) => {
 
-                    //  toaster.success(() => {
-                    //     <button>
-                    //         Thêm vào của hàng thành công
-                    //     </button>
-                    // },
-                    //     {
-                    //         duration: 3,
-                    //         description: 'Connect your source to a destination to receive data.',
-                    //     }
-                    // )
+                    toaster.success(() => {
+                        <button>
+                            Thêm vào của hàng thành công
+                        </button>
+                    },
+                        {
+                            duration: 3,
+                            description: 'Connect your source to a destination to receive data.',
+                        }
+                    )
                     // window.location = "/card";
 
-                    toaster.notify(({ onClose }) => (
-                        <div>
-                            <span>My custom toaster</span>
-                            <button onClick={onClose}>Close me please</button>
-                        </div>
-                    ));
+                    // toaster.notify(({ onClose }) => (
+                    //     <div>
+                    //         <span>My custom toaster</span>
+                    //         <button onClick={onClose}>Close me please</button>
+                    //     </div>
+                    // ));
 
 
                     // return data.json()
