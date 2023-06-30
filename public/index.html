@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -21,17 +20,169 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
   <script src="https://unpkg.com/ionicons@latest/dist/ionicons.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    integrity="sha384-BDoo5GcXoxxYn5jcEKcJ5odtKiPCG03bOrSv+vgqzo6EFx6iONW/jPLGbwEKK3xg" crossorigin="anonymous">
+
   <title>QT Shop - Uy Tín Số 1 Việt Nam</title>
 </head>
+<!-- <link rel="stylesheet" href="styles.css" /> -->
 
 <body>
-  <noscript>You need to enable JavaScript to run this app.</noscript>
-  <div id="root"></div>
+  <div id="root">
+  </div>
+  <svg id="loading-spinner" style="position:absolute;top:50%;left:50%;transform:translate(-50%, -50%) scale(2)"
+    class="logomark" width="64" height="48" viewBox="0 0 64 48">
+    <!-- <style>
+      .logomark .aqua {
+        fill: #55b4c8;
+      }
+
+      .logomark .orange {
+        fill: #ff8c00;
+      }
+
+      .logomark .red {
+        fill: #f00;
+      }
+
+      .logomark .grey {
+        fill: #b4bebe;
+      }
+
+      rect {
+        animation-iteration-count: infinite;
+        animation-timing-function: ease-in-out;
+        animation-play-state: paused;
+      }
+
+
+
+      .right-2 {
+        animation-delay: calc(1.25s / 6);
+      }
+
+      .right-3 {
+        animation-delay: calc(1.25s / 6 * 2);
+      }
+
+      .left-3 {
+        animation-delay: calc(1.25s / 6 * 3);
+      }
+
+      .left-2 {
+        animation-delay: calc(1.25s / 6 * 4);
+      }
+
+      .left-1 {
+        animation-delay: calc(1.25s / 6 * 5);
+      }
+
+      @keyframes logo-mark-bounce-right {
+        0% {
+          transform: translateX(0%);
+        }
+
+        16.6666% {
+          transform: translateX(3px);
+        }
+
+        33.3333% {
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes logo-mark-bounce-left {
+        0% {
+          transform: translateX(0%);
+        }
+
+        16.6666% {
+          transform: translateX(-3px);
+        }
+
+        33.3333% {
+          transform: translateX(0);
+        }
+      }
+    </style> -->
+    <!-- <rect class="aqua right-1" x="51" y="10" width="7" height="8">
+    </rect>
+    <path class="aqua right-1" d="M58,10l-17,0l-8,8l25,0l0,-8Z">
+    </path>
+    <rect class="orange right-2" x="36" y="22" width="7" height="8">
+    </rect>
+    <path class="orange right-2" d="M43,30l0,-7.995l-14,-0l-8.008,7.995l22.008,0Z">
+    </path>
+    <rect class="red right-3" x="24" y="34" width="7" height="8">
+    </rect>
+    <path class="red right-3" d="M13,38.01l4,-4.01l14,0l0,8l-18,0l0,-3.99Z">
+    </path>
+    <rect class="grey left-1" x="11" y="6" width="7" height="8">
+    </rect>
+    <path class="grey left-1" d="M41,10l-4,4l-26,0l0,-8l30,0l0,4Z">
+    </path>
+    <rect class="grey left-2" x="16" y="18" width="7" height="8">
+    </rect>
+    <path class="grey left-2" d="M16,26l9,0l8,-8l-17,-0l0,8Z">
+    </path>
+    <rect class="grey left-3" x="6" y="30" width="7" height="8">
+    </rect>
+    <path class="grey left-3" d="M6,37.988l7,0.012l7.992,-8l-14.992,-0.047l-0,8.035Z">
+    </path> -->
+  </svg>
+  <script id="loading-script">const cleanupLoading = () => {
+      if (document.querySelector('.ag-root-wrapper, .ag-chart-wrapper')) {
+        document.querySelector('#loading-spinner').remove();
+        document.querySelector('#loading-script').remove();
+      } else {
+        requestAnimationFrame(() => cleanupLoading());
+      }
+    };
+
+    cleanupLoading();</script>
+  <script>
+    var appLocation = './';
+    var boilerplatePath = '';
+    var systemJsMap = {
+      "@ag-grid-community/react": "https://cdn.jsdelivr.net/npm/@ag-grid-community/react@30.0.2/",
+      "@ag-grid-community/styles": "https://cdn.jsdelivr.net/npm/@ag-grid-community/styles@30.0.1",
+      "ag-grid-community": "https://cdn.jsdelivr.net/npm/ag-grid-community@30.0.1",
+      "ag-grid-enterprise": "https://cdn.jsdelivr.net/npm/ag-grid-enterprise@30.0.1/",
+      "ag-grid-react": "https://cdn.jsdelivr.net/npm/ag-grid-react@30.0.2/"
+    };
+    var systemJsPaths = {
+      "@ag-grid-community/client-side-row-model": "https://cdn.jsdelivr.net/npm/@ag-grid-community/client-side-row-model@30.0.1/dist/client-side-row-model.cjs.min.js",
+      "@ag-grid-community/core": "https://cdn.jsdelivr.net/npm/@ag-grid-community/core@30.0.1/dist/core.cjs.min.js",
+      "@ag-grid-community/csv-export": "https://cdn.jsdelivr.net/npm/@ag-grid-community/csv-export@30.0.1/dist/csv-export.cjs.min.js",
+      "@ag-grid-community/infinite-row-model": "https://cdn.jsdelivr.net/npm/@ag-grid-community/infinite-row-model@30.0.1/dist/infinite-row-model.cjs.min.js",
+      "@ag-grid-enterprise/charts": "https://cdn.jsdelivr.net/npm/@ag-grid-enterprise/charts@30.0.1/dist/charts.cjs.min.js",
+      "@ag-grid-enterprise/clipboard": "https://cdn.jsdelivr.net/npm/@ag-grid-enterprise/clipboard@30.0.1/dist/clipboard.cjs.min.js",
+      "@ag-grid-enterprise/column-tool-panel": "https://cdn.jsdelivr.net/npm/@ag-grid-enterprise/column-tool-panel@30.0.1/dist/column-tool-panel.cjs.min.js",
+      "@ag-grid-enterprise/core": "https://cdn.jsdelivr.net/npm/@ag-grid-enterprise/core@30.0.1/dist/core.cjs.min.js",
+      "@ag-grid-enterprise/excel-export": "https://cdn.jsdelivr.net/npm/@ag-grid-enterprise/excel-export@30.0.1/dist/excel-export.cjs.min.js",
+      "@ag-grid-enterprise/filter-tool-panel": "https://cdn.jsdelivr.net/npm/@ag-grid-enterprise/filter-tool-panel@30.0.1/dist/filter-tool-panel.cjs.min.js",
+      "@ag-grid-enterprise/master-detail": "https://cdn.jsdelivr.net/npm/@ag-grid-enterprise/master-detail@30.0.1/dist/master-detail.cjs.min.js",
+      "@ag-grid-enterprise/menu": "https://cdn.jsdelivr.net/npm/@ag-grid-enterprise/menu@30.0.1/dist/menu.cjs.min.js",
+      "@ag-grid-enterprise/multi-filter": "https://cdn.jsdelivr.net/npm/@ag-grid-enterprise/multi-filter@30.0.1/dist/multi-filter.cjs.min.js",
+      "@ag-grid-enterprise/range-selection": "https://cdn.jsdelivr.net/npm/@ag-grid-enterprise/range-selection@30.0.1/dist/range-selection.cjs.min.js",
+      "@ag-grid-enterprise/rich-select": "https://cdn.jsdelivr.net/npm/@ag-grid-enterprise/rich-select@30.0.1/dist/rich-select.cjs.min.js",
+      "@ag-grid-enterprise/row-grouping": "https://cdn.jsdelivr.net/npm/@ag-grid-enterprise/row-grouping@30.0.1/dist/row-grouping.cjs.min.js",
+      "@ag-grid-enterprise/server-side-row-model": "https://cdn.jsdelivr.net/npm/@ag-grid-enterprise/server-side-row-model@30.0.1/dist/server-side-row-model.cjs.min.js",
+      "@ag-grid-enterprise/set-filter": "https://cdn.jsdelivr.net/npm/@ag-grid-enterprise/set-filter@30.0.1/dist/set-filter.cjs.min.js",
+      "@ag-grid-enterprise/side-bar": "https://cdn.jsdelivr.net/npm/@ag-grid-enterprise/side-bar@30.0.1/dist/side-bar.cjs.min.js",
+      "@ag-grid-enterprise/sparklines": "https://cdn.jsdelivr.net/npm/@ag-grid-enterprise/sparklines@30.0.1/dist/sparklines.cjs.min.js",
+      "@ag-grid-enterprise/status-bar": "https://cdn.jsdelivr.net/npm/@ag-grid-enterprise/status-bar@30.0.1/dist/status-bar.cjs.min.js",
+      "@ag-grid-enterprise/viewport-row-model": "https://cdn.jsdelivr.net/npm/@ag-grid-enterprise/viewport-row-model@30.0.1/dist/viewport-row-model.cjs.min.js"
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/systemjs@0.19.47/dist/system.js">
+  </script>
+  <script src="systemjs.config.js">
+  </script>
+  <script>System.import('./index.jsx').catch(function (err) { console.error(err); });</script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
 </body>
-<script>
-  AOS.init();
-</script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-  integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 
 </html>

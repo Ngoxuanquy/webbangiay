@@ -134,7 +134,7 @@ function Index() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'x-api-key': '30929e75539a12a71ea783896b3b99f6d93e78ab41a820ae7e5a3477c520b1fbc6205681dd9f3c2f5950177c233ce246d1df8579f2ba091a303f19cb66c99282',
+                    'x-api-key': process.env.REACT_APP_KEY,
                     authorization: cleanedJwtString,
                     'x-client-id': cleanId,
                 },
@@ -554,6 +554,8 @@ function Index() {
                     </div>
                 </div>
             </div>
+
+
 
         </div >
     )

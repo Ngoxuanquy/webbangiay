@@ -29,7 +29,6 @@ const UserProfileCard = () => {
         <div className="card mb-4" style={{
             marginLeft: 170,
             height: 320
-
         }}>
             <div className="card-body text-center">
                 <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar" className="rounded-circle img-fluid" style={{ width: '150px' }} />
@@ -41,7 +40,7 @@ const UserProfileCard = () => {
                         onClick={() => window.location = "/api/create/product"}
                     >Đăng Sản Phẩm</button> */}
                     <button
-                        onClick={() => window.location = "/api/create/product"}
+                        onClick={() => window.location = "/api/select/product"}
                         className={cx('button1')}
                     >
                         Quản Lý
@@ -115,14 +114,18 @@ const UserInformation = () => {
                     <div className="col-sm-9" style={{
                         marginTop: 10
                     }}>
-                        <div className={cx("input-container")}>
+                        <div className={cx("input-container")} style={{
+                            marginTop: '-20px'
+                        }}>
                             <input
                                 // placeholder="Full Name"
                                 className={cx("input-field")}
                                 type="text"
 
                             />
-                            <label htmlFor="input-field" className={cx("input-label")}>
+                            <label htmlFor="input-field" className={cx("input-label")} style={{
+                                marginTop: '0px'
+                            }}>
                                 Full Name
                             </label>
                             <span className={cx("input-highlight")}></span>
@@ -138,14 +141,18 @@ const UserInformation = () => {
                         <p className="mb-0">Email</p>
                     </div>
                     <div className="col-sm-9">
-                        <div className={cx("input-container")}>
+                        <div className={cx("input-container")} style={{
+                            marginTop: '-10px'
+                        }}>
                             <input
                                 // placeholder="Full Name"
                                 className={cx("input-field")}
                                 type="text"
 
                             />
-                            <label htmlFor="input-field" className={cx("input-label")}>
+                            <label htmlFor="input-field" className={cx("input-label")} style={{
+                                marginTop: '0px'
+                            }}>
                                 Email
                             </label>
                             <span className={cx("input-highlight")}></span>
@@ -161,14 +168,18 @@ const UserInformation = () => {
                         <p className="mb-0">Phone</p>
                     </div>
                     <div className="col-sm-9">
-                        <div className={cx("input-container")}>
+                        <div className={cx("input-container")} style={{
+                            marginTop: '-10px'
+                        }}>
                             <input
                                 // placeholder="Full Name"
                                 className={cx("input-field")}
                                 type="text"
 
                             />
-                            <label htmlFor="input-field" className={cx("input-label")}>
+                            <label htmlFor="input-field" className={cx("input-label")} style={{
+                                marginTop: '0px'
+                            }}>
                                 Phone
                             </label>
                             <span className={cx("input-highlight")}></span>
@@ -184,14 +195,18 @@ const UserInformation = () => {
                         <p className="mb-0">Mobile</p>
                     </div>
                     <div className="col-sm-9">
-                        <div className={cx("input-container")}>
+                        <div className={cx("input-container")} style={{
+                            marginTop: '-10px'
+                        }}>
                             <input
                                 // placeholder="Full Name"
                                 className={cx("input-field")}
                                 type="text"
 
                             />
-                            <label htmlFor="input-field" className={cx("input-label")}>
+                            <label htmlFor="input-field" className={cx("input-label")} style={{
+                                marginTop: '0px'
+                            }}>
                                 Mobile
                             </label>
                             <span className={cx("input-highlight")}></span>
@@ -207,14 +222,18 @@ const UserInformation = () => {
                         <p className="mb-0">Address</p>
                     </div>
                     <div className="col-sm-9">
-                        <div className={cx("input-container")}>
+                        <div className={cx("input-container")} style={{
+                            marginTop: '-10px'
+                        }}>
                             <input
                                 // placeholder="Full Name"
                                 className={cx("input-field")}
                                 type="text"
 
                             />
-                            <label htmlFor="input-field" className={cx("input-label")}>
+                            <label htmlFor="input-field" className={cx("input-label")} style={{
+                                marginTop: '0px'
+                            }}>
                                 Địa Chỉ
                             </label>
                             <span className={cx("input-highlight")}></span>
@@ -245,7 +264,7 @@ function Profile() {
             method: 'Get',
             headers: {
                 "Content-Type": "application/json",
-                "x-api-key": "30929e75539a12a71ea783896b3b99f6d93e78ab41a820ae7e5a3477c520b1fbc6205681dd9f3c2f5950177c233ce246d1df8579f2ba091a303f19cb66c99282",
+                "x-api-key": process.env.REACT_APP_KEY,
                 "authorization": cleanedJwtString,
                 "x-client-id": cleanId
             },
@@ -270,24 +289,18 @@ function Profile() {
                 <div className={cx('Information')} style={{
                     marginTop: 40
                 }}>
-
                     <div className={cx('left')} style={{
                         marginTop: 40
                     }}>
-                        <div>
-                            <UserProfileCard />
-                            {/* <SocialLinks /> */}
-
-                        </div>
+                        <UserProfileCard />
+                        {/* <SocialLinks /> */}
                     </div>
 
                     <div className={cx('rigth')} style={{
                         marginTop: 40
                     }}>
-                        <div>
-                            <UserInformation />
-                            {/* <Breadcrumb /> */}
-                        </div>
+                        <UserInformation />
+                        {/* <Breadcrumb /> */}
                     </div>
                 </div>
 
@@ -300,17 +313,16 @@ function Profile() {
                         Sản Phẩm Khách Hàng Nhìn Thấy
 
                     </div>
-                    <div style={{
 
-                    }}
-                        className={cx('cart')}
-                    >
-                        {apipublic && apipublic.map((api) => {
-                            return <Card props={api} />;
-                        })}
-                    </div>
                 </div>
-
+            </div>
+            <div style={{
+            }}
+                className={cx('cart')}
+            >
+                {apipublic && apipublic.map((api) => {
+                    return <Card props={api} />;
+                })}
             </div>
         </div>
     )

@@ -6,6 +6,7 @@ import styles from './index.module.scss';
 import Cookies from 'js-cookie';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Modal from 'react-modal';
+import { Button, toaster } from 'evergreen-ui'
 
 const cx = classNames.bind(styles);
 
@@ -16,12 +17,146 @@ function AddCard() {
     let slug = useParams();
     const [so, setSo] = useState(1);
 
-    function handerCong() {
-        setSo(so + 1);
+    function handerCong(api) {
+
+        const token = Cookies.get('accessToken');
+        const id = Cookies.get('id');
+        const cleanedJwtString = token?.replace(/^"|"$/g, '');
+        const cleanId = id?.replace(/^"|"$/g, '');
+
+        const requestOptions = {
+            method: 'post',
+            headers: {
+                "Content-Type": "application/json",
+                "x-api-key": process.env.REACT_APP_KEY,
+                "authorization": cleanedJwtString,
+                "x-client-id": cleanId
+            },
+            body: JSON.stringify({
+                userId: cleanId,
+                shop_order_ids: [
+                    {
+                        shopId: api.product_shop,
+                        productId: api._id,
+                        quantity: api.quantity,
+                        old_quantity: 1
+                    }
+                ]
+            })
+        };
+
+        // Lấy dữ liệu của khách hàng
+        fetch(URL + '/cart/update', requestOptions)
+            .then((res) => res.json())
+            .then(res => {
+                const token = Cookies.get('accessToken');
+                const id = Cookies.get('id');
+                const cleanedJwtString = token?.replace(/^"|"$/g, '');
+                const cleanId = id?.replace(/^"|"$/g, '');
+
+                const requestOptions = {
+                    method: 'get',
+                    headers: {
+                        "Content-Type": "application/json",
+                        "x-api-key": process.env.REACT_APP_KEY,
+                        "authorization": cleanedJwtString,
+                        "x-client-id": cleanId
+                    },
+                };
+
+                // Lấy dữ liệu của khách hàng
+                fetch(URL + `/cart?userId=${cleanId}`, requestOptions)
+                    .then((res) => res.json())
+                    .then(res => {
+                        setApi(res.metadata.cart_products)
+                        toaster.success('Tăng số lượng thành công', {
+                            description: 'Connect your source to a destination to receive data.',
+                            duration: 3,
+                        })
+                    })
+                    .catch(() => {
+                        toaster.error('Thay đổi thấy bại', {
+                            description: 'Connect your source to a destination to receive data.',
+                            duration: 3,
+                        })
+                    })
+            }
+            )
     }
 
-    function handerTru() {
-        setSo(so - 1);
+
+
+    function handerTru(api) {
+        if (api.quantity > 1) {
+            const token = Cookies.get('accessToken');
+            const id = Cookies.get('id');
+            const cleanedJwtString = token?.replace(/^"|"$/g, '');
+            const cleanId = id?.replace(/^"|"$/g, '');
+
+            const requestOptions = {
+                method: 'post',
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-api-key": process.env.REACT_APP_KEY,
+                    "authorization": cleanedJwtString,
+                    "x-client-id": cleanId
+                },
+                body: JSON.stringify({
+                    userId: cleanId,
+                    shop_order_ids: [
+                        {
+                            shopId: api.product_shop,
+                            productId: api._id,
+                            quantity: api.quantity,
+                            old_quantity: -1
+                        }
+                    ]
+                })
+            };
+
+            // Lấy dữ liệu của khách hàng
+            fetch(URL + '/cart/update', requestOptions)
+                .then((res) => res.json())
+                .then(res => {
+                    const token = Cookies.get('accessToken');
+                    const id = Cookies.get('id');
+                    const cleanedJwtString = token?.replace(/^"|"$/g, '');
+                    const cleanId = id?.replace(/^"|"$/g, '');
+
+                    const requestOptions = {
+                        method: 'get',
+                        headers: {
+                            "Content-Type": "application/json",
+                            "x-api-key": process.env.REACT_APP_KEY,
+                            "authorization": cleanedJwtString,
+                            "x-client-id": cleanId
+                        },
+                    };
+
+                    // Lấy dữ liệu của khách hàng
+                    fetch(URL + `/cart?userId=${cleanId}`, requestOptions)
+                        .then((res) => res.json())
+                        .then(res => {
+                            setApi(res.metadata.cart_products)
+                            toaster.success('Giảm số lượng thành công', {
+                                description: 'Connect your source to a destination to receive data.',
+                                duration: 3,
+                            })
+                        })
+                        .catch(() => {
+                            toaster.error('Thay đổi thấy bại', {
+                                description: 'Connect your source to a destination to receive data.',
+                                duration: 3,
+                            })
+                        })
+                }
+                )
+        }
+        else {
+            toaster.warning('số lượng phải lớn hơn 1!!!', {
+                duration: 3,
+            })
+        }
     }
 
     const email = localStorage.getItem('email')
@@ -38,7 +173,7 @@ function AddCard() {
             method: 'get',
             headers: {
                 "Content-Type": "application/json",
-                "x-api-key": "30929e75539a12a71ea783896b3b99f6d93e78ab41a820ae7e5a3477c520b1fbc6205681dd9f3c2f5950177c233ce246d1df8579f2ba091a303f19cb66c99282",
+                "x-api-key": process.env.REACT_APP_KEY,
                 "authorization": cleanedJwtString,
                 "x-client-id": cleanId
             },
@@ -67,9 +202,9 @@ function AddCard() {
 
     }, [apis]);
 
+
     //Xử lý khi xóa sản phẩm
     const handerDelete = (productId) => {
-
         const token = Cookies.get('accessToken');
         const id = Cookies.get('id');
         const cleanedJwtString = token?.replace(/^"|"$/g, '');
@@ -79,7 +214,7 @@ function AddCard() {
             method: 'delete',
             headers: {
                 "Content-Type": "application/json",
-                "x-api-key": "30929e75539a12a71ea783896b3b99f6d93e78ab41a820ae7e5a3477c520b1fbc6205681dd9f3c2f5950177c233ce246d1df8579f2ba091a303f19cb66c99282",
+                "x-api-key": process.env.REACT_APP_KEY,
                 "authorization": cleanedJwtString,
                 "x-client-id": cleanId
             },
@@ -92,8 +227,10 @@ function AddCard() {
         // Lấy dữ liệu của khách hàng
         fetch(URL + `/cart`, requestOptions)
             .then((res) => res.json())
-            .then(res => window.location.reload()
-            )
+            .then(res => {
+
+                window.location.reload()
+            })
     }
 
     const customStyles = {
@@ -132,38 +269,52 @@ function AddCard() {
 
     const handerSubmit = () => {
 
-        const token = Cookies.get('accessToken');
-        const id = Cookies.get('id');
-        const cleanedJwtString = token?.replace(/^"|"$/g, '');
-        const cleanId = id?.replace(/^"|"$/g, '');
+        if (names != "" && phone != "" && adrees != "") {
+            const token = Cookies.get('accessToken');
+            const id = Cookies.get('id');
+            const cleanedJwtString = token?.replace(/^"|"$/g, '');
+            const cleanId = id?.replace(/^"|"$/g, '');
 
-        const user = {
-            userId: cleanId,
-            name: names,
-            number: phone,
-            adrees: adrees
+            const user = {
+                userId: cleanId,
+                name: names,
+                number: phone,
+                adrees: adrees
+            }
+
+            const requestOptions = {
+                method: 'post',
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-api-key": process.env.REACT_APP_KEY,
+                    "authorization": cleanedJwtString,
+                    "x-client-id": cleanId
+                },
+                body: JSON.stringify({
+                    user: user,
+                    product: apis,
+                    shopId: apis[0].product_shop
+                })
+            };
+
+            // Lấy dữ liệu của khách hàng
+            fetch(URL + `/transaction`, requestOptions)
+                .then((res) => res.json())
+                .then(res => {
+                    toaster.success('Mua hàng thành công', {
+                        description: 'Connect your source to a destination to receive data.',
+                        duration: 3,
+                    })
+                    window.location.reload()
+                }
+                )
         }
-
-        const requestOptions = {
-            method: 'post',
-            headers: {
-                "Content-Type": "application/json",
-                "x-api-key": "30929e75539a12a71ea783896b3b99f6d93e78ab41a820ae7e5a3477c520b1fbc6205681dd9f3c2f5950177c233ce246d1df8579f2ba091a303f19cb66c99282",
-                "authorization": cleanedJwtString,
-                "x-client-id": cleanId
-            },
-            body: JSON.stringify({
-                user: user,
-                product: apis,
-                shopId: apis[0].product_shop
+        else {
+            toaster.danger('Bạn phải nhập đủ thông tin!!!', {
+                description: 'Connect your source to a destination to receive data.',
+                duration: 3,
             })
-        };
-
-        // Lấy dữ liệu của khách hàng
-        fetch(URL + `/transaction`, requestOptions)
-            .then((res) => res.json())
-            .then(res => window.location.reload()
-            )
+        }
     }
 
     //khai báo biến
@@ -172,7 +323,6 @@ function AddCard() {
     const [adrees, setAdrees] = useState("");
     const [phone, setPhone] = useState("");
 
-    console.log(names)
 
     return (
         <div className={cx('container')}>
@@ -482,7 +632,7 @@ function AddCard() {
                                     display: 'flex',
                                     flexDirection: 'row'
                                 }}>
-                                    <button onClick={handerTru} style={{
+                                    <button onClick={() => handerTru(api)} style={{
                                         backgroundColor: '#fff',
                                         width: 40,
                                         height: 40
@@ -496,7 +646,7 @@ function AddCard() {
                                     }}
 
                                     />
-                                    <button onClick={handerCong} style={{
+                                    <button onClick={() => handerCong(api)} style={{
                                         backgroundColor: '#fff',
                                         width: 40,
                                         height: 40

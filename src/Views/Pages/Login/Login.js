@@ -32,7 +32,7 @@ function Login() {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
-                "x-api-key": "30929e75539a12a71ea783896b3b99f6d93e78ab41a820ae7e5a3477c520b1fbc6205681dd9f3c2f5950177c233ce246d1df8579f2ba091a303f19cb66c99282",
+                "x-api-key": process.env.REACT_APP_KEY,
             },
             body: JSON.stringify({
                 email: email,
@@ -47,8 +47,11 @@ function Login() {
                 return data.json()
             })
             .then((data) => {
-                console.log(data)
-                if (data.metadata.msg !== 'Shop not registered') {
+                console.log(data.metadata)
+                if (data.metadata.shop.verify == true) {
+                    alert("Tài khoản đã đăng nhập ở 1 nơi khác!!!")
+                }
+                else if (data.metadata.msg !== 'Shop not registered') {
                     if (data.metadata.status == "Tài Khoản Bạn Đã Bị Khóa!!") {
                         alert(data.metadata.status)
                         return;
@@ -60,6 +63,17 @@ function Login() {
 
                     Cookies.set('accessToken', JSON.stringify(token), { expires: 7 });
                     Cookies.set('name', JSON.stringify(name), { expires: 7 });
+
+
+                    const requestOptions = {
+                        method: 'POST',
+                        headers: {
+                            "Content-Type": "application/json",
+                            "x-api-key": process.env.REACT_APP_KEY,
+                        },
+                    };
+
+                    fetch(URL + '/shop/update_verify/' + data.metadata.shop._id, requestOptions)
 
 
                     // console.log('aa')

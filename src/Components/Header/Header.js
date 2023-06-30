@@ -12,6 +12,8 @@ import styles from "./header.module.scss"
 import Cookies from 'js-cookie';
 import { auth } from '../../Views/Pages/config/index'
 
+import { SideSheet, Paragraph, Button } from 'evergreen-ui';
+
 const cx = classNames.bind(styles)
 const Header = () => {
 
@@ -71,6 +73,8 @@ const Header = () => {
 
     console.log(img)
 
+    const [isShown, setIsShown] = useState(false)
+
     return (
         <div className={cx('container')}>
             <div className={cx('header__top')}>
@@ -78,14 +82,22 @@ const Header = () => {
                     <div className={cx('header__top-box')}>
                         <div className={cx('left-side')}>
                             <div className={cx('mail')}>
-                                <FontAwesomeIcon icon={faEnvelope} />
-                                <p>
+                                <FontAwesomeIcon icon={faEnvelope} style={{
+                                    color: 'black',
+                                }} />
+                                <p style={{
+                                    color: 'black',
+                                    marginTop: '10px'
+                                }}>
                                     {email}
                                 </p>
                             </div>
                             <div className={cx('separate')}></div>
                             <div className={cx('slogan')}>
-                                <p>Free Shipping for all Order </p>
+                                <p style={{
+                                    color: 'black',
+                                    marginTop: '10px'
+                                }}>Free Shipping for all Order </p>
                             </div>
                         </div>
                         <div className={cx('right-side')}>
@@ -102,7 +114,11 @@ const Header = () => {
                             </div>
                             <div className={cx('separate')}></div>
                             <div className={cx('language')}>
-                                <p>English</p>
+                                <p style={{
+                                    color: 'black',
+                                    marginTop: '10px'
+                                }}>
+                                    English</p>
                                 <FontAwesomeIcon icon={faChevronDown} />
                             </div>
                             <div className={cx('separate')}></div>
@@ -114,7 +130,7 @@ const Header = () => {
 
                                 }
 
-                                {name == null ?
+                                {/* {name == null ?
                                     <button
                                         style={{
                                             border: "none",
@@ -136,6 +152,230 @@ const Header = () => {
                                     >
                                         {name}
                                     </button>
+                                } */}
+                                <SideSheet
+                                    isShown={isShown}
+                                    onCloseComplete={() => setIsShown(false)}
+                                    preventBodyScrolling
+                                    style={{
+                                        backgroundColor: 'red',
+                                        width: '100px',
+                                        height: '100%',
+                                    }}
+                                >
+                                    {/* <div className={cx('menu_an')}>
+                                        <div style={{
+                                            width: '100%',
+                                            backgroundColor: 'white',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                        }}>
+                                            <Link to="/profile">
+
+                                                <div style={{
+                                                    fontSize: 15,
+                                                    // textAlign: 'center',
+                                                    // marginBottom: 10,
+                                                    marginTop: 10,
+                                                    justifyContent: 'center',
+                                                    alignItems: 'center',
+                                                    // textAlign: 'center',
+                                                }}>
+                                                    <div style={{
+                                                        textAlign: 'center',
+                                                        // width: '70%',
+                                                        borderBottom: '1px solid black',
+
+                                                    }}>
+                                                        Thông Tin Cá Nhân
+                                                    </div>
+                                                </div>
+                                                /</Link>
+                                            <div style={{
+                                                fontSize: 15,
+                                                textAlign: 'center',
+                                                marginBottom: 10,
+                                                borderBottom: '1px solid black',
+                                                // width: '70%',
+
+                                            }}>
+                                                Đặt Lại Mật Khẩu
+                                            </div>
+                                            <div style={{
+                                                justifyContent: 'center',
+                                                alignItems: 'center',
+                                                fontSize: 25,
+                                                textAlign: 'center',
+                                                // marginBottom: 10,
+                                            }}>
+                                                <button
+                                                    onClick={() => handerLogin()}
+                                                    style={{
+                                                        border: 'none',
+                                                        // width: 200
+                                                        borderBottom: '1px solid black',
+                                                        backgroundColor: 'white',
+                                                        width: '100%',
+                                                        marginTop: '40px'
+                                                    }}
+                                                >
+                                                    <div style={{
+                                                        fontSize: 20,
+                                                        textAlign: 'center',
+                                                        // marginBottom: 10,
+                                                    }}
+
+                                                    >
+                                                        Đăng Xuất
+                                                    </div>
+                                                </button>
+                                            </div>
+
+                                        </div> */}
+
+                                    <nav>
+                                        {/* <input type="checkbox" name="open" id="open" style={{
+                                            color: 'black'
+                                        }} /> */}
+                                        {/* <label for="open" class="open">
+                                            <i class="fa fa-bars"></i>
+                                        </label> */}
+                                        <div className={cx("menu_fake1")}>
+                                            <div className={cx("logo")} >
+                                                <a href="#">
+                                                    <img src="logo.png" alt="" />
+                                                </a>
+                                            </div>
+                                            <ul style={{
+                                                color: 'white',
+                                                listStyle: "none",
+
+                                            }}
+                                                className={cx('ul')}
+                                            >
+                                                <li className={cx('li')}>
+                                                    <a href="/" style={{
+                                                        color: 'white',
+                                                        fontSize: '20px',
+                                                        textDecoration: 'none'
+                                                    }}>
+                                                        <span >
+                                                            <i class="fa fa-home"></i>
+                                                        </span>
+                                                        <span style={{
+                                                            marginLeft: '10px'
+                                                        }}>
+                                                            Home
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li className={cx('li')}>
+                                                    <a href="#" style={{
+                                                        color: 'white',
+                                                        fontSize: '20px',
+                                                        textDecoration: 'none'
+
+                                                    }}>
+                                                        <span><i class="fa fa-address-card"></i></span>
+                                                        <span style={{
+                                                            marginLeft: '10px'
+                                                        }}>
+
+                                                            About
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li className={cx('li')}>
+
+                                                    <a href="#" style={{
+                                                        color: 'white',
+                                                        fontSize: '20px',
+                                                        textDecoration: 'none'
+
+                                                    }}>
+                                                        <span><i class="fa fa-cog"></i></span>
+                                                        <span style={{
+                                                            marginLeft: '10px'
+                                                        }}>
+                                                            Settings
+                                                        </span>
+                                                    </a>
+                                                </li>
+
+                                                <li className={cx('li')}>
+                                                    <a href="#" style={{
+                                                        color: 'white',
+                                                        fontSize: '20px',
+                                                        textDecoration: 'none'
+
+                                                    }}>
+                                                        <span><i class="fa fa-address-book"></i></span>
+                                                        <span style={{
+                                                            marginLeft: '10px'
+                                                        }}>
+                                                            Contact
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                {/* <Link to="/" > */}
+                                                <li className={cx('li')}>
+
+                                                    <a href="/profile" style={{
+                                                        color: 'white',
+                                                        fontSize: '20px',
+                                                        textDecoration: 'none'
+
+                                                    }}>
+                                                        <span><i class="fa fa-fw fa-address-book" aria-hidden="true"></i></span>
+                                                        <span style={{
+                                                            marginLeft: '10px'
+                                                        }}>
+                                                            Thông tin cá nhân
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                {/* </Link> */}
+                                                {/* <Link to="/login" > */}
+
+                                                <li className={cx('li')}>
+                                                    <a href="/login" style={{
+                                                        color: 'white',
+                                                        fontSize: '20px',
+                                                        textDecoration: 'none'
+
+                                                    }}>
+                                                        <span><i class="fa fa-fw fa-sign-in" aria-hidden="true"></i></span>
+                                                        <span style={{
+                                                            marginLeft: '10px'
+                                                        }}>
+                                                            <button
+                                                                style={{
+                                                                    backgroundColor: "#212121",
+                                                                }}
+                                                                onClick={() => handerLogin()}
+                                                            >
+                                                                <div style={{
+                                                                    color: 'white',
+                                                                    fontSize: '20px',
+                                                                    textDecoration: 'none'
+                                                                }}>
+                                                                    Đăng Xuất
+                                                                </div>
+                                                            </button>
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                {/* </Link> */}
+                                            </ul>
+                                        </div>
+                                    </nav>
+                                    {/* </div> */}
+
+                                </SideSheet >
+                                {name != null ?
+                                    <Button onClick={() => setIsShown(true)}>{name}</Button>
+                                    :
+                                    <Button onClick={() => handerLogin()}>Đăng Nhập</Button>
                                 }
                             </div>
 
@@ -192,7 +432,7 @@ const Header = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
             <div className={cx('header__mid')}>
                 <div className="container">
                     <div className={cx('header__mid-box')}>
@@ -206,10 +446,11 @@ const Header = () => {
                         <div className={cx('menu')}>
                             <ul>
                                 <li >
-                                    <Link to="/" style={{
-                                        color: "white"
-                                    }}>
-                                        <p>HOME</p>
+                                    <Link to="/" >
+                                        <p style={{
+                                            color: "white",
+                                            marginTop: '20px'
+                                        }}>HOME</p>
                                     </Link>
                                 </li>
                                 <li style={{
@@ -217,7 +458,7 @@ const Header = () => {
                                     fontWeight: 700,
                                     fontSize: "15px",
                                     color: "white",
-
+                                    marginTop: '20px'
                                 }}>
                                     <button
                                         style={{
@@ -236,16 +477,27 @@ const Header = () => {
                                 </li>
                                 <li>
                                     <Link to="/card" style={{
-                                        color: "white"
+                                        color: "white",
+                                        marginTop: '40px'
+
                                     }}>
-                                        <p>Cart</p>
+                                        <p style={{
+                                            color: "white",
+                                            marginTop: '20px'
+
+                                        }}>Cart</p>
                                     </Link>
                                 </li>
                                 <li>
                                     <Link to="/contact" style={{
-                                        color: "white"
+                                        color: "white",
+                                        marginTop: '40px'
+
                                     }}>
-                                        <p>CONTACT</p>
+                                        <p style={{
+                                            color: "white",
+                                            marginTop: '20px'
+                                        }}>CONTACT</p>
                                     </Link>
                                 </li>
                             </ul>
@@ -256,7 +508,9 @@ const Header = () => {
                         >
                             <FontAwesomeIcon icon={faBagShopping} color="white" />
                             <div className={cx('amount-product')}>
-                                <p>6</p>
+                                <p style={{
+                                    color: "white"
+                                }}>6</p>
                             </div>
                         </div>
                     </div>
@@ -293,10 +547,10 @@ const Header = () => {
                             color: "white"
                         }}>
                             <div className={cx('contact-icon')}>
-                                <FontAwesomeIcon className={cx('phone-icon')} icon={faPhone} />
+                                <FontAwesomeIcon className={cx('phone-icon')} icon={faPhone} color="white" />
                             </div>
                             <div className={cx('contact-detail')}>
-                                <p className={cx('phone-num')}>+84 590.401.978</p>
+                                <p className={cx('phone-num')} >+84 590.401.978</p>
                                 <p className={cx('time-contact')}>support 24/7 time</p>
                             </div>
                         </div>

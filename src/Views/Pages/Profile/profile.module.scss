@@ -45,9 +45,13 @@
 .cart {
     display: flex;
     flex-direction: row;
-    margin-left: 70;
+    justify-content: center;
+    align-items: center;
+    // margin-left: 140;
     flex-wrap: wrap;
     width: 100%;
+    // display: grid;
+    // grid-template-columns: 15% 15% 15% 15% 15%;
 }
 
 /* Input container */
@@ -109,8 +113,8 @@
 
 .button1 {
     position: relative;
-    width: 11em;
-    height: 4em;
+    width: 8em;
+    height: 2.5em;
     outline: none;
     transition: 0.1s;
     background-color: transparent;
@@ -165,8 +169,8 @@
 
 .button1:hover .arrow1 {
     background-color: #27c39f;
+    color: #ffffff;
     left: -15%;
-    color: #ccc;
     animation: 0.6s ease-in-out both infinite alternate rightArrow8;
 }
 
@@ -260,6 +264,7 @@
 .button1:hover .corner1 {
     animation: 0.1s ease-in-out 0.05s both changeColor8,
         0.2s linear 0.4s both lightEffect8;
+    color: #fff;
 }
 
 .button1:hover .corner2 {
@@ -363,11 +368,14 @@
 
             .left {
                 width: 100%;
+                margin-left: -100px;
+
             }
 
             .rigth {
                 width: 80%;
                 margin-left: 50px;
+                margin-left: -100px;
 
             }
         }

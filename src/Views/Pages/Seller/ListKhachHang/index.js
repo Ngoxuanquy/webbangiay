@@ -6,9 +6,9 @@ import { useDropzone } from 'react-dropzone';
 import Cookies from 'js-cookie';
 import Left from '../../../../Components/Left/index'
 import Modal from 'react-modal';
-
+import { CSSTransition } from 'react-transition-group';
+import { Table } from 'evergreen-ui'
 const cx = classNames.bind(styles);
-
 function ListKhachHang() {
 
     const URL = process.env.REACT_APP_URL
@@ -30,7 +30,7 @@ function ListKhachHang() {
             method: 'get',
             headers: {
                 "Content-Type": "application/json",
-                "x-api-key": "30929e75539a12a71ea783896b3b99f6d93e78ab41a820ae7e5a3477c520b1fbc6205681dd9f3c2f5950177c233ce246d1df8579f2ba091a303f19cb66c99282",
+                "x-api-key": process.env.REACT_APP_KEY,
                 "authorization": cleanedJwtString,
                 "x-client-id": cleanId
             },
@@ -48,7 +48,7 @@ function ListKhachHang() {
 
     }, [])
 
-    console.log({ apiUsers })
+    console.log(apiUsers)
 
     //Khai báo modal
     const customStyles = {
@@ -91,7 +91,13 @@ function ListKhachHang() {
         setApiProduct([apis[index].transaction_products[0]])
     }
 
-    // console.log(apis)
+    console.log(apis)
+
+    const [visible, setVisible] = useState(false);
+
+    const handleToggle = () => {
+        setVisible(!visible);
+    };
 
     return (
         <div className={cx('container')}>
@@ -217,67 +223,50 @@ function ListKhachHang() {
             <div style={{
                 marginTop: 100
             }}>
-                <div className={cx('table')}>
-
-                    <table>
-                        <thead>
-                            <tr>
-                                <th scope="col">STT</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Số Điện Thoại</th>
-                                <th scope="col" rowspan="2">Địa Chỉ</th>
-                                <th scope="col" rowspan="2">Trạng Thái</th>
-                                <th scope="col" rowspan="1">#</th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {apiUsers.map((apiUser, index) => (
-                                <tr onClick={() => handerChiTiet(index)}>
-                                    <td data-style="bold">{index + 1}</td>
-                                    <td data-style="bold">{apiUser.transaction_userId[0].name}</td>
-                                    <td data-style="bold">{apiUser.transaction_userId[0].number}</td>
-                                    <td data-style="bold">
-                                        {apiUser.transaction_userId[0].adrees}
-                                    </td>
-                                    <td data-style="bold">
-                                        {apiUser.status == "Đang nhận đơn"
-                                            ?
-                                            <div style={{
-                                                color: 'white',
-                                                backgroundColor: 'green'
-                                            }}>
-                                                {apiUser.status}
-                                            </div>
-                                            :
-                                            <div style={{
-                                                color: 'white',
-                                                backgroundColor: 'red'
-                                            }}>
-                                                {apiUser.status}
-                                            </div>
-                                        }
-                                    </td>
-                                    <td style={{
-                                        fontSize: 16
-                                    }} >
-                                        <button style={{
-                                            backgroundColor: "none"
-                                        }}
-                                            onClick={() => handerChiTiet(index)}
-                                        >
-                                            Xem Chi Tiết
-
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-
+                <div className={cx('table')} style={{
+                    marginLeft: '230px'
+                }}>
                 </div>
+                <Table style={{
+                    height: '100%'
+                }}>
+                    <Table.Head>
+                        <Table.SearchHeaderCell />
+                        <Table.TextHeaderCell>Số điện thoại</Table.TextHeaderCell>
+                        <Table.TextHeaderCell>Địa chỉ</Table.TextHeaderCell>
+                        <Table.TextHeaderCell>Trạng thái</Table.TextHeaderCell>
+
+                    </Table.Head>
+                    <Table.Body height={"600px"}>
+                        {apiUsers.map((apiUser) => (
+                            <Table.Row key={apiUser._id} isSelectable onSelect={() => alert(apiUser._id)}>
+                                <Table.TextCell>{apiUser.transaction_userId[0].name}</Table.TextCell>
+                                <Table.TextCell>{apiUser.transaction_userId[0].number}</Table.TextCell>
+                                <Table.TextCell>{apiUser.transaction_userId[0].adrees}</Table.TextCell>
+                                <Table.TextCell>{apiUser.status == "Đang nhận đơn"
+                                    ?
+                                    <div style={{
+                                        color: 'white',
+                                        backgroundColor: 'green'
+                                    }}>
+                                        {apiUser.status}
+                                    </div>
+                                    :
+                                    <div style={{
+                                        color: 'white',
+                                        backgroundColor: 'red'
+                                    }}>
+                                        {apiUser.status}
+                                    </div>
+                                }</Table.TextCell>
+
+                                {/* <Table.TextCell isNumber>{apiUser.status}</Table.TextCell> */}
+                            </Table.Row>
+                        ))}
+                    </Table.Body>
+                </Table>
             </div>
-        </div>
+        </div >
 
     )
 }
