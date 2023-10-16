@@ -13,18 +13,19 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-    
+
             .title {
                 font-size: 1.8rem;
             }
-    
+
             .btn-navigate {
                 display: flex;
-    
+
                 .btn-prev {
                     margin-right: 10px;
                 }
-                .btn-prev, .btn-next {
+                .btn-prev,
+                .btn-next {
                     font-size: 1.2rem;
                     padding: 8px;
                     background-color: var(--btn-navigate-color);
@@ -39,12 +40,12 @@
 
             .content-box {
                 display: flex;
-                transition: all .7s ease-in-out;
+                transition: all 0.7s ease-in-out;
 
-               .card {
+                .card {
                     width: 263px;
                     height: auto;
-                   .card-box {
+                    .card-box {
                         display: flex;
                         width: 263px;
                         height: 110px;
@@ -52,29 +53,29 @@
                         justify-content: space-between;
                         align-items: center;
                         text-decoration: none;
-        
-                       .card-image {
+
+                        .card-image {
                             width: 110px;
                             height: 110px;
-                           img {
+                            img {
                                 width: 100%;
                                 height: 100%;
                                 object-fit: cover;
                             }
                         }
-                       .card-name {
+                        .card-name {
                             width: 127px;
                             height: 100%;
                             display: flex;
                             flex-direction: column;
                             justify-content: center;
-        
-                           .name {
+
+                            .name {
                                 font-size: 1.3rem;
                                 font-weight: 400;
                                 color: var(--text-color);
                             }
-                           .price {
+                            .price {
                                 font-size: 1.5rem;
                                 font-weight: 700;
                                 color: var(--black-color);
@@ -83,31 +84,31 @@
                     }
                 }
             }
-        
+
             .heading {
                 width: 100%;
                 height: 29px;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-        
+
                 .title {
                     font-size: 1.8rem;
                 }
-        
+
                 .btn-navigate {
                     display: flex;
                     .btn-prev {
                         margin-right: 10px;
                     }
-                    .btn-prev, .btn-next {
+                    .btn-prev,
+                    .btn-next {
                         font-size: 1.2rem;
                         padding: 8px;
                         background-color: var(--btn-navigate-color);
                         border: 1px solid var(--primary-grey-color);
                         cursor: pointer;
                         margin-left: -10px;
-
                     }
                 }
             }
@@ -131,7 +132,8 @@
             .btn-prev {
                 margin-right: 10px;
             }
-            .btn-prev, .btn-next {
+            .btn-prev,
+            .btn-next {
                 font-size: 1.2rem;
                 padding: 8px;
                 background-color: var(--btn-navigate-color);
@@ -140,13 +142,13 @@
             }
         }
     }
-    
+
     .content {
         overflow: hidden;
 
         .content-box {
             display: flex;
-            transition: all .7s ease-in-out;
+            transition: all 0.7s ease-in-out;
 
             .card {
                 width: 360px;
@@ -159,7 +161,7 @@
                     justify-content: space-between;
                     align-items: center;
                     text-decoration: none;
-    
+
                     .card-image {
                         width: 110px;
                         height: 110px;
@@ -189,5 +191,11 @@
                 }
             }
         }
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .container {
+        display: none;
     }
 }

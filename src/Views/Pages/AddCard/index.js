@@ -1,24 +1,48 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import classNames from 'classnames/bind';
 import styles from './index.module.scss';
 import Cookies from 'js-cookie';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from 'react-modal';
-import { Button, toaster } from 'evergreen-ui'
+import { Button, toaster } from 'evergreen-ui';
 
 const cx = classNames.bind(styles);
 
 function AddCard() {
-
     const URL = process.env.REACT_APP_URL;
 
     let slug = useParams();
     const [so, setSo] = useState(1);
 
-    function handerCong(api) {
+    const getList = () => {
+        const token = Cookies.get('accessToken');
+        const id = Cookies.get('id');
+        const cleanedJwtString = token?.replace(/^"|"$/g, '');
+        const cleanId = id?.replace(/^"|"$/g, '');
 
+        const requestOptions = {
+            method: 'get',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-api-key': process.env.REACT_APP_KEY,
+                authorization: cleanedJwtString,
+                'x-client-id': cleanId,
+            },
+        };
+
+        // Lấy dữ liệu của khách hàng
+        fetch(URL + `/cart/getlistCart/${cleanId}`, requestOptions)
+            .then((res) => res.json())
+            .then((res) => setApi(res.metadata.cart_products));
+    };
+
+    useEffect(() => {
+        getList();
+    }, []);
+
+    function handerCong(api) {
         const token = Cookies.get('accessToken');
         const id = Cookies.get('id');
         const cleanedJwtString = token?.replace(/^"|"$/g, '');
@@ -27,10 +51,10 @@ function AddCard() {
         const requestOptions = {
             method: 'post',
             headers: {
-                "Content-Type": "application/json",
-                "x-api-key": process.env.REACT_APP_KEY,
-                "authorization": cleanedJwtString,
-                "x-client-id": cleanId
+                'Content-Type': 'application/json',
+                'x-api-key': process.env.REACT_APP_KEY,
+                authorization: cleanedJwtString,
+                'x-client-id': cleanId,
             },
             body: JSON.stringify({
                 userId: cleanId,
@@ -39,52 +63,24 @@ function AddCard() {
                         shopId: api.product_shop,
                         productId: api._id,
                         quantity: api.quantity,
-                        old_quantity: 1
-                    }
-                ]
-            })
+                        old_quantity: 1,
+                    },
+                ],
+            }),
         };
 
         // Lấy dữ liệu của khách hàng
         fetch(URL + '/cart/update', requestOptions)
             .then((res) => res.json())
-            .then(res => {
-                const token = Cookies.get('accessToken');
-                const id = Cookies.get('id');
-                const cleanedJwtString = token?.replace(/^"|"$/g, '');
-                const cleanId = id?.replace(/^"|"$/g, '');
-
-                const requestOptions = {
-                    method: 'get',
-                    headers: {
-                        "Content-Type": "application/json",
-                        "x-api-key": process.env.REACT_APP_KEY,
-                        "authorization": cleanedJwtString,
-                        "x-client-id": cleanId
-                    },
-                };
-
-                // Lấy dữ liệu của khách hàng
-                fetch(URL + `/cart?userId=${cleanId}`, requestOptions)
-                    .then((res) => res.json())
-                    .then(res => {
-                        setApi(res.metadata.cart_products)
-                        toaster.success('Tăng số lượng thành công', {
-                            description: 'Connect your source to a destination to receive data.',
-                            duration: 3,
-                        })
-                    })
-                    .catch(() => {
-                        toaster.error('Thay đổi thấy bại', {
-                            description: 'Connect your source to a destination to receive data.',
-                            duration: 3,
-                        })
-                    })
-            }
-            )
+            .then((res) => {
+                getList();
+                toaster.success('Tăng lượng thành công', {
+                    description:
+                        'Connect your source to a destination to receive data.',
+                    duration: 3,
+                });
+            });
     }
-
-
 
     function handerTru(api) {
         if (api.quantity > 1) {
@@ -96,10 +92,10 @@ function AddCard() {
             const requestOptions = {
                 method: 'post',
                 headers: {
-                    "Content-Type": "application/json",
-                    "x-api-key": process.env.REACT_APP_KEY,
-                    "authorization": cleanedJwtString,
-                    "x-client-id": cleanId
+                    'Content-Type': 'application/json',
+                    'x-api-key': process.env.REACT_APP_KEY,
+                    authorization: cleanedJwtString,
+                    'x-client-id': cleanId,
                 },
                 body: JSON.stringify({
                     userId: cleanId,
@@ -108,87 +104,37 @@ function AddCard() {
                             shopId: api.product_shop,
                             productId: api._id,
                             quantity: api.quantity,
-                            old_quantity: -1
-                        }
-                    ]
-                })
+                            old_quantity: -1,
+                        },
+                    ],
+                }),
             };
 
             // Lấy dữ liệu của khách hàng
             fetch(URL + '/cart/update', requestOptions)
                 .then((res) => res.json())
-                .then(res => {
-                    const token = Cookies.get('accessToken');
-                    const id = Cookies.get('id');
-                    const cleanedJwtString = token?.replace(/^"|"$/g, '');
-                    const cleanId = id?.replace(/^"|"$/g, '');
+                .then(() => {
+                    getList();
 
-                    const requestOptions = {
-                        method: 'get',
-                        headers: {
-                            "Content-Type": "application/json",
-                            "x-api-key": process.env.REACT_APP_KEY,
-                            "authorization": cleanedJwtString,
-                            "x-client-id": cleanId
-                        },
-                    };
-
-                    // Lấy dữ liệu của khách hàng
-                    fetch(URL + `/cart?userId=${cleanId}`, requestOptions)
-                        .then((res) => res.json())
-                        .then(res => {
-                            setApi(res.metadata.cart_products)
-                            toaster.success('Giảm số lượng thành công', {
-                                description: 'Connect your source to a destination to receive data.',
-                                duration: 3,
-                            })
-                        })
-                        .catch(() => {
-                            toaster.error('Thay đổi thấy bại', {
-                                description: 'Connect your source to a destination to receive data.',
-                                duration: 3,
-                            })
-                        })
-                }
-                )
-        }
-        else {
+                    toaster.success('Giảm số lượng thành công', {
+                        description:
+                            'Connect your source to a destination to receive data.',
+                        duration: 3,
+                    });
+                });
+        } else {
             toaster.warning('số lượng phải lớn hơn 1!!!', {
                 duration: 3,
-            })
+            });
         }
     }
 
-    const email = localStorage.getItem('email')
-    const [apis, setApi] = useState([])
-
-    useEffect(() => {
-
-        const token = Cookies.get('accessToken');
-        const id = Cookies.get('id');
-        const cleanedJwtString = token?.replace(/^"|"$/g, '');
-        const cleanId = id?.replace(/^"|"$/g, '');
-
-        const requestOptions = {
-            method: 'get',
-            headers: {
-                "Content-Type": "application/json",
-                "x-api-key": process.env.REACT_APP_KEY,
-                "authorization": cleanedJwtString,
-                "x-client-id": cleanId
-            },
-        };
-
-        // Lấy dữ liệu của khách hàng
-        fetch(URL + `/cart?userId=${cleanId}`, requestOptions)
-            .then((res) => res.json())
-            .then(res => setApi(res.metadata.cart_products))
-
-    }, [])
+    const email = localStorage.getItem('email');
+    const [apis, setApi] = useState([]);
 
     //xử lý tính tổng khi update sản phẩm
 
-    const [total, setTotal] = useState()
+    const [total, setTotal] = useState();
 
     useEffect(() => {
         // Calculate the total value
@@ -198,10 +144,8 @@ function AddCard() {
 
         // Do something with the calculated value (e.g., update state)
         // ...
-        setTotal(Tong)
-
+        setTotal(Tong);
     }, [apis]);
-
 
     //Xử lý khi xóa sản phẩm
     const handerDelete = (productId) => {
@@ -211,27 +155,25 @@ function AddCard() {
         const cleanId = id?.replace(/^"|"$/g, '');
 
         const requestOptions = {
-            method: 'delete',
+            method: 'post',
             headers: {
-                "Content-Type": "application/json",
-                "x-api-key": process.env.REACT_APP_KEY,
-                "authorization": cleanedJwtString,
-                "x-client-id": cleanId
+                'Content-Type': 'application/json',
+                'x-api-key': process.env.REACT_APP_KEY,
+                authorization: cleanedJwtString,
+                'x-client-id': cleanId,
             },
             body: JSON.stringify({
                 userId: cleanId,
-                productId: productId
-            })
+                productId: productId,
+            }),
         };
 
-        // Lấy dữ liệu của khách hàng
-        fetch(URL + `/cart`, requestOptions)
+        fetch(URL + `/cart/delete`, requestOptions)
             .then((res) => res.json())
-            .then(res => {
-
-                window.location.reload()
-            })
-    }
+            .then((res) => {
+                window.location.reload();
+            });
+    };
 
     const customStyles = {
         overlay: {
@@ -247,7 +189,7 @@ function AddCard() {
             width: '80%',
             // maxHeight: '100%',
             overflow: 'auto',
-            height: '100%'
+            height: '100%',
         },
     };
 
@@ -268,8 +210,7 @@ function AddCard() {
     }
 
     const handerSubmit = () => {
-
-        if (names != "" && phone != "" && adrees != "") {
+        if (names != '' && phone != '' && adrees != '') {
             const token = Cookies.get('accessToken');
             const id = Cookies.get('id');
             const cleanedJwtString = token?.replace(/^"|"$/g, '');
@@ -279,50 +220,49 @@ function AddCard() {
                 userId: cleanId,
                 name: names,
                 number: phone,
-                adrees: adrees
-            }
+                adrees: adrees,
+            };
 
             const requestOptions = {
                 method: 'post',
                 headers: {
-                    "Content-Type": "application/json",
-                    "x-api-key": process.env.REACT_APP_KEY,
-                    "authorization": cleanedJwtString,
-                    "x-client-id": cleanId
+                    'Content-Type': 'application/json',
+                    'x-api-key': process.env.REACT_APP_KEY,
+                    authorization: cleanedJwtString,
+                    'x-client-id': cleanId,
                 },
                 body: JSON.stringify({
                     user: user,
                     product: apis,
-                    shopId: apis[0].product_shop
-                })
+                    shopId: apis[0].product_shop,
+                }),
             };
 
             // Lấy dữ liệu của khách hàng
             fetch(URL + `/transaction`, requestOptions)
                 .then((res) => res.json())
-                .then(res => {
+                .then((res) => {
                     toaster.success('Mua hàng thành công', {
-                        description: 'Connect your source to a destination to receive data.',
+                        description:
+                            'Connect your source to a destination to receive data.',
                         duration: 3,
-                    })
-                    window.location.reload()
-                }
-                )
-        }
-        else {
+                    });
+                    window.location.reload();
+                });
+        } else {
             toaster.danger('Bạn phải nhập đủ thông tin!!!', {
-                description: 'Connect your source to a destination to receive data.',
+                description:
+                    'Connect your source to a destination to receive data.',
                 duration: 3,
-            })
+            });
         }
-    }
+    };
 
     //khai báo biến
-    const [names, setName] = useState("");
-    const [emails, setEmails] = useState("");
-    const [adrees, setAdrees] = useState("");
-    const [phone, setPhone] = useState("");
-
+    const [names, setName] = useState('');
+    const [emails, setEmails] = useState('');
+    const [adrees, setAdrees] = useState('');
+    const [phone, setPhone] = useState('');
 
     return (
         <div className={cx('container')}>
@@ -345,113 +285,126 @@ function AddCard() {
                 style={customStyles}
                 contentLabel="Example Modal"
             >
-                <div style={{
-                    width: '100%',
-                }}>
+                <div
+                    style={{
+                        width: '100%',
+                    }}
+                >
                     <div>
                         <div>
-                            <div style={{
-                                fontSize: 25,
-                                fontWeight: 500,
-                                margin: '20px 0px'
-                            }}>
+                            <div
+                                style={{
+                                    fontSize: 25,
+                                    fontWeight: 500,
+                                    margin: '20px 0px',
+                                }}
+                            >
                                 Thông tin thanh toán
                             </div>
                         </div>
-                        <div className={cx('table_mode')} style={{
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            marginLeft: "100px"
-                        }}>
-                            <table style={{
-                                width: '90%',
+                        <div
+                            className={cx('table_mode')}
+                            style={{
                                 justifyContent: 'center',
-                                alignItems: 'center'
-                            }}>
-                                <tr style={{
-                                    justifyItems: 'center',
+                                alignItems: 'center',
+                                marginLeft: '100px',
+                            }}
+                        >
+                            <table
+                                style={{
+                                    width: '90%',
+                                    justifyContent: 'center',
                                     alignItems: 'center',
-                                    width: '100%',
-                                    fontSize: 20,
-                                    marginBottom: 20,
-                                    marginTop: 20
-                                }}>
-                                    <td>
-                                        Ảnh
-                                    </td>
-
-                                    <td>
-                                        Name
-                                    </td>
-                                    <td>
-                                        Price
-                                    </td>
-                                    <td>
-                                        Quantity
-                                    </td>
-                                    <td>
-                                        Total
-                                    </td>
-                                    <td>
-                                        Xóa
-                                    </td>
-                                </tr>
-
-                                {apis.map(api => (
-                                    <tr key={api._id} style={{
+                                }}
+                            >
+                                <tr
+                                    style={{
                                         justifyItems: 'center',
                                         alignItems: 'center',
-                                        fontSize: 20
-                                    }}>
-                                        <td style={{
-                                            marginTop: 20
+                                        width: '100%',
+                                        fontSize: 20,
+                                        marginBottom: 20,
+                                        marginTop: 20,
+                                    }}
+                                >
+                                    <td>Ảnh</td>
 
-                                        }}>
-                                            <img src={api.product_thumb} style={{
-                                                width: '100px',
-                                                height: '100px'
-                                            }} />
+                                    <td>Name</td>
+                                    <td>Price</td>
+                                    <td>Quantity</td>
+                                    <td>Total</td>
+                                    <td>Xóa</td>
+                                </tr>
 
+                                {apis.map((api) => (
+                                    <tr
+                                        key={api._id}
+                                        style={{
+                                            justifyItems: 'center',
+                                            alignItems: 'center',
+                                            fontSize: 20,
+                                        }}
+                                    >
+                                        <td
+                                            style={{
+                                                marginTop: 20,
+                                            }}
+                                        >
+                                            <img
+                                                src={api.product_thumb}
+                                                style={{
+                                                    width: '100px',
+                                                    height: '100px',
+                                                }}
+                                            />
                                         </td>
 
-                                        <td>
-                                            {api.product_name}
-                                        </td>
+                                        <td>{api.product_name}</td>
+
+                                        <td>$ {api.product_price}</td>
 
                                         <td>
-                                            $ {api.product_price}
-                                        </td>
-
-                                        <td>
-                                            <p style={{
-                                                alignItems: 'center',
-                                                justifyContent: 'center',
-                                            }}>
-
-                                                <input type="text" value={api.quantity} readOnly style={{
-                                                    width: 40,
-                                                    height: 40,
-                                                    textAlign: 'center',
-
-                                                }} />
-
+                                            <p
+                                                style={{
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                }}
+                                            >
+                                                <input
+                                                    type="text"
+                                                    value={api.quantity}
+                                                    readOnly
+                                                    style={{
+                                                        width: 40,
+                                                        height: 40,
+                                                        textAlign: 'center',
+                                                    }}
+                                                />
                                             </p>
                                         </td>
                                         <td>
                                             <p>
-                                                ${api.quantity * api.product_price}
+                                                $
+                                                {api.quantity *
+                                                    api.product_price}
                                                 {/* <faInstagram /> */}
                                             </p>
                                         </td>
                                         <td>
-                                            <button style={{
-                                                border: 'none'
-                                            }}
-                                                onClick={() => handerDelete(api._id)}
+                                            <button
+                                                style={{
+                                                    border: 'none',
+                                                }}
+                                                onClick={() =>
+                                                    handerDelete(api._id)
+                                                }
                                             >
-                                                <ion-icon name="trash-outline" style={{
-                                                    width: 30
-                                                }}></ion-icon>
+                                                <ion-icon
+                                                    name="trash-outline"
+                                                    style={{
+                                                        width: 30,
+                                                    }}
+                                                ></ion-icon>
                                             </button>
                                         </td>
                                     </tr>
@@ -459,13 +412,17 @@ function AddCard() {
                             </table>
                         </div>
 
-                        <div style={{
-                            marginTop: '50px'
-                        }}>
-                            <div style={{
-                                fontSize: 23,
-                                fontWeight: 500
-                            }}>
+                        <div
+                            style={{
+                                marginTop: '50px',
+                            }}
+                        >
+                            <div
+                                style={{
+                                    fontSize: 23,
+                                    fontWeight: 500,
+                                }}
+                            >
                                 Thông Tin Khách Hàng
                             </div>
 
@@ -473,40 +430,124 @@ function AddCard() {
                                 <main>
                                     <div className={cx('container')}>
                                         <header className={cx('heading')}>
-                                            <div className={cx('green-bar')}></div>
-                                            <h1 id="title" className={cx('main-heading')}>Thông Tin Khách Hàng</h1>
-                                            <p id="description" className={cx('main-description')}>
-                                                Thank you for taking the time to help us improve our product
+                                            <div
+                                                className={cx('green-bar')}
+                                            ></div>
+                                            <h1
+                                                id="title"
+                                                className={cx('main-heading')}
+                                            >
+                                                Thông Tin Khách Hàng
+                                            </h1>
+                                            <p
+                                                id="description"
+                                                className={cx(
+                                                    'main-description',
+                                                )}
+                                            >
+                                                Thank you for taking the time to
+                                                help us improve our product
                                             </p>
                                             <hr />
-                                            <p className={cx('instructions')}><span className={cx('required')}>*</span> Indicates question are required to be answered</p>
+                                            <p className={cx('instructions')}>
+                                                <span
+                                                    className={cx('required')}
+                                                >
+                                                    *
+                                                </span>{' '}
+                                                Indicates question are required
+                                                to be answered
+                                            </p>
                                         </header>
 
-                                        <form action="#" method="post" id="survey-form" className={cx('survey-form')}>
-                                            <label htmlFor="name" id="name-label">Name<span className={cx('required')}>*</span></label>
+                                        <form
+                                            action="#"
+                                            method="post"
+                                            id="survey-form"
+                                            className={cx('survey-form')}
+                                        >
+                                            <label
+                                                htmlFor="name"
+                                                id="name-label"
+                                            >
+                                                Name
+                                                <span
+                                                    className={cx('required')}
+                                                >
+                                                    *
+                                                </span>
+                                            </label>
                                             <input
-                                                type="text" name="name" id="name" className={cx('name')}
+                                                type="text"
+                                                name="name"
+                                                id="name"
+                                                className={cx('name')}
                                                 placeholder="Enter your full name"
                                                 required
-                                                onChange={(e) => setName(e.target.value)}
+                                                onChange={(e) =>
+                                                    setName(e.target.value)
+                                                }
                                             />
 
-                                            <label htmlFor="email" id="email-label">Email<span className={cx('required')}>*</span></label>
-                                            <input type="email" name="email" id="email" className={cx('email')} placeholder="Enter your email" required
-                                                onChange={(e) => setEmails(e.target.value)}
-
+                                            <label
+                                                htmlFor="email"
+                                                id="email-label"
+                                            >
+                                                Email
+                                                <span
+                                                    className={cx('required')}
+                                                >
+                                                    *
+                                                </span>
+                                            </label>
+                                            <input
+                                                type="email"
+                                                name="email"
+                                                id="email"
+                                                className={cx('email')}
+                                                placeholder="Enter your email"
+                                                required
+                                                onChange={(e) =>
+                                                    setEmails(e.target.value)
+                                                }
                                             />
 
-                                            <label htmlFor="number" id="number-label">Phone-Number</label>
-                                            <input type="number" name="age" id="number" className={cx('age')} min="13" max="110" placeholder="Enter your Number"
-                                                onChange={(e) => setPhone(e.target.value)}
-
+                                            <label
+                                                htmlFor="number"
+                                                id="number-label"
+                                            >
+                                                Phone-Number
+                                            </label>
+                                            <input
+                                                type="number"
+                                                name="age"
+                                                id="number"
+                                                className={cx('age')}
+                                                min="13"
+                                                max="110"
+                                                placeholder="Enter your Number"
+                                                onChange={(e) =>
+                                                    setPhone(e.target.value)
+                                                }
                                             />
 
-                                            <label htmlFor="number" id="number-label">Địa chỉ</label>
-                                            <input type="text" name="age" id="number" className={cx('age')} min="13" max="110" placeholder="Enter your Number"
-                                                onChange={(e) => setAdrees(e.target.value)}
-
+                                            <label
+                                                htmlFor="number"
+                                                id="number-label"
+                                            >
+                                                Địa chỉ
+                                            </label>
+                                            <input
+                                                type="text"
+                                                name="age"
+                                                id="number"
+                                                className={cx('age')}
+                                                min="13"
+                                                max="110"
+                                                placeholder="Enter your Number"
+                                                onChange={(e) =>
+                                                    setAdrees(e.target.value)
+                                                }
                                             />
 
                                             {/* <label htmlFor="dropdown" id="dropdown-label">How often did you use our product?<span className={cx('required')}>*</span></label>
@@ -552,16 +593,32 @@ function AddCard() {
                                                 <input type="checkbox" name="website-ui" id="website-ui" value="website-ui" /> Improve website UI
                                             </label> */}
 
-                                            <label htmlFor="comments">Node</label>
-                                            <textarea name="comments" id="comments" cols="30" rows="5" placeholder="Enter your suggestions here"></textarea>
+                                            <label htmlFor="comments">
+                                                Node
+                                            </label>
+                                            <textarea
+                                                name="comments"
+                                                id="comments"
+                                                cols="30"
+                                                rows="5"
+                                                placeholder="Enter your suggestions here"
+                                            ></textarea>
 
-                                            <div style={{
-                                                justifyContent: 'center',
-                                                alignItems: 'center'
-                                            }}>
-                                                <button type="submit" id="submit" className={cx('submit')} value="Submit" style={{
+                                            <div
+                                                style={{
+                                                    justifyContent: 'center',
+                                                    alignItems: 'center',
                                                 }}
-                                                    onClick={() => handerSubmit()}
+                                            >
+                                                <button
+                                                    type="submit"
+                                                    id="submit"
+                                                    className={cx('submit')}
+                                                    value="Submit"
+                                                    style={{}}
+                                                    onClick={() =>
+                                                        handerSubmit()
+                                                    }
                                                 >
                                                     Submit
                                                 </button>
@@ -569,7 +626,12 @@ function AddCard() {
                                         </form>
 
                                         <footer>
-                                            <p>Created by <a href="https://twitter.com/SandipanIO">Sandipan Mukherjee</a></p>
+                                            <p>
+                                                Created by{' '}
+                                                <a href="https://twitter.com/SandipanIO">
+                                                    Sandipan Mukherjee
+                                                </a>
+                                            </p>
                                         </footer>
                                     </div>
                                 </main>
@@ -577,82 +639,83 @@ function AddCard() {
                         </div>
                     </div>
                 </div>
-
-            </Modal >
+            </Modal>
 
             <div className={cx('table')}>
                 <table>
-                    <tr style={{
-                        justifyItems: 'center',
-                        alignItems: 'center'
-                    }}>
-                        <td>
-                            Products
-                        </td>
+                    <tr
+                        style={{
+                            justifyItems: 'center',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <td>Products</td>
 
-                        <td>
-                            Name
-                        </td>
-                        <td>
-                            Price
-                        </td>
-                        <td>
-                            Quantity
-                        </td>
-                        <td>
-                            Total
-                        </td>
-                        <td>
-                            Xóa
-                        </td>
+                        <td>Name</td>
+                        <td>Price</td>
+                        <td>Quantity</td>
+                        <td>Total</td>
+                        <td>Xóa</td>
                     </tr>
 
-                    {apis.map(api => (
-                        <tr key={api._id} style={{
-                            justifyItems: 'center',
-                            alignItems: 'center'
-                        }}>
+                    {apis.map((api) => (
+                        <tr
+                            key={api._id}
+                            style={{
+                                justifyItems: 'center',
+                                alignItems: 'center',
+                            }}
+                        >
                             <td>
-                                <img src={api.product_thumb} className={cx('img_cart')} />
-
+                                <img
+                                    src={api.product_thumb}
+                                    className={cx('img_cart')}
+                                />
                             </td>
 
-                            <td>
-                                {api.product_name}
-                            </td>
+                            <td>{api.product_name}</td>
+
+                            <td>$ {api.product_price}</td>
 
                             <td>
-                                $ {api.product_price}
-                            </td>
-
-                            <td>
-                                <p style={{
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    display: 'flex',
-                                    flexDirection: 'row'
-                                }}>
-                                    <button onClick={() => handerTru(api)} style={{
-                                        backgroundColor: '#fff',
-                                        width: 40,
-                                        height: 40
-
+                                <p
+                                    style={{
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        display: 'flex',
+                                        flexDirection: 'row',
                                     }}
-                                    >-</button>
-                                    <input type="text" value={api.quantity} readOnly style={{
-                                        textAlign: 'center',
-                                        width: 40,
-                                        height: 40,
-                                    }}
-
+                                >
+                                    <button
+                                        onClick={() => handerTru(api)}
+                                        style={{
+                                            backgroundColor: '#fff',
+                                            width: 40,
+                                            height: 40,
+                                        }}
+                                    >
+                                        -
+                                    </button>
+                                    <input
+                                        type="text"
+                                        value={api.quantity}
+                                        readOnly
+                                        style={{
+                                            textAlign: 'center',
+                                            width: 40,
+                                            height: 40,
+                                        }}
                                     />
-                                    <button onClick={() => handerCong(api)} style={{
-                                        backgroundColor: '#fff',
-                                        width: 40,
-                                        height: 40
-                                    }}
-
-                                    >+</button>
+                                    <button
+                                        onClick={() => handerCong(api)}
+                                        style={{
+                                            backgroundColor: '#fff',
+                                            width: 40,
+                                            height: 40,
+                                        }}
+                                    >
+                                        +
+                                    </button>
                                 </p>
                             </td>
                             <td>
@@ -662,26 +725,25 @@ function AddCard() {
                                 </p>
                             </td>
                             <td>
-                                <button style={{
-                                    border: 'none'
-                                }}
+                                <button
+                                    style={{
+                                        border: 'none',
+                                    }}
                                     onClick={() => handerDelete(api._id)}
                                 >
-                                    <ion-icon name="trash-outline" style={{
-                                        width: 30
-                                    }}></ion-icon>
+                                    <ion-icon
+                                        name="trash-outline"
+                                        style={{
+                                            width: 30,
+                                        }}
+                                    ></ion-icon>
                                 </button>
                             </td>
                         </tr>
                     ))}
-
-
-
                 </table>
 
                 {/* <button onClick={handerCong}>+</button> */}
-
-
             </div>
             <div className={cx('box')}>
                 <div className={cx('button_update')}>
@@ -689,28 +751,29 @@ function AddCard() {
                         <button>CONTINUE SHOPPING</button>
                     </div>
                     <div>
-                        <button>
-                            UPADATE CART
-                        </button>
+                        <button>UPADATE CART</button>
                     </div>
                 </div>
             </div>
             <div className={cx('box-all1')}>
                 <div className={cx('box1')}>
                     <div className={cx('left')}>
-                        <div className={cx('title')} >
-                            <h1 >
-                                Discount Codes
-                            </h1>
+                        <div className={cx('title')}>
+                            <h1>Discount Codes</h1>
                         </div>
                         <div className={cx('Discount')}>
                             <div>
-                                <input type='text' placeholder="Enter you coupon code" />
+                                <input
+                                    type="text"
+                                    placeholder="Enter you coupon code"
+                                />
                             </div>
                             <div>
-                                <button style={{
-                                    marginTop: "25px"
-                                }}>
+                                <button
+                                    style={{
+                                        marginTop: '25px',
+                                    }}
+                                >
                                     APPLY COUPON
                                 </button>
                             </div>
@@ -718,35 +781,32 @@ function AddCard() {
                     </div>
                     <div className={cx('right')}>
                         <div>
-                            <h1>
-                                Cart Total
-                            </h1>
+                            <h1>Cart Total</h1>
                             <table>
                                 <tr>
-                                    <td>
-                                        Subtotal
-                                    </td>
+                                    <td>Subtotal</td>
                                     <td>${total}</td>
                                 </tr>
                                 <hr />
                                 <tr>
-                                    <td>
-                                        Total
-                                    </td>
+                                    <td>Total</td>
                                     <td>${total}</td>
                                 </tr>
-
-
                             </table>
                         </div>
-                        <button onClick={() => openModal()}>PROCEED TO CHECKOUT</button>
-                        <div data-tooltip="Price:-$20" className={cx('banner-btn')}>
-                            <div className={cx("button-wrapper")}>
+                        <button onClick={() => openModal()}>
+                            PROCEED TO CHECKOUT
+                        </button>
+                        <div
+                            data-tooltip="Price:-$20"
+                            className={cx('banner-btn')}
+                        >
+                            <div className={cx('button-wrapper')}>
                                 <div className={cx('text')}>Buy Now</div>
-                                <span className={cx("icon")}>
+                                <span className={cx('icon')}>
                                     <svg
                                         viewBox="0 0 16 16"
-                                        className={cx("bi bi-cart2")}
+                                        className={cx('bi bi-cart2')}
                                         fill="currentColor"
                                         height="16"
                                         width="16"
@@ -757,12 +817,11 @@ function AddCard() {
                                 </span>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
-        </div >
-    )
+        </div>
+    );
 }
 
 export default AddCard;

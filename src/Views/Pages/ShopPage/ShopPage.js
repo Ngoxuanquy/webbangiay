@@ -10,8 +10,20 @@ import Card from '../../../Components/Card/Card';
 import SlideContext from '../../../Components/SlideContent/SlideContent';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBagShopping, faBars, faChevronDown, faEnvelope, faPhone, faGrid2 } from '@fortawesome/free-solid-svg-icons';
-import { faFacebook, faTwitter, faInstagram, faBluetooth } from '@fortawesome/free-brands-svg-icons';
+import {
+    faBagShopping,
+    faBars,
+    faChevronDown,
+    faEnvelope,
+    faPhone,
+    faGrid2,
+} from '@fortawesome/free-solid-svg-icons';
+import {
+    faFacebook,
+    faTwitter,
+    faInstagram,
+    faBluetooth,
+} from '@fortawesome/free-brands-svg-icons';
 
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -21,7 +33,6 @@ import Cookies from 'js-cookie';
 import InputRange from 'react-input-range';
 import 'react-input-range/lib/css/index.css';
 
-
 const cx = classNames.bind(styles);
 
 const ShopPage = () => {
@@ -29,8 +40,7 @@ const ShopPage = () => {
     const ref_valueMin = useRef();
     const ref_valueMax = useRef();
     const [products, setProducts] = useState([]);
-    const URL = process.env.REACT_APP_URL
-
+    const URL = process.env.REACT_APP_URL;
 
     const list = [
         { id: 1, departments: 'Fresh Meat' },
@@ -54,30 +64,58 @@ const ShopPage = () => {
     };
 
     const data = [
-        { id: 1, img: 'https://technext.github.io/ogani/img/product/discount/pd-5.jpg', Price: 100, color: 'Green' },
-        { id: 2, img: 'https://technext.github.io/ogani/img/product/discount/pd-4.jpg', Price: 300, color: 'Black' },
-        { id: 3, img: 'https://technext.github.io/ogani/img/product/discount/pd-3.jpg', Price: 100, color: 'Gray' },
-        { id: 4, img: 'https://technext.github.io/ogani/img/product/discount/pd-6.jpg', Price: 400, color: 'Blue' },
-        { id: 5, img: 'https://technext.github.io/ogani/img/product/discount/pd-2.jpg', Price: 200, color: 'white' },
-        { id: 6, img: 'https://technext.github.io/ogani/img/product/discount/pd-1.jpg', Price: 250, color: 'Red' },
+        {
+            id: 1,
+            img: 'https://technext.github.io/ogani/img/product/discount/pd-5.jpg',
+            Price: 100,
+            color: 'Green',
+        },
+        {
+            id: 2,
+            img: 'https://technext.github.io/ogani/img/product/discount/pd-4.jpg',
+            Price: 300,
+            color: 'Black',
+        },
+        {
+            id: 3,
+            img: 'https://technext.github.io/ogani/img/product/discount/pd-3.jpg',
+            Price: 100,
+            color: 'Gray',
+        },
+        {
+            id: 4,
+            img: 'https://technext.github.io/ogani/img/product/discount/pd-6.jpg',
+            Price: 400,
+            color: 'Blue',
+        },
+        {
+            id: 5,
+            img: 'https://technext.github.io/ogani/img/product/discount/pd-2.jpg',
+            Price: 200,
+            color: 'white',
+        },
+        {
+            id: 6,
+            img: 'https://technext.github.io/ogani/img/product/discount/pd-1.jpg',
+            Price: 250,
+            color: 'Red',
+        },
     ];
-
 
     const [lists, setList] = useState([]);
     const [prices, setPrices] = useState([]);
     const [hande, setHande] = useState([]);
     const [datas, setData] = useState(products);
 
-    //khai báo phân trang 
+    //khai báo phân trang
     const pagings = [
-        { id: 1, value: "1" },
-        { id: 2, value: "2" },
-        { id: 3, value: "3" },
-        { id: 4, value: "4" },
-        { id: 5, value: "5" },
-        { id: 6, value: "6" }
-
-    ]
+        { id: 1, value: '1' },
+        { id: 2, value: '2' },
+        { id: 3, value: '3' },
+        { id: 4, value: '4' },
+        { id: 5, value: '5' },
+        { id: 6, value: '6' },
+    ];
 
     const colors = [
         { id: 1, color: 'white' },
@@ -114,38 +152,33 @@ const ShopPage = () => {
         setValue(newValue);
     };
 
-
-
-    const [apiproduct, setApiProduct] = useState([])
+    const [apiproduct, setApiProduct] = useState([]);
 
     //apis đã puclic
 
-    const [apipublic, setPublic] = useState([])
+    const [apipublic, setPublic] = useState([]);
 
     useEffect(() => {
-
         const requestOptions = {
-            method: 'Get',
+            method: 'post',
             headers: {
-                "Content-Type": "application/json",
-                "x-api-key": process.env.REACT_APP_KEY,
+                'Content-Type': 'application/json',
+                'x-api-key': process.env.REACT_APP_KEY,
                 // "authorization": cleanedJwtString,
                 // "x-client-id": cleanId
             },
         };
 
         // Lấy dữ liệu của khách hàng
-        fetch(URL + '/product/1', requestOptions)
+        fetch(URL + '/product/getAll', requestOptions)
             .then((data) => {
-                return data.json()
+                return data.json();
             })
             .then((data) => {
                 // console.log(data)
-                setApiProduct(data.metadata.reverse())
-            })
-    }, [])
-
-
+                setApiProduct(data.metadata.reverse());
+            });
+    }, []);
 
     function unique(arr) {
         var newArr = [];
@@ -159,37 +192,34 @@ const ShopPage = () => {
 
     // console.log(apiproduct)
 
-
     const b = unique(apiproduct).filter(function (item) {
         return (
-            item.product_price >= Number(value.max) && item.product_price >= Number(value.min)
+            item.product_price >= Number(value.max) &&
+            item.product_price >= Number(value.min)
         );
     });
 
-    //xử lý phân trang 
+    //xử lý phân trang
     const handerPaging = (value) => {
-        console.log(value)
+        console.log(value);
         const requestOptions = {
             method: 'Get',
             headers: {
-                "Content-Type": "application/json",
-                "x-api-key": process.env.REACT_APP_KEY
+                'Content-Type': 'application/json',
+                'x-api-key': process.env.REACT_APP_KEY,
             },
-
         };
 
         // Lấy dữ liệu của khách hàng
         fetch(URL + '/product/' + value, requestOptions)
             .then((data) => {
-                return data.json()
+                return data.json();
             })
             .then((data) => {
                 // console.log(data)
-                setApiProduct(data.metadata.reverse())
-            })
-    }
-
-
+                setApiProduct(data.metadata.reverse());
+            });
+    };
 
     function handerColor(color) {
         alert('click  ' + color);
@@ -222,9 +252,11 @@ const ShopPage = () => {
                     <h4 className={cx('Price')}>Price</h4>
 
                     <div>
-                        <div style={{
-                            width: '170px'
-                        }}>
+                        <div
+                            style={{
+                                width: '170px',
+                            }}
+                        >
                             <InputRange
                                 minValue={0}
                                 maxValue={100}
@@ -238,9 +270,7 @@ const ShopPage = () => {
                                     border: 'none',
                                     borderRadius: '5px',
                                 }}
-
                             />
-
                         </div>
                         {/* <input type="range" min='0' max='100'  className={cx('range')} /> */}
                         {/* <div id="slider" className={cx('range')}></div> */}
@@ -314,7 +344,10 @@ const ShopPage = () => {
                     <div className={cx('test')}>
                         <div> Sort By </div>
                         <div className={cx('Default')}> Default </div>
-                        <div className={cx('Products')}> 16 Products found </div>
+                        <div className={cx('Products')}>
+                            {' '}
+                            16 Products found{' '}
+                        </div>
                         <div className={cx('icon')}>
                             <FontAwesomeIcon icon={faEnvelope} /> &nbsp;&nbsp;
                             <FontAwesomeIcon icon={faBagShopping} />
@@ -337,21 +370,22 @@ const ShopPage = () => {
                     </div>
 
                     <div className={cx('btn-slide')}>
-                        {pagings.map(paging => (
+                        {pagings.map((paging) => (
                             <div key={paging.id}>
-                                <div style={{
-                                    width: "40px",
-                                    height: '40px',
-                                    border: '1px solid black',
-                                    marginLeft: '10px'
-                                }}
-                                    onClick={() => handerPaging(paging.value)}
-
-                                >
-                                    <div style={{
-                                        padding: 9,
-                                        fontSize: '18px',
+                                <div
+                                    style={{
+                                        width: '40px',
+                                        height: '40px',
+                                        border: '1px solid black',
+                                        marginLeft: '10px',
                                     }}
+                                    onClick={() => handerPaging(paging.value)}
+                                >
+                                    <div
+                                        style={{
+                                            padding: 9,
+                                            fontSize: '18px',
+                                        }}
                                     >
                                         {paging.value}
                                     </div>

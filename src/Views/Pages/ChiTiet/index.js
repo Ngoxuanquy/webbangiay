@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from 'react';
 
 import { useParams } from 'react-router-dom';
 
@@ -10,23 +10,25 @@ import classNames from 'classnames/bind';
 import styles from './index.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { faFacebook, faTwitter, faInstagram, faBluetooth } from '@fortawesome/free-brands-svg-icons';
+import {
+    faFacebook,
+    faTwitter,
+    faInstagram,
+    faBluetooth,
+} from '@fortawesome/free-brands-svg-icons';
 
 import { Link, useNavigate } from 'react-router-dom';
 
 import Card from '../../../Components/Card/Card';
 import Cookies from 'js-cookie';
-import { Button, toaster } from 'evergreen-ui'
+import { Button, toaster } from 'evergreen-ui';
 
 // import { FaStar } from "react-icons/fa";
 
 const cx = classNames.bind(styles);
 
 function ChiTiet() {
-
-    const { productId } = useParams()
-
-    console.log(productId)
+    const { productId } = useParams();
 
     let soluong = useRef();
     let Hine = useRef();
@@ -36,8 +38,7 @@ function ChiTiet() {
     let Information1 = useRef();
 
     const [lists, setList] = useState([]);
-    const [so, setSo] = useState(1)
-
+    const [so, setSo] = useState(1);
 
     const settings = {
         infinite: true,
@@ -51,78 +52,74 @@ function ChiTiet() {
         Hine.current.style.display = 'block';
         Hine1.current.style.display = 'block';
 
-        Description1.current.style.color = "#495057"
-        Information1.current.style.color = "#999999"
-        Reviews1.current.style.color = "#999999"
+        Description1.current.style.color = '#495057';
+        Information1.current.style.color = '#999999';
+        Reviews1.current.style.color = '#999999';
     }
 
     function Information() {
         Hine.current.style.display = 'none';
         Hine1.current.style.display = 'block';
 
-        Description1.current.style.color = "#999999"
-        Information1.current.style.color = "#495057"
-        Reviews1.current.style.color = "#999999"
+        Description1.current.style.color = '#999999';
+        Information1.current.style.color = '#495057';
+        Reviews1.current.style.color = '#999999';
     }
 
     function Reviews() {
         Hine1.current.style.display = 'none';
-        Description1.current.style.color = "#999999"
-        Information1.current.style.color = "#999999"
-        Reviews1.current.style.color = "#495057"
+        Description1.current.style.color = '#999999';
+        Information1.current.style.color = '#999999';
+        Reviews1.current.style.color = '#495057';
     }
 
-    const [id, setId] = useState('')
+    const [id, setId] = useState('');
 
-    const name = localStorage.getItem('name')
+    const name = localStorage.getItem('name');
     // const [product, setproduct] = useState()
-    const [products, setProduct] = useState([])
+    const [products, setProduct] = useState([]);
 
-    const URL = process.env.REACT_APP_URL
+    const URL = process.env.REACT_APP_URL;
 
     useEffect(() => {
-
         const token = Cookies.get('accessToken');
         const id = Cookies.get('id');
         // const cleanedJwtString = token ? token.replace(/^"|"$/g, '') : "";
-        const cleanId = id ? id.replace(/^"|"$/g, '') : "";
-        setId(cleanId)
+        const cleanId = id ? id.replace(/^"|"$/g, '') : '';
+        setId(cleanId);
 
         const requestOptions = {
             method: 'Get',
             headers: {
-                "Content-Type": "application/json",
-                "x-api-key": process.env.REACT_APP_KEY,
+                'Content-Type': 'application/json',
+                'x-api-key': process.env.REACT_APP_KEY,
                 // "authorization": cleanedJwtString,
                 // "x-client-id": cleanId
             },
         };
 
         // Lấy dữ liệu của khách hàng
-        fetch(URL + '/product/byId/' + productId, requestOptions)
+        fetch(URL + '/product/' + productId, requestOptions)
             .then((data) => {
-                return data.json()
+                return data.json();
             })
             .then((data) => {
-                setProduct([data.metadata])
-
-            })
-    }, [])
+                setProduct([data.metadata]);
+            });
+    }, []);
 
     // const [so, setSo] = useState(1);
 
-
     function handerCong() {
-        console.log('aaa')
+        console.log('aaa');
         setSo(so + 1);
     }
 
     function handerTru() {
         if (so > 1) {
             setSo(so - 1);
-        }
-        else {
-            alert('Sản Phẩm Phải Lớn hơn 1')
+        } else {
+            alert('Sản Phẩm Phải Lớn hơn 1');
         }
     }
 
@@ -131,8 +128,7 @@ function ChiTiet() {
         const token = Cookies.get('accessToken');
         const id = Cookies.get('id');
 
-
-        let updatedProducts = products.map(product => ({
+        let updatedProducts = products.map((product) => ({
             ...product,
             quantity: so,
             productId: products[0]._id,
@@ -145,64 +141,55 @@ function ChiTiet() {
         if (!token) {
             alert('Bạn phải đăng nhập để mua hàng!!');
             window.location = '/login';
-        }
-        else if (cleanId == userId) {
+        } else if (cleanId == userId) {
             event.preventDefault();
-            alert('Sản Phẩm này của bạn, không mua được')
-        }
-        else {
+            alert('Sản Phẩm này của bạn, không mua được');
+        } else {
             const cleanedJwtString = token ? token.replace(/^"|"$/g, '') : '';
             const cleanId = id ? id.replace(/^"|"$/g, '') : '';
 
             const requestOptions = {
                 method: 'post',
                 headers: {
-                    "Content-Type": "application/json",
-                    "x-api-key": process.env.REACT_APP_KEY,
-                    "authorization": cleanedJwtString,
-                    "x-client-id": cleanId
+                    'Content-Type': 'application/json',
+                    'x-api-key': process.env.REACT_APP_KEY,
+                    authorization: cleanedJwtString,
+                    'x-client-id': cleanId,
                 },
                 body: JSON.stringify({
                     userId: cleanId,
                     shopId: products[0].product_shop,
-                    product: updatedProducts[0]
-                })
+                    product: updatedProducts[0],
+                }),
             };
 
             // Lấy dữ liệu của khách hàng
-            fetch(URL + '/cart', requestOptions)
-                .then((data) => {
-
-                    toaster.success(() => {
-                        <button>
-                            Thêm vào của hàng thành công
-                        </button>
+            fetch(URL + '/cart', requestOptions).then((data) => {
+                toaster.success(
+                    () => {
+                        <button>Thêm vào của hàng thành công</button>;
                     },
-                        {
-                            duration: 3,
-                            description: 'Connect your source to a destination to receive data.',
-                        }
-                    )
-                    // window.location = "/card";
+                    {
+                        duration: 3,
+                        description:
+                            'Connect your source to a destination to receive data.',
+                    },
+                );
+                // window.location = "/card";
 
-                    // toaster.notify(({ onClose }) => (
-                    //     <div>
-                    //         <span>My custom toaster</span>
-                    //         <button onClick={onClose}>Close me please</button>
-                    //     </div>
-                    // ));
+                // toaster.notify(({ onClose }) => (
+                //     <div>
+                //         <span>My custom toaster</span>
+                //         <button onClick={onClose}>Close me please</button>
+                //     </div>
+                // ));
 
-
-                    // return data.json()
-                })
-
-
+                // return data.json()
+            });
         }
-    }
+    };
 
-    console.log(products)
-
-
+    console.log(products);
 
     return (
         <div className={cx('container')}>
@@ -218,116 +205,136 @@ function ChiTiet() {
                 <img src="https://technext.github.io/ogani/img/breadcrumb.jpg" />
             </div>
             <div className={cx('phu')}>
-                {products.map(product => (
-
+                {products.map((product) => (
                     <div className={cx('box')}>
                         <div className={cx('left')}>
-                            <img src={product.product_thumb} className={cx('img')} />
+                            <img
+                                src={product.product_thumb}
+                                className={cx('img')}
+                            />
                         </div>
                         <div className={cx('right')}>
                             <h1>{product.product_name}</h1>
                             <div className={cx('icon')}>
-                                <FontAwesomeIcon icon={faFacebook} />&nbsp;
-                                <FontAwesomeIcon icon={faFacebook} />&nbsp;
-                                <FontAwesomeIcon icon={faFacebook} />&nbsp;
-                                <FontAwesomeIcon icon={faFacebook} />&nbsp;
+                                <FontAwesomeIcon icon={faFacebook} />
+                                &nbsp;
+                                <FontAwesomeIcon icon={faFacebook} />
+                                &nbsp;
+                                <FontAwesomeIcon icon={faFacebook} />
+                                &nbsp;
+                                <FontAwesomeIcon icon={faFacebook} />
+                                &nbsp;
                                 <FontAwesomeIcon icon={faFacebook} />
                             </div>
-                            <h1>
-                                {product.product_price}
-                            </h1>
+                            <h1>{product.product_price}</h1>
                             <p className={cx('conten')}>
-                                Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Sed porttitor lectus nibh. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Proin eget tortor risus.
+                                Mauris blandit aliquet elit, eget tincidunt nibh
+                                pulvinar a. Vestibulum ac diam sit amet quam
+                                vehicula elementum sed sit amet dui. Sed
+                                porttitor lectus nibh. Vestibulum ac diam sit
+                                amet quam vehicula elementum sed sit amet dui.
+                                Proin eget tortor risus.
                             </p>
 
                             <div className={cx('Amount')}>
-                                <div style={{
-                                    display: 'flex',
-                                    flexDirection: 'row'
-                                }}>
-                                    <button onClick={() => handerTru()}>-</button>
-                                    <input type="text" value={so} ref={soluong} style={{
-                                        marginTop: "0px"
-                                    }} />
-                                    <button onClick={() => handerCong()}>+</button>
-                                </div>
-                                {id == product.product_shop ? <>
-                                    <div style={{
-                                        opacity: 0.5,
-                                        cursor: "not-allowed",
-                                        marginLeft: 20
+                                <div
+                                    style={{
+                                        display: 'flex',
+                                        flexDirection: 'row',
                                     }}
-                                        title="Sản phẩm của bạn, không thể mua!!!"
-                                    >
-                                        <button style={{
-                                            opacity: 1,
-                                            cursor: "not-allowed",
-                                            width: 120,
-                                            backgroundColor: "#28a745",
-                                            color: "#fff"
+                                >
+                                    <button onClick={() => handerTru()}>
+                                        -
+                                    </button>
+                                    <input
+                                        type="text"
+                                        value={so}
+                                        ref={soluong}
+                                        style={{
+                                            marginTop: '0px',
                                         }}
-                                        >ADD TO CARD</button>
-
-                                    </div>
-                                </> :
-                                    <div className={cx('AddCard')}>
-
-                                        <button
-                                            onClick={(event) => handerAdd(product._id, product.product_shop, event)}
+                                    />
+                                    <button onClick={() => handerCong()}>
+                                        +
+                                    </button>
+                                </div>
+                                {id == product.product_shop ? (
+                                    <>
+                                        <div
                                             style={{
-                                                color: "#fff"
-
+                                                opacity: 0.5,
+                                                cursor: 'not-allowed',
+                                                marginLeft: 20,
                                             }}
-                                        >ADD TO CARD</button>
-
+                                            title="Sản phẩm của bạn, không thể mua!!!"
+                                        >
+                                            <button
+                                                style={{
+                                                    opacity: 1,
+                                                    cursor: 'not-allowed',
+                                                    width: 120,
+                                                    backgroundColor: '#28a745',
+                                                    color: '#fff',
+                                                }}
+                                            >
+                                                ADD TO CARD
+                                            </button>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <div className={cx('AddCard')}>
+                                        <button
+                                            onClick={(event) =>
+                                                handerAdd(
+                                                    product._id,
+                                                    product.product_shop,
+                                                    event,
+                                                )
+                                            }
+                                            style={{
+                                                color: '#fff',
+                                            }}
+                                        >
+                                            ADD TO CARD
+                                        </button>
                                     </div>
-                                }
+                                )}
                             </div>
-
 
                             <hr />
 
                             <table className={cx('table')}>
                                 <tr>
+                                    <td>Availability</td>
+                                    <td>In Stock</td>
+                                </tr>
+                                <tr>
+                                    <td>Shipping</td>
                                     <td>
-                                        Availability
-                                    </td>
-                                    <td >
-                                        In Stock
+                                        01 day shipping.{' '}
+                                        <i>Free pickup today </i>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>
-                                        Shipping
-                                    </td>
-                                    <td>
-                                        01 day shipping. <i>Free pickup today </i>
-                                    </td>
+                                    <td>Weight</td>
+                                    <td>0.5 kg</td>
                                 </tr>
                                 <tr>
+                                    <td>Share on</td>
                                     <td>
-                                        Weight
-                                    </td>
-                                    <td>
-                                        0.5 kg
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Share on
-                                    </td>
-                                    <td>
-                                        <FontAwesomeIcon icon={faFacebook} />&nbsp;
-                                        <FontAwesomeIcon icon={faFacebook} />&nbsp;
-                                        <FontAwesomeIcon icon={faFacebook} />&nbsp;
-                                        <FontAwesomeIcon icon={faFacebook} />&nbsp;
-
+                                        <FontAwesomeIcon icon={faFacebook} />
+                                        &nbsp;
+                                        <FontAwesomeIcon icon={faFacebook} />
+                                        &nbsp;
+                                        <FontAwesomeIcon icon={faFacebook} />
+                                        &nbsp;
+                                        <FontAwesomeIcon icon={faFacebook} />
+                                        &nbsp;
                                     </td>
                                 </tr>
                             </table>
                         </div>
                     </div>
-
                 ))}
                 <div className={cx('slick')}>
                     <Slider {...settings}>
@@ -338,11 +345,12 @@ function ChiTiet() {
                         ))}
                     </Slider>
                 </div>
-
             </div>
             <div className={cx('conten1')}>
                 <ul>
-                    <li><div></div></li>
+                    <li>
+                        <div></div>
+                    </li>
                     <li onClick={() => Description()} ref={Description1}>
                         Description
                     </li>
@@ -352,22 +360,52 @@ function ChiTiet() {
                     <li onClick={() => Reviews()} ref={Reviews1}>
                         Reviews (1)
                     </li>
-                    <li><div></div></li>
-
+                    <li>
+                        <div></div>
+                    </li>
                 </ul>
                 <div>
                     <p>
                         <h1>Products Infomation</h1>
-                        Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus. Vivamus suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Donec rutrum congue leo eget malesuada. Vivamus suscipit tortor eget felis porttitor volutpat. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula. Proin eget tortor risus.
+                        Vestibulum ac diam sit amet quam vehicula elementum sed
+                        sit amet dui. Pellentesque in ipsum id orci porta
+                        dapibus. Proin eget tortor risus. Vivamus suscipit
+                        tortor eget felis porttitor volutpat. Vestibulum ac diam
+                        sit amet quam vehicula elementum sed sit amet dui. Donec
+                        rutrum congue leo eget malesuada. Vivamus suscipit
+                        tortor eget felis porttitor volutpat. Curabitur arcu
+                        erat, accumsan id imperdiet et, porttitor at sem.
+                        Praesent sapien massa, convallis a pellentesque nec,
+                        egestas non nisi. Vestibulum ac diam sit amet quam
+                        vehicula elementum sed sit amet dui. Vestibulum ante
+                        ipsum primis in faucibus orci luctus et ultrices posuere
+                        cubilia Curae; Donec velit neque, auctor sit amet
+                        aliquam vel, ullamcorper sit amet ligula. Proin eget
+                        tortor risus.
                     </p>
                     <br />
                     <p ref={Hine}>
-                        Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Cras ultricies ligula sed magna dictum porta. Cras ultricies ligula sed magna dictum porta. Sed porttitor lectus nibh. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Sed porttitor lectus nibh. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Proin eget tortor risus.
+                        Praesent sapien massa, convallis a pellentesque nec,
+                        egestas non nisi. Lorem ipsum dolor sit amet,
+                        consectetur adipiscing elit. Mauris blandit aliquet
+                        elit, eget tincidunt nibh pulvinar a. Cras ultricies
+                        ligula sed magna dictum porta. Cras ultricies ligula sed
+                        magna dictum porta. Sed porttitor lectus nibh. Mauris
+                        blandit aliquet elit, eget tincidunt nibh pulvinar a.
+                        Vestibulum ac diam sit amet quam vehicula elementum sed
+                        sit amet dui. Sed porttitor lectus nibh. Vestibulum ac
+                        diam sit amet quam vehicula elementum sed sit amet dui.
+                        Proin eget tortor risus.
                     </p>
                     <p ref={Hine1}>
-                        Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Cras ultricies ligula sed magna dictum porta. Cras ultricies ligula sed magna dictum porta. Sed porttitor lectus nibh. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.
+                        Praesent sapien massa, convallis a pellentesque nec,
+                        egestas non nisi. Lorem ipsum dolor sit amet,
+                        consectetur adipiscing elit. Mauris blandit aliquet
+                        elit, eget tincidunt nibh pulvinar a. Cras ultricies
+                        ligula sed magna dictum porta. Cras ultricies ligula sed
+                        magna dictum porta. Sed porttitor lectus nibh. Mauris
+                        blandit aliquet elit, eget tincidunt nibh pulvinar a.
                     </p>
-
                 </div>
 
                 <div className={cx('SanPhamTuongTu')}>
@@ -378,12 +416,8 @@ function ChiTiet() {
                     ))}
                 </div>
             </div>
-        </div >
-
-
-
-
-    )
+        </div>
+    );
 }
 
-export default ChiTiet
+export default ChiTiet;
